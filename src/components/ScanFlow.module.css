@@ -15,14 +15,14 @@
 .progress li {
   flex: 1;
   font: 500 var(--step--1) / 1 var(--font-data);
-  color: var(--ebony-3);
+  color: var(--ink-3);
   padding-top: var(--s-3);
   border-top: 3px solid var(--line);
   transition: border-color var(--fast) var(--ease), color var(--fast) var(--ease);
 }
 .progress li.done {
-  border-color: var(--jacaranda);
-  color: var(--ebony);
+  border-color: var(--coral);
+  color: var(--ink);
 }
 
 .panel {
@@ -39,7 +39,7 @@
 }
 
 .sub {
-  color: var(--ebony-2);
+  color: var(--ink-2);
   max-width: 62ch;
 }
 
@@ -48,7 +48,7 @@
   padding-left: 1.2em;
   display: grid;
   gap: var(--s-2);
-  color: var(--ebony-2);
+  color: var(--ink-2);
   max-width: 62ch;
 }
 
@@ -80,18 +80,18 @@
   display: grid;
   place-items: center;
   aspect-ratio: 3 / 4;
-  border: 1.5px dashed var(--ebony-3);
+  border: 1.5px dashed var(--ink-3);
   border-radius: var(--radius-sm);
-  background: var(--pearl);
+  background: var(--cream);
   cursor: pointer;
   overflow: hidden;
   transition: border-color var(--fast) var(--ease);
 }
 .drop:hover {
-  border-color: var(--jacaranda);
+  border-color: var(--coral);
 }
 .drop:focus-within {
-  outline: 3px solid var(--jacaranda);
+  outline: 3px solid var(--coral);
   outline-offset: 2px;
 }
 .drop[data-filled="true"] {
@@ -112,8 +112,8 @@
   left: 50%;
   transform: translateX(-50%);
   white-space: nowrap;
-  background: var(--ebony);
-  color: var(--pearl);
+  background: var(--ink);
+  color: var(--cream);
   font-size: var(--step--1);
   font-weight: 600;
   padding: 8px 14px;
@@ -130,7 +130,7 @@
 
 .tip {
   font-size: var(--step--1);
-  color: var(--ebony-2);
+  color: var(--ink-2);
 }
 
 .light {
@@ -172,7 +172,7 @@
   border-radius: var(--radius-sm);
   overflow: hidden;
   cursor: crosshair;
-  background: var(--pearl-2);
+  background: var(--cream-2);
   max-width: 420px;
 }
 .tapArea img {
@@ -187,7 +187,7 @@
   border-radius: 50%;
   transform: translate(-50%, -50%);
   border: 3px solid var(--white);
-  box-shadow: 0 0 0 2px var(--ebony), 0 6px 18px rgb(0 0 0 / 0.35);
+  box-shadow: 0 0 0 2px var(--ink), 0 6px 18px rgb(0 0 0 / 0.35);
   animation: pop 200ms var(--ease);
 }
 
@@ -227,14 +227,14 @@
   gap: var(--s-3);
 }
 .reading dt {
-  color: var(--ebony-3);
+  color: var(--ink-3);
 }
 .reading dd {
   margin: 0;
 }
 
 .waiting {
-  color: var(--ebony-3);
+  color: var(--ink-3);
   font-size: var(--step--1);
   padding: var(--s-4);
   border: 1px dashed var(--line);
@@ -263,11 +263,11 @@
   transition: border-color var(--fast) var(--ease), background var(--fast) var(--ease);
 }
 .radio:has(input:checked) {
-  border-color: var(--jacaranda);
-  background: var(--bloom);
+  border-color: var(--coral);
+  background: var(--lilac);
 }
 .radio input {
-  accent-color: var(--jacaranda);
+  accent-color: var(--coral);
   width: 18px;
   height: 18px;
 }
@@ -276,18 +276,18 @@
   display: grid;
   gap: 6px;
   font: 400 var(--step--1) / 1.3 var(--font-data);
-  color: var(--ebony-3);
+  color: var(--ink-3);
 }
 .stageDone::before {
   content: "✓ ";
   color: var(--blend);
 }
 .stageNow {
-  color: var(--ebony);
+  color: var(--ink);
 }
 .stageNow::before {
   content: "→ ";
-  color: var(--jacaranda);
+  color: var(--coral);
 }
 
 .results {

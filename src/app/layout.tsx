@@ -9,35 +9,51 @@ export const metadata: Metadata = {
     "Rangi measures your natural hair and tells you which wig, weave or braiding hair will blend, then shows it on you before you buy. Built on YouCam AI.",
 };
 
-export const viewport: Viewport = { themeColor: "#f6f4f8" };
+export const viewport: Viewport = { themeColor: "#ffffff" };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en">
       <body>
         <a href="#main" className="sr-only">Skip to content</a>
+        <p className={styles.promo}>
+          Free hair match · Photos never stored<span className={styles.promoMore}> · Made in Nairobi</span>
+        </p>
         <header className={styles.header}>
           <div className={`wrap ${styles.bar}`}>
-            <Link href="/" className={styles.logo} aria-label="Rangi home">
-              <span className={styles.logoMark} aria-hidden="true" />
-              Rangi
-            </Link>
             <nav className={styles.nav} aria-label="Main">
+              <Link href="/scan">Find my match</Link>
               <Link href="/vendors">For vendors</Link>
               <Link href="/method">How we measure</Link>
-              <Link href="/scan" className="btn btn-primary">Scan my hair</Link>
             </nav>
+            <Link href="/" className={styles.logo} aria-label="Rangi home">
+              <span className={styles.logoMark} aria-hidden="true" />
+              rangi
+            </Link>
+            <div className={styles.right}>
+              <Link href="/scan" className="btn btn-primary">Scan my hair</Link>
+            </div>
           </div>
         </header>
         <main id="main">{children}</main>
         <footer className={styles.footer}>
-          <div className={`wrap ${styles.footInner}`}>
-            <p className={styles.footLogo}>Rangi</p>
-            <p>
-              Swahili for <em>colour</em>. Built in Kenya for the YouCam API Skin AI &amp; eCommerce Hackathon. Photos are processed for one scan and never stored.
-            </p>
-            <p className="data">
-              YouCam APIs: Hair Type Detection · Hair Length Detection · Skin Tone Analysis · Hair Color
+          <div className={`wrap ${styles.footGrid}`}>
+            <div className={styles.footBrand}>
+              <p className={styles.footLogo}>rangi</p>
+              <p>Swahili for <em>colour</em>. Hair that blends, measured on you.</p>
+            </div>
+            <nav aria-label="Footer" className={styles.footLinks}>
+              <p className="label">Shop</p>
+              <Link href="/scan">Find my match</Link>
+              <Link href="/vendors">Blend links for vendors</Link>
+            </nav>
+            <nav aria-label="About" className={styles.footLinks}>
+              <p className="label">About</p>
+              <Link href="/method">How we measure</Link>
+              <Link href="/method#privacy">Privacy</Link>
+            </nav>
+            <p className={styles.footNote}>
+              Built for the YouCam API Skin AI &amp; eCommerce Hackathon on YouCam Hair Type Detection, Hair Length Detection, Skin Tone Analysis and Hair Color.
             </p>
           </div>
         </footer>

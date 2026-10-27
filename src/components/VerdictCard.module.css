@@ -1,6 +1,6 @@
 .card {
-  --tone: var(--ebony);
-  --tone-bg: var(--pearl-2);
+  --tone: var(--ink);
+  --tone-bg: var(--cream-2);
   background: var(--tone-bg);
   border: 1.5px solid var(--tone);
   border-radius: var(--radius);
@@ -46,7 +46,7 @@
 }
 .product span {
   font-weight: 400;
-  color: var(--ebony-2);
+  color: var(--ink-2);
 }
 
 .headline {
@@ -61,7 +61,7 @@
 }
 .score small {
   font-size: 0.35em;
-  color: var(--ebony-3);
+  color: var(--ink-3);
 }
 
 .lines {
@@ -73,7 +73,7 @@
 
 .meta {
   font-size: var(--step--1);
-  color: var(--ebony-2);
+  color: var(--ink-2);
 }
 
 .card > :global(.btn) {

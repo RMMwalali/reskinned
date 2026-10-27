@@ -5,6 +5,7 @@ import { HAIR_CODES, findCode } from "@/lib/codes";
 import { sampleHair } from "@/lib/image-client";
 import { rankCodes, TEXTURES, type Product, type Texture } from "@/lib/match";
 import { encodeProduct } from "@/lib/product-link";
+import { HairBundle } from "./HairBundle";
 import styles from "./VendorBuilder.module.css";
 
 export function VendorBuilder() {
@@ -144,6 +145,10 @@ export function VendorBuilder() {
       </form>
 
       <aside className={styles.out} aria-live="polite">
+        <p className="label">Your product page preview</p>
+        <div className={styles.previewArt}>
+          <HairBundle hex={measured?.hex ?? findCode(code)?.hex ?? "#221A16"} texture={texture} />
+        </div>
         <div className={styles.preview}>
           <div className={styles.swatch} style={{ background: measured?.hex ?? findCode(code)?.hex }} aria-hidden="true" />
           <div>

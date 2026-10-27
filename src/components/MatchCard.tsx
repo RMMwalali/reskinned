@@ -1,4 +1,5 @@
 import type { MatchResult } from "@/lib/match";
+import { ShadeGrid } from "./ShadeGrid";
 import styles from "./MatchCard.module.css";
 
 const LEVEL_COPY = { high: "High confidence", medium: "Medium confidence", low: "Low confidence" } as const;
@@ -15,7 +16,7 @@ export function MatchCard({ match, demo }: { match: MatchResult; demo?: boolean 
 
       <div className={styles.body}>
         <header className={styles.head}>
-          <p className={styles.kicker}>Your match{demo ? <span className={styles.demo}>Demo values</span> : null}</p>
+          <p className={styles.kicker}>Your match{demo ? <span className="tag">Demo values</span> : null}</p>
           <span className={`${styles.conf} ${styles[confidence.level]}`}>{LEVEL_COPY[confidence.level]}</span>
         </header>
 
@@ -26,6 +27,9 @@ export function MatchCard({ match, demo }: { match: MatchResult; demo?: boolean 
               <span className="data">{colour.best.code}</span> {colour.best.name}
             </p>
             <p className={styles.note}>{colour.note}</p>
+            <div className={styles.grid}>
+              <ShadeGrid selected={colour.best.code} match={colour.best.code} caption="Where your match sits among the codes" />
+            </div>
           </div>
           <dl className={`data ${styles.readout}`}>
             <div><dt>Your sample</dt><dd><i style={{ background: colour.sampleHex }} />{colour.sampleHex}</dd></div>

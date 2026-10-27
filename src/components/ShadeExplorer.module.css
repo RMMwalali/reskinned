@@ -1,0 +1,86 @@
+.explorer {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+.art {
+  background: var(--cream);
+  display: grid;
+  place-items: center;
+  padding: var(--s-6);
+}
+
+.art svg {
+  max-width: 320px;
+}
+
+.controls {
+  padding: clamp(var(--s-4), 4vw, var(--s-7));
+  display: grid;
+  gap: var(--s-3);
+  align-content: center;
+}
+
+.controls > :global(.btn) {
+  justify-self: start;
+  margin-top: var(--s-2);
+}
+
+.head {
+  display: grid;
+  gap: var(--s-1);
+}
+
+.picked {
+  font-size: var(--step-1);
+}
+
+.picked span {
+  color: var(--ink-3);
+  font-size: var(--step--1);
+  margin-left: var(--s-2);
+}
+
+.pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-2);
+}
+
+.pill {
+  min-height: 38px;
+  padding: 0 var(--s-4);
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  background: var(--white);
+  color: var(--ink);
+  font: 500 var(--step--1) / 1 var(--font-text);
+  cursor: pointer;
+  transition: border-color var(--fast) var(--ease);
+}
+
+.pill:hover {
+  border-color: var(--ink-3);
+}
+
+.pill[aria-pressed="true"] {
+  border: 1.5px solid var(--ink);
+}
+
+.note {
+  font-size: 0.8125rem;
+  color: var(--ink-3);
+  max-width: 46ch;
+}
+
+@media (max-width: 820px) {
+  .explorer {
+    grid-template-columns: 1fr;
+  }
+  .art svg {
+    max-width: 220px;
+  }
+}

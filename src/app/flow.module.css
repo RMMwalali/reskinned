@@ -15,7 +15,7 @@
 }
 
 .head p {
-  color: var(--ebony-2);
+  color: var(--ink-2);
   font-size: var(--step-1);
   max-width: 56ch;
 }
@@ -39,7 +39,7 @@
 
 .productMeta {
   font-size: var(--step--1);
-  color: var(--ebony-2);
+  color: var(--ink-2);
 }
 
 .invalid {

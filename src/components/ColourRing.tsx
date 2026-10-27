@@ -20,7 +20,7 @@ export function ColourRing({ codes = HAIR_CODES, highlight, spread = 110, classN
           <div
             key={c.code}
             className={`${styles.swatch} ${isHi ? styles.hi : ""}`}
-            style={{ "--angle": `${start + i * step}deg`, "--i": i, "--c": c.hex, color: light ? "var(--ebony)" : "var(--pearl)" } as React.CSSProperties}
+            style={{ "--angle": `${start + i * step}deg`, "--i": i, "--c": c.hex, color: light ? "var(--ink)" : "var(--cream)" } as React.CSSProperties}
           >
             <span className={`data ${styles.code}`}>{c.code}</span>
             <span className={`data ${styles.hex}`}>{c.hex}</span>

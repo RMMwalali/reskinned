@@ -28,22 +28,23 @@
 }
 
 .kicker {
-  font: 400 var(--step-3) / 1 var(--font-display);
+  font: 330 var(--step-3) / 1 var(--font-display);
+  font-variation-settings: "SOFT" 100;
+  letter-spacing: -0.02em;
   display: flex;
   align-items: center;
   gap: var(--s-3);
 }
 
-.demo {
-  font: 500 0.75rem/1 var(--font-data);
-  background: var(--amber-bg);
-  color: var(--amber);
-  padding: 6px 8px;
-  border-radius: 6px;
+.grid {
+  margin-top: var(--s-4);
+  padding: var(--s-4);
+  background: var(--cream);
+  border-radius: var(--radius-sm);
 }
 
 .conf {
-  font: 500 var(--step--1) / 1 var(--font-data);
+  font: 600 var(--step--1) / 1 var(--font-text);
   padding: 8px 12px;
   border-radius: 999px;
 }
@@ -65,30 +66,32 @@
   grid-template-columns: 1fr auto;
   gap: var(--s-5);
   padding-top: var(--s-4);
-  border-top: 1px solid var(--pearl-2);
+  border-top: 1px solid var(--cream-2);
 }
 
 .label {
-  font-size: var(--step--1);
-  color: var(--ebony-3);
-  margin-bottom: var(--s-1);
+  font: 700 0.75rem/1.2 var(--font-text);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  margin-bottom: var(--s-2);
 }
 
 .big {
-  font: 400 var(--step-2) / 1.2 var(--font-display);
+  font: 340 var(--step-2) / 1.2 var(--font-display);
+  font-variation-settings: "SOFT" 100;
 }
 
 .big :global(.data) {
   font-size: 0.9em;
-  background: var(--ebony);
-  color: var(--pearl);
+  background: var(--ink);
+  color: var(--cream);
   padding: 2px 8px;
   border-radius: 6px;
   margin-right: 4px;
 }
 
 .note {
-  color: var(--ebony-2);
+  color: var(--ink-2);
   margin-top: var(--s-2);
   max-width: 54ch;
 }
@@ -106,7 +109,7 @@
   gap: var(--s-4);
 }
 .readout dt {
-  color: var(--ebony-3);
+  color: var(--ink-3);
 }
 .readout dd {
   margin: 0;
@@ -124,7 +127,7 @@
 .why ul {
   margin: var(--s-2) 0 0;
   padding-left: 1.1em;
-  color: var(--ebony-2);
+  color: var(--ink-2);
   display: grid;
   gap: var(--s-1);
 }

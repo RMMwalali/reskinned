@@ -26,7 +26,7 @@ type Analysis = {
 
 const STAGES = ["Uploading three photos", "Reading curl pattern", "Measuring length", "Cross-checking colour", "Matching codes"];
 
-export function ScanFlow({ product }: { product?: Product }) {
+export function ScanFlow({ product, onResult }: { product?: Product; onResult?: (match: MatchResult | null) => void }) {
   const [step, setStep] = useState<"intro" | "photos" | "sample" | "analyse" | "result">("intro");
   const [photos, setPhotos] = useState<Partial<Record<Angle, Prepared>>>({});
   const [busyAngle, setBusyAngle] = useState<Angle | null>(null);
@@ -99,6 +99,7 @@ export function ScanFlow({ product }: { product?: Product }) {
       const json = await res.json();
       if (!res.ok) throw new Error(json.error ?? "Analysis failed");
       setAnalysis(json);
+      onResult?.(json.match);
       setStep("result");
     } catch (e) {
       setError(e instanceof Error ? e.message : "Analysis failed");
@@ -270,6 +271,7 @@ export function ScanFlow({ product }: { product?: Product }) {
               onClick={() => {
                 setAnalysis(null);
                 setSample(null);
+                onResult?.(null);
                 setStep("photos");
               }}
             >
@@ -287,14 +289,14 @@ function HeadGuide({ turn }: { turn: number }) {
   return (
     <svg viewBox="0 0 120 140" className={styles.guide} aria-hidden="true">
       <g transform={`translate(${60 + turn * 6} 0)`}>
-        <ellipse cx="0" cy="58" rx="44" ry="42" fill="var(--pearl-2)" stroke="var(--ebony-3)" strokeWidth="2" strokeDasharray="4 4" />
-        <ellipse cx={turn * 10} cy="72" rx="24" ry="30" fill="var(--white)" stroke="var(--ebony)" strokeWidth="2" />
-        <circle cx={turn * 10 - 8 + turn * 4} cy="68" r="2.5" fill="var(--ebony)" />
-        <circle cx={turn * 10 + 8 + turn * 4} cy="68" r="2.5" fill="var(--ebony)" />
-        <path d={`M${-30} 128 Q0 104 30 128`} fill="none" stroke="var(--ebony)" strokeWidth="2" />
+        <ellipse cx="0" cy="58" rx="44" ry="42" fill="var(--cream-2)" stroke="var(--ink-3)" strokeWidth="2" strokeDasharray="4 4" />
+        <ellipse cx={turn * 10} cy="72" rx="24" ry="30" fill="var(--white)" stroke="var(--ink)" strokeWidth="2" />
+        <circle cx={turn * 10 - 8 + turn * 4} cy="68" r="2.5" fill="var(--ink)" />
+        <circle cx={turn * 10 + 8 + turn * 4} cy="68" r="2.5" fill="var(--ink)" />
+        <path d={`M${-30} 128 Q0 104 30 128`} fill="none" stroke="var(--ink)" strokeWidth="2" />
       </g>
       {turn !== 0 ? (
-        <path d={turn > 0 ? "M84 20 q14 6 18 20 m0 0 l-7 -3 m7 3 l2 -7" : "M36 20 q-14 6 -18 20 m0 0 l7 -3 m-7 3 l-2 -7"} fill="none" stroke="var(--jacaranda)" strokeWidth="2.5" strokeLinecap="round" />
+        <path d={turn > 0 ? "M84 20 q14 6 18 20 m0 0 l-7 -3 m7 3 l2 -7" : "M36 20 q-14 6 -18 20 m0 0 l7 -3 m-7 3 l-2 -7"} fill="none" stroke="var(--coral)" strokeWidth="2.5" strokeLinecap="round" />
       ) : null}
     </svg>
   );

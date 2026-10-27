@@ -1,31 +1,30 @@
-@import "@fontsource/gloock/400.css";
+@import "@fontsource-variable/fraunces/full.css";
 @import "@fontsource-variable/hanken-grotesk/index.css";
-@import "@fontsource/ibm-plex-mono/400.css";
-@import "@fontsource/ibm-plex-mono/500.css";
 
 :root {
-  /* Colour — see DESIGN.md */
-  --ebony: #1d1a1f;
-  --ebony-2: #3b3640;
-  --ebony-3: #6b6570;
-  --pearl: #f6f4f8;
-  --pearl-2: #ece8f1;
+  /* Colour — see DESIGN.md. Warm beauty-retail palette: berry ink, coral action, cream + lilac surfaces. */
+  --ink: #7a2533;
+  --ink-2: #84434b;
+  --ink-3: #8f5961;
+  --cream: #f8f1eb;
+  --cream-2: #f1e6dc;
   --white: #ffffff;
-  --jacaranda: #5b3aa6;
-  --jacaranda-ink: #452b82;
-  --bloom: #e4daf6;
+  --coral: #cf3f1a;
+  --coral-ink: #a8300f;
+  --lilac: #eee2f3;
+  --lilac-2: #dcc9e8;
   --blend: #1e7a4e;
   --blend-bg: #e3f2ea;
-  --clash: #b0461a;
-  --clash-bg: #f8e6dc;
-  --amber: #8a6400;
-  --amber-bg: #f6edd3;
-  --line: #d9d3e0;
+  --clash: #b42318;
+  --clash-bg: #fbe7e3;
+  --amber: #8a5a00;
+  --amber-bg: #f8ecd2;
+  --line: #ecdcd4;
 
   /* Type */
-  --font-display: "Gloock", Georgia, serif;
+  --font-display: "Fraunces Variable", Georgia, serif;
   --font-text: "Hanken Grotesk Variable", "Hanken Grotesk", system-ui, sans-serif;
-  --font-data: "IBM Plex Mono", ui-monospace, monospace;
+  --font-data: "Hanken Grotesk Variable", "Hanken Grotesk", system-ui, sans-serif;
 
   --step--1: 0.875rem;
   --step-0: 1rem;
@@ -46,8 +45,8 @@
   --s-8: 4.5rem;
   --s-9: 7rem;
 
-  --radius: 14px;
-  --radius-sm: 8px;
+  --radius: 8px;
+  --radius-sm: 6px;
   --page: 1160px;
   --gutter: clamp(16px, 4vw, 40px);
 
@@ -67,10 +66,12 @@ html {
 
 body {
   margin: 0;
-  background: var(--pearl);
-  color: var(--ebony);
+  background: var(--white);
+  color: var(--ink);
   font-family: var(--font-text);
+  font-weight: 500;
   font-size: var(--step-0);
+  letter-spacing: 0.02em;
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
 }
@@ -79,11 +80,32 @@ h1,
 h2,
 h3 {
   font-family: var(--font-display);
-  font-weight: 400;
-  line-height: 1.05;
-  letter-spacing: -0.01em;
+  font-weight: 320;
+  font-variation-settings: "SOFT" 100, "WONK" 0;
+  line-height: 1.08;
+  letter-spacing: -0.02em;
   margin: 0;
   text-wrap: balance;
+}
+
+/* Small bold uppercase field label (e.g. COLOUR, TEXTURE). For labels, not headings. */
+.label {
+  font: 700 0.8125rem/1.2 var(--font-text);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--ink);
+}
+
+/* Soft pill tag, e.g. "New", "Demo values" */
+.tag {
+  display: inline-flex;
+  align-items: center;
+  font: 600 0.75rem/1 var(--font-text);
+  letter-spacing: 0.02em;
+  padding: 6px 10px;
+  border-radius: 999px;
+  background: var(--lilac);
+  color: var(--ink);
 }
 
 p {
@@ -91,8 +113,16 @@ p {
   text-wrap: pretty;
 }
 
+button,
+input,
+select,
+textarea {
+  font-family: inherit;
+  letter-spacing: inherit;
+}
+
 a {
-  color: var(--jacaranda);
+  color: var(--coral);
   text-underline-offset: 3px;
 }
 
@@ -102,15 +132,16 @@ img {
 }
 
 :focus-visible {
-  outline: 3px solid var(--jacaranda);
+  outline: 3px solid var(--coral);
   outline-offset: 3px;
   border-radius: 4px;
 }
 
+/* Measured values: tabular figures so numbers line up. */
 .data {
   font-family: var(--font-data);
-  font-feature-settings: "zero" 1;
-  letter-spacing: 0;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.01em;
 }
 
 .wrap {
@@ -152,20 +183,20 @@ img {
   transform: translateY(1px);
 }
 .btn-primary {
-  background: var(--jacaranda);
+  background: var(--coral);
   color: var(--white);
 }
 .btn-primary:hover {
-  background: var(--jacaranda-ink);
+  background: var(--coral-ink);
 }
 .btn-ghost {
   background: transparent;
-  color: var(--ebony);
-  border-color: var(--ebony);
+  color: var(--ink);
+  border-color: var(--ink);
 }
 .btn-ghost:hover {
-  background: var(--ebony);
-  color: var(--pearl);
+  background: var(--ink);
+  color: var(--cream);
 }
 .btn[disabled] {
   opacity: 0.45;

@@ -43,7 +43,7 @@
 }
 
 .hi {
-  outline: 3px solid var(--jacaranda);
+  outline: 3px solid var(--coral);
   outline-offset: 3px;
   z-index: 2;
 }
@@ -55,8 +55,8 @@
   width: 22px;
   height: 22px;
   border-radius: 50%;
-  background: var(--pearl);
-  border: 5px solid var(--ebony);
+  background: var(--cream);
+  border: 5px solid var(--ink);
   z-index: 3;
 }
 

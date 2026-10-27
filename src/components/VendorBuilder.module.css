@@ -30,17 +30,17 @@
   padding: 0 var(--s-3);
   border: 1.5px solid var(--line);
   border-radius: var(--radius-sm);
-  background: var(--pearl);
-  color: var(--ebony);
+  background: var(--cream);
+  color: var(--ink);
   width: 100%;
   min-width: 0;
 }
 
 .form input:focus,
 .form select:focus {
-  border-color: var(--jacaranda);
+  border-color: var(--coral);
   outline: none;
-  box-shadow: 0 0 0 3px var(--bloom);
+  box-shadow: 0 0 0 3px var(--lilac);
 }
 
 .two {
@@ -52,7 +52,7 @@
 .hint {
   font-weight: 400;
   font-size: var(--step--1);
-  color: var(--ebony-3);
+  color: var(--ink-3);
 }
 
 .photoBox {
@@ -91,12 +91,12 @@
   border-radius: 50%;
   transform: translate(-50%, -50%);
   border: 3px solid var(--white);
-  box-shadow: 0 0 0 2px var(--ebony);
+  box-shadow: 0 0 0 2px var(--ink);
 }
 
 .measure {
   font-size: 0.8rem;
-  background: var(--pearl-2);
+  background: var(--cream-2);
   padding: var(--s-2) var(--s-3);
   border-radius: 6px;
 }
@@ -106,14 +106,22 @@
   top: 96px;
   display: grid;
   gap: var(--s-4);
-  background: var(--ebony);
-  color: var(--pearl);
+  background: var(--cream);
+  color: var(--ink);
   border-radius: var(--radius);
   padding: clamp(var(--s-4), 3vw, var(--s-6));
 }
 
-.out .hint {
-  color: #b9b2c0;
+.previewArt {
+  background: var(--white);
+  border-radius: var(--radius-sm);
+  display: grid;
+  place-items: center;
+  padding: var(--s-4);
+}
+
+.previewArt svg {
+  max-width: 200px;
 }
 
 .preview {
@@ -130,14 +138,13 @@
 .swatch {
   width: 52px;
   height: 76px;
-  border-radius: 8px 8px 26px 26px;
-  border: 2px solid var(--pearl);
+  border-radius: 999px;
 }
 
 .linkLabel input {
-  background: #2a252d;
-  border-color: #46404b;
-  color: var(--pearl);
+  background: var(--white);
+  border-color: var(--line);
+  color: var(--ink);
   font-family: var(--font-data);
   font-size: 0.8rem;
 }
@@ -148,14 +155,6 @@
   gap: var(--s-2);
 }
 
-.out :global(.btn-ghost) {
-  color: var(--pearl);
-  border-color: var(--pearl);
-}
-.out :global(.btn-ghost:hover) {
-  background: var(--pearl);
-  color: var(--ebony);
-}
 
 @media (max-width: 860px) {
   .grid {

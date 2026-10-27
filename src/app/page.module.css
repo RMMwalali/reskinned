@@ -1,45 +1,77 @@
+/* Split hero, like a product page: art panel left, text right. */
 .hero {
   display: grid;
-  grid-template-columns: 1.05fr 1fr;
-  align-items: center;
-  gap: var(--s-7);
-  padding-top: var(--s-8);
-  padding-bottom: var(--s-8);
+  grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+  min-height: min(82vh, 720px);
+  border-bottom: 1px solid var(--line);
+}
+
+.heroArt {
+  position: relative;
+  background: var(--cream);
+  display: grid;
+  place-items: center;
+  padding: var(--s-8) var(--s-6);
   overflow-x: clip;
+}
+
+.heroTag {
+  position: absolute;
+  top: var(--s-4);
+  left: var(--s-4);
+}
+
+.heroRing {
+  max-width: 500px;
+}
+
+.heroText {
+  display: grid;
+  align-content: center;
+  gap: var(--s-5);
+  padding: var(--s-8) clamp(var(--s-4), 5vw, var(--s-8));
+  max-width: 620px;
 }
 
 .heroText h1 {
   font-size: var(--step-5);
 }
 
+.heroText h1 em {
+  font-style: italic;
+  color: var(--coral);
+}
+
 .lede {
   font-size: var(--step-1);
-  color: var(--ebony-2);
-  margin-top: var(--s-5);
-  max-width: 46ch;
+  max-width: 44ch;
 }
 
 .ctas {
   display: flex;
   flex-wrap: wrap;
   gap: var(--s-3);
-  margin-top: var(--s-6);
 }
 
-.spec {
-  margin-top: var(--s-4);
-  font-size: var(--step--1);
-  color: var(--ebony-3);
+.checks {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-2) var(--s-4);
+  font-size: 0.8125rem;
+  color: var(--ink-3);
 }
 
-.heroRing {
-  max-width: 480px;
+.checks li::before {
+  content: "✓ ";
+  color: var(--blend);
 }
 
 .problem {
   padding-top: var(--s-8);
-  padding-bottom: var(--s-8);
-  border-top: 1px solid var(--line);
+  padding-bottom: var(--s-7);
 }
 
 .problem h2 {
@@ -53,39 +85,57 @@
   gap: var(--s-6);
   margin-top: var(--s-6);
   font-size: var(--step-1);
-  color: var(--ebony-2);
 }
 
-.problemGrid :global(.data) {
-  color: var(--ebony);
-  background: var(--pearl-2);
-  padding: 1px 6px;
-  border-radius: 4px;
-  font-size: 0.9em;
+.problemGrid b {
+  background: var(--lilac);
+  padding: 1px 8px;
+  border-radius: 999px;
+  font-weight: 700;
 }
 
-.how {
-  padding-top: var(--s-8);
+.explore {
+  padding-top: var(--s-6);
   padding-bottom: var(--s-8);
+  display: grid;
+  gap: var(--s-5);
 }
 
-.how h2 {
+.explore h2 {
   font-size: var(--step-3);
-  max-width: 22ch;
+}
+
+.band {
+  background: var(--lilac-2);
+  padding: var(--s-8) 0;
+  text-align: center;
+}
+
+.band :global(.wrap) {
+  display: grid;
+  gap: var(--s-6);
+  justify-items: center;
+}
+
+.band h2 {
+  font-size: var(--step-4);
 }
 
 .steps {
   list-style: none;
   padding: 0;
-  margin: var(--s-6) 0 0;
+  margin: 0;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: var(--s-5);
+  gap: var(--s-4);
+  width: 100%;
+  text-align: left;
 }
 
 .steps li {
-  border-top: 2px solid var(--ebony);
-  padding-top: var(--s-4);
+  background: var(--white);
+  border-radius: var(--radius);
+  padding: var(--s-5);
   display: grid;
   gap: var(--s-2);
   align-content: start;
@@ -95,19 +145,21 @@
   font-size: var(--step-2);
 }
 
-.steps p {
-  color: var(--ebony-2);
-}
-
 .num {
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--coral);
+  color: var(--white);
+  font-weight: 700;
   font-size: var(--step--1);
-  color: var(--jacaranda);
-  font-weight: 500;
 }
 
 .api {
   font-size: 0.75rem;
-  color: var(--ebony-3) !important;
+  color: var(--ink-3);
 }
 
 .example {
@@ -130,13 +182,13 @@
   font-size: var(--step-3);
 }
 
-.exampleText p {
-  color: var(--ebony-2);
+.exampleText a {
+  color: var(--ink);
+  font-weight: 600;
 }
 
 .vendors {
-  background: var(--ebony);
-  color: var(--pearl);
+  background: var(--cream);
   padding: var(--s-8) 0;
 }
 
@@ -148,12 +200,11 @@
 }
 
 .vendorsInner h2 {
-  font-size: var(--step-3);
+  font-size: var(--step-4);
   margin-bottom: var(--s-4);
 }
 
 .vendorsInner > div:first-child p {
-  color: var(--pearl-2);
   margin-bottom: var(--s-5);
   max-width: 48ch;
 }
@@ -161,27 +212,28 @@
 .chat {
   display: grid;
   gap: var(--s-3);
-  background: #2a252d;
+  background: var(--white);
   border-radius: var(--radius);
   padding: var(--s-5);
+  box-shadow: 0 20px 40px -30px rgb(122 37 51 / 0.45);
 }
 
 .chat p {
   max-width: 85%;
   padding: var(--s-3) var(--s-4);
-  border-radius: 12px;
+  border-radius: 16px;
   font-size: var(--step--1);
   line-height: 1.45;
 }
 
 .them {
-  background: #3a343e;
+  background: var(--cream);
   justify-self: start;
   border-top-left-radius: 4px !important;
 }
 
 .me {
-  background: var(--jacaranda);
+  background: var(--lilac-2);
   justify-self: end;
   border-top-right-radius: 4px !important;
   display: grid;
@@ -190,7 +242,11 @@
 
 .link {
   text-decoration: underline;
-  opacity: 0.9;
+  color: var(--coral-ink);
+}
+
+.faq {
+  padding-top: var(--s-8);
 }
 
 .honest {
@@ -211,9 +267,8 @@
 }
 
 .honest li {
-  border-left: 3px solid var(--jacaranda);
+  border-left: 3px solid var(--coral);
   padding-left: var(--s-4);
-  color: var(--ebony-2);
 }
 
 @media (max-width: 900px) {
@@ -223,11 +278,17 @@
     grid-template-columns: 1fr;
   }
   .hero {
-    padding-top: var(--s-6);
+    min-height: 0;
+  }
+  .heroArt {
+    padding: var(--s-7) var(--s-4) var(--s-5);
   }
   .heroRing {
-    order: -1;
-    max-width: 340px;
+    max-width: 330px;
+  }
+  .heroText {
+    padding-top: var(--s-6);
+    padding-bottom: var(--s-6);
   }
   .exampleText {
     position: static;
