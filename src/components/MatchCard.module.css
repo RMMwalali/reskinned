@@ -1,0 +1,139 @@
+.card {
+  display: grid;
+  grid-template-columns: 18px 1fr;
+  background: var(--white);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+.spine {
+  display: grid;
+  grid-template-rows: 2fr 1fr 1fr;
+}
+
+.body {
+  padding: var(--s-5) var(--s-5) var(--s-5) var(--s-5);
+  display: grid;
+  gap: var(--s-5);
+  min-width: 0;
+}
+
+.head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--s-3);
+  flex-wrap: wrap;
+}
+
+.kicker {
+  font: 400 var(--step-3) / 1 var(--font-display);
+  display: flex;
+  align-items: center;
+  gap: var(--s-3);
+}
+
+.demo {
+  font: 500 0.75rem/1 var(--font-data);
+  background: var(--amber-bg);
+  color: var(--amber);
+  padding: 6px 8px;
+  border-radius: 6px;
+}
+
+.conf {
+  font: 500 var(--step--1) / 1 var(--font-data);
+  padding: 8px 12px;
+  border-radius: 999px;
+}
+.high {
+  background: var(--blend-bg);
+  color: var(--blend);
+}
+.medium {
+  background: var(--amber-bg);
+  color: var(--amber);
+}
+.low {
+  background: var(--clash-bg);
+  color: var(--clash);
+}
+
+.row {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: var(--s-5);
+  padding-top: var(--s-4);
+  border-top: 1px solid var(--pearl-2);
+}
+
+.label {
+  font-size: var(--step--1);
+  color: var(--ebony-3);
+  margin-bottom: var(--s-1);
+}
+
+.big {
+  font: 400 var(--step-2) / 1.2 var(--font-display);
+}
+
+.big :global(.data) {
+  font-size: 0.9em;
+  background: var(--ebony);
+  color: var(--pearl);
+  padding: 2px 8px;
+  border-radius: 6px;
+  margin-right: 4px;
+}
+
+.note {
+  color: var(--ebony-2);
+  margin-top: var(--s-2);
+  max-width: 54ch;
+}
+
+.readout {
+  margin: 0;
+  display: grid;
+  gap: 6px;
+  font-size: 0.8rem;
+  align-content: start;
+}
+.readout div {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--s-4);
+}
+.readout dt {
+  color: var(--ebony-3);
+}
+.readout dd {
+  margin: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.readout i {
+  width: 12px;
+  height: 12px;
+  border-radius: 3px;
+  outline: 1px solid var(--line);
+}
+
+.why ul {
+  margin: var(--s-2) 0 0;
+  padding-left: 1.1em;
+  color: var(--ebony-2);
+  display: grid;
+  gap: var(--s-1);
+}
+
+@media (max-width: 640px) {
+  .row {
+    grid-template-columns: 1fr;
+  }
+  .body {
+    padding: var(--s-4);
+  }
+}

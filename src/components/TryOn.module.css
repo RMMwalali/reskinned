@@ -1,0 +1,102 @@
+.tryon {
+  background: var(--white);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: clamp(var(--s-4), 3vw, var(--s-6));
+  display: grid;
+  gap: var(--s-4);
+}
+
+.tryon h2 {
+  font-size: var(--step-3);
+}
+
+.sub {
+  color: var(--ebony-2);
+  max-width: 62ch;
+}
+
+.options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-2);
+}
+
+.option {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s-2);
+  min-height: 44px;
+  padding: 0 var(--s-4) 0 var(--s-2);
+  border-radius: 999px;
+  border: 1.5px solid var(--line);
+  background: var(--pearl);
+  color: var(--ebony);
+  font-size: var(--step--1);
+  cursor: pointer;
+  transition: border-color var(--fast) var(--ease), background var(--fast) var(--ease);
+}
+.option:hover {
+  border-color: var(--jacaranda);
+}
+.option[aria-pressed="true"] {
+  border-color: var(--jacaranda);
+  background: var(--bloom);
+}
+.option i {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  outline: 1px solid var(--line);
+}
+
+.compare {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--s-4);
+  max-width: 720px;
+}
+
+.compare figure {
+  margin: 0;
+  display: grid;
+  gap: var(--s-2);
+}
+
+.compare img,
+.placeholder {
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  object-fit: cover;
+  border-radius: var(--radius-sm);
+  background: var(--pearl-2);
+}
+
+.placeholder {
+  display: grid;
+  place-items: center;
+  padding: var(--s-4);
+  text-align: center;
+  color: var(--ebony-2);
+  font-size: var(--step--1);
+}
+
+.compare figcaption {
+  font: 400 0.75rem/1 var(--font-data);
+  color: var(--ebony-3);
+}
+
+.spinner {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 3px solid var(--line);
+  border-top-color: var(--jacaranda);
+  animation: spin 800ms linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}

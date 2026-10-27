@@ -1,0 +1,82 @@
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  background: color-mix(in srgb, var(--pearl) 88%, transparent);
+  backdrop-filter: saturate(1.4) blur(10px);
+  border-bottom: 1px solid var(--line);
+}
+
+.bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 68px;
+  gap: var(--s-4);
+}
+
+.logo {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s-2);
+  font: 400 1.6rem/1 var(--font-display);
+  color: var(--ebony);
+  text-decoration: none;
+}
+
+.logoMark {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: conic-gradient(#111012 0 25%, #4b3022 0 50%, #8b4a27 0 75%, #b07d47 0);
+  box-shadow: inset 0 0 0 5px var(--pearl);
+  outline: 1.5px solid var(--ebony);
+}
+
+.nav {
+  display: flex;
+  align-items: center;
+  gap: var(--s-5);
+}
+
+.nav a:not(:global(.btn)) {
+  color: var(--ebony-2);
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.nav a:not(:global(.btn)):hover {
+  color: var(--jacaranda);
+}
+
+@media (max-width: 720px) {
+  .nav a:not(:global(.btn)) {
+    display: none;
+  }
+  .nav :global(.btn) {
+    min-height: 42px;
+    padding: 0 var(--s-4);
+  }
+}
+
+.footer {
+  margin-top: var(--s-9);
+  background: var(--ebony);
+  color: var(--pearl-2);
+  padding: var(--s-7) 0;
+}
+
+.footInner {
+  display: grid;
+  gap: var(--s-3);
+  font-size: var(--step--1);
+}
+
+.footInner p {
+  max-width: 62ch;
+}
+
+.footLogo {
+  font: 400 2rem/1 var(--font-display);
+  color: var(--white);
+}
