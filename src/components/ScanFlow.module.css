@@ -21,7 +21,7 @@
   transition: border-color var(--fast) var(--ease), color var(--fast) var(--ease);
 }
 .progress li.done {
-  border-color: var(--coral);
+  border-color: var(--accent);
   color: var(--ink);
 }
 
@@ -88,10 +88,10 @@
   transition: border-color var(--fast) var(--ease);
 }
 .drop:hover {
-  border-color: var(--coral);
+  border-color: var(--accent);
 }
 .drop:focus-within {
-  outline: 3px solid var(--coral);
+  outline: 3px solid var(--accent);
   outline-offset: 2px;
 }
 .drop[data-filled="true"] {
@@ -263,11 +263,11 @@
   transition: border-color var(--fast) var(--ease), background var(--fast) var(--ease);
 }
 .radio:has(input:checked) {
-  border-color: var(--coral);
+  border-color: var(--accent);
   background: var(--lilac);
 }
 .radio input {
-  accent-color: var(--coral);
+  accent-color: var(--accent);
   width: 18px;
   height: 18px;
 }
@@ -287,7 +287,7 @@
 }
 .stageNow::before {
   content: "→ ";
-  color: var(--coral);
+  color: var(--accent);
 }
 
 .results {

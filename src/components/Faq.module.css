@@ -35,7 +35,7 @@
 .item summary::after {
   content: "+";
   font: 300 1.6rem/1 var(--font-display);
-  color: var(--coral);
+  color: var(--accent);
   transition: transform var(--fast) var(--ease);
 }
 

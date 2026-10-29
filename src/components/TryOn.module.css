@@ -37,10 +37,10 @@
   transition: border-color var(--fast) var(--ease), background var(--fast) var(--ease);
 }
 .option:hover {
-  border-color: var(--coral);
+  border-color: var(--accent);
 }
 .option[aria-pressed="true"] {
-  border-color: var(--coral);
+  border-color: var(--accent);
   background: var(--lilac);
 }
 .option i {
@@ -91,7 +91,7 @@
   height: 36px;
   border-radius: 50%;
   border: 3px solid var(--line);
-  border-top-color: var(--coral);
+  border-top-color: var(--accent);
   animation: spin 800ms linear infinite;
 }
 

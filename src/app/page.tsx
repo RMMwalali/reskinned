@@ -1,135 +1,170 @@
 import Link from "next/link";
-import { ColourRing } from "@/components/ColourRing";
+import { CinemaStage } from "@/components/cinema/CinemaStage";
+import { HeroPill } from "@/components/cinema/HeroPill";
+import { BundleChip, MeasureChip } from "@/components/cinema/LiveChip";
+import { ScrollWords } from "@/components/cinema/ScrollWords";
 import { Faq } from "@/components/Faq";
-import { MatchCard } from "@/components/MatchCard";
-import { ShadeExplorer } from "@/components/ShadeExplorer";
-import { DEMO_YOUCAM } from "@/lib/demo";
-import { matchHair } from "@/lib/match";
-import styles from "./page.module.css";
-
-// A worked example, computed by the same engine the real scan uses.
-const example = matchHair({ ...DEMO_YOUCAM, sample: { hex: "#271D18", spread: 3.1, n: 412 }, leaveOut: "natural" });
-example.confidence.level = "medium";
-example.confidence.reasons.unshift("Example result built from demo values.");
+import styles from "@/components/cinema/cinema.module.css";
 
 export default function Home() {
   return (
-    <>
-      <section className={styles.hero}>
-        <div className={styles.heroArt}>
-          <span className={`tag ${styles.heroTag}`}>New · Hair match</span>
-          <ColourRing className={styles.heroRing} highlight="1B" />
-        </div>
-        <div className={styles.heroText}>
-          <h1>
-            Will it <em>blend?</em>
-          </h1>
-          <p className={styles.lede}>
-            Rangi measures your natural hair (colour, curl and length) and tells you which wig, weave or braiding hair will match it. Then it shows the colour on you, before you send the money.
-          </p>
-          <div className={styles.ctas}>
-            <Link href="/scan" className="btn btn-primary">Find my match</Link>
-            <Link href="/vendors" className="btn btn-ghost">I sell hair</Link>
+    <div data-fullbleed className={styles.page}>
+      <CinemaStage />
+
+      {/* 0 — Hero: the colour ring */}
+      <section data-scene="0" className={styles.hero}>
+        <div className={`wrap ${styles.heroInner}`}>
+          <div className={styles.copy}>
+            <h1>
+              Hair that
+              <br />
+              blends.
+            </h1>
+            <p className={styles.lede}>
+              Rangi measures your natural hair and tells you which wig, weave or braiding hair will match it, then shows it on you before you send the money.
+            </p>
+            <HeroPill />
           </div>
-          <ul className={styles.checks}>
-            <li>3 photos, about 40 seconds</li>
-            <li>Photos never stored</li>
-            <li>Built for 4C to straight</li>
+        </div>
+        <div className={`wrap ${styles.strip}`}>
+          <span>Built on YouCam AI</span>
+          <ul>
+            <li>Hair Type Detection</li>
+            <li>Hair Length Detection</li>
+            <li>Skin Tone Analysis</li>
+            <li>Hair Color</li>
           </ul>
         </div>
       </section>
 
-      <section className={`wrap ${styles.problem}`}>
-        <h2>You&rsquo;re buying hair from a photo.</h2>
-        <div className={styles.problemGrid}>
-          <p>
-            Most hair in Kenya is bought from a vendor&rsquo;s picture on WhatsApp or Instagram. You guess between <b>1</b>, <b>1B</b> and <b>2</b>, between kinky straight and afro kinky, and find out when it arrives.
-          </p>
-          <p>
-            The codes don&rsquo;t help much. There&rsquo;s no standard, so one factory&rsquo;s <b>1B</b> is another&rsquo;s <b>2</b>. And a leave-out is exactly where a mismatch shows.
-          </p>
+      {/* 1 — The problem, read word by word while the bundle changes */}
+      <section data-scene="1" className={styles.pinned} style={{ height: "300svh" }}>
+        <div className={styles.panelBg} aria-hidden="true" />
+        <div className={styles.sticky}>
+          <div className={`wrap ${styles.split} ${styles.textRight}`}>
+            <div className={styles.copy}>
+              <h2>To you, the leave-out is the product.</h2>
+              <ScrollWords
+                scene={1}
+                className={styles.big}
+                text="You buy hair from a photo on WhatsApp. You guess between 1, 1B and 2, between kinky straight and afro kinky, and find out when it arrives. Codes have no standard, so one factory's 1B is another's 2. And a mismatch shows exactly where your hair meets the bundle: [[at the hairline.]]"
+              />
+            </div>
+          </div>
+          <div className={styles.chipSlot}>
+            <BundleChip scene={1} />
+          </div>
         </div>
       </section>
 
-      <section className={`wrap ${styles.explore}`} aria-labelledby="explore-title">
-        <h2 id="explore-title">Every code, side by side.</h2>
-        <ShadeExplorer />
+      {/* 2 — Three photos */}
+      <section data-scene="2" className={styles.pinned} style={{ height: "190svh" }}>
+        <div className={styles.sticky}>
+          <div className={`wrap ${styles.split}`}>
+            <div className={styles.copy}>
+              <p className={styles.step}>01 · Scan</p>
+              <h2>Three photos.</h2>
+              <p className={styles.body}>
+                Front, right and left, hair down. Rangi checks your light before anything is sent. Then YouCam reads your curl pattern from all three angles, from straight through to 4C, and how long your hair is.
+              </p>
+              <p className={styles.api}>YouCam Hair Type Detection · Hair Length Detection</p>
+            </div>
+          </div>
+        </div>
       </section>
 
-      <section className={styles.band} aria-labelledby="how-title">
-        <div className="wrap">
-          <h2 id="how-title">Three photos. One answer.</h2>
-          <ol className={styles.steps}>
-            <li>
-              <span className={styles.num}>1</span>
-              <h3>Scan</h3>
-              <p>Front, left and right, hair down. Rangi checks your light first.</p>
-              <p className={styles.api}>YouCam Hair Type + Hair Length Detection</p>
-            </li>
-            <li>
-              <span className={styles.num}>2</span>
-              <h3>Measure</h3>
-              <p>Tap your hair. Rangi reads those pixels, drops shine and shadow, and finds the nearest code.</p>
-              <p className={styles.api}>Rangi colour engine + YouCam Skin Tone Analysis</p>
-            </li>
-            <li>
-              <span className={styles.num}>3</span>
-              <h3>See it on you</h3>
-              <p>Your match is painted onto your own hair, so you judge the blend yourself.</p>
+      {/* 3 — Measure */}
+      <section data-scene="3" className={styles.pinned} style={{ height: "250svh" }}>
+        <div className={styles.sticky}>
+          <div className={`wrap ${styles.split} ${styles.narrowCopy}`}>
+            <div className={styles.copy}>
+              <p className={styles.step}>02 · Measure</p>
+              <h2>Measured, not guessed.</h2>
+              <p className={styles.body}>
+                Tap your hair. Rangi reads those pixels, drops the shine and the shadow, and compares what&rsquo;s left with every colour code using CIEDE2000, the standard for how different two colours look. YouCam checks the answer independently.
+              </p>
+              <MeasureChip scene={3} />
+              <p className={styles.api}>Rangi colour engine · YouCam Skin Tone Analysis</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* 4 — Try it on */}
+      <section data-scene="4" className={styles.pinned} style={{ height: "210svh" }}>
+        <div className={styles.sticky}>
+          <div className={`wrap ${styles.split}`}>
+            <div className={styles.copy}>
+              <p className={styles.step}>03 · See it on you</p>
+              <h2>Your code, on your hair.</h2>
+              <p className={styles.body}>
+                Your match is painted onto your own photo, next to the runner-up, so you judge the line yourself. When two codes are too close to call, Rangi tells you both, and which to order first.
+              </p>
               <p className={styles.api}>YouCam Hair Color</p>
-            </li>
-          </ol>
-          <Link href="/scan" className="btn btn-primary">Find my match</Link>
+              <Link href="/scan" className="btn btn-primary">Find my match</Link>
+            </div>
+          </div>
         </div>
       </section>
 
-      <section className={`wrap ${styles.example}`} aria-labelledby="example-title">
-        <div className={styles.exampleText}>
-          <h2 id="example-title">An answer you can check.</h2>
-          <p>
-            Every result shows the measurement behind it: your hair&rsquo;s colour, its distance to each code, YouCam&rsquo;s independent reading, and why Rangi is or isn&rsquo;t sure.
-          </p>
-          <p>When two codes are too close to call, Rangi says so. It never rounds a guess up to a fact.</p>
-          <Link href="/method">How we measure</Link>
-        </div>
-        <MatchCard match={example} demo />
-      </section>
-
-      <section className={styles.vendors} aria-labelledby="vendor-title">
-        <div className={`wrap ${styles.vendorsInner}`}>
-          <div>
-            <h2 id="vendor-title">Sell hair that blends.</h2>
-            <p>
-              Photograph a bundle, tap the hair to measure it, and get a product page with a <em>Will it blend?</em> button. Send it on WhatsApp before a customer pays. She scans, sees the verdict for your exact bundle, and sends her match straight back.
+      {/* 5 — Vendors, honesty, questions */}
+      <section data-scene="5" className={styles.vendorScene}>
+        <div className={styles.panelBg} aria-hidden="true" />
+        <div className={`wrap ${styles.split} ${styles.vendorGrid}`}>
+          <div className={styles.copy}>
+            <p className={styles.step}>For vendors</p>
+            <h2>Sell hair that blends.</h2>
+            <p className={styles.body}>
+              Photograph a bundle, tap the hair to measure it, and get a product page with a <em>Will it blend?</em> button. Send it before a customer pays. She scans, sees the verdict for your exact bundle, and sends her match straight back to you.
             </p>
             <Link href="/vendors" className="btn btn-primary">Make a blend link</Link>
           </div>
           <div className={styles.chat} aria-label="Example WhatsApp conversation">
-            <p className={styles.them}>Hi, is the kinky straight 1B still available? 18 inch</p>
-            <p className={styles.me}>
-              Yes! Check it blends with your hair first:
-              <span className={styles.link}>rangi.app/blend/…</span>
-            </p>
-            <p className={styles.them}>
-              <strong>My Rangi result:</strong> This will blend. Score 91/100, colour 1B, texture match.
-            </p>
+            <div className={`${styles.bubble} ${styles.them}`}>Hi, is the kinky straight 1B still available? 18 inch</div>
+            <div className={`${styles.bubble} ${styles.me}`}>
+              Yes! Check it blends with your hair first
+              <span className={styles.linkCard}>
+                <i style={{ background: "#221A16" }} />
+                <span>
+                  <b>Kinky Straight Bundles</b>
+                  <small className="data">1B · 18&quot; · KES 4,500</small>
+                </span>
+                <em>Will it blend?</em>
+              </span>
+            </div>
+            <div className={`${styles.bubble} ${styles.result}`}>
+              <b>This will blend.</b>
+              <span className="data">91/100 · colour ΔE 2.4 · texture match</span>
+            </div>
           </div>
+        </div>
+
+        <div className={`wrap ${styles.honest}`}>
+          <h2>What Rangi won&rsquo;t do</h2>
+          <ul>
+            <li><b>Store your photos.</b> They&rsquo;re used for one scan, then discarded.</li>
+            <li><b>Guess who you are.</b> It measures colour and curl. Never race, ethnicity or identity.</li>
+            <li><b>Hide uncertainty.</b> Dim light or a split reading lowers the confidence, and the result says why.</li>
+            <li><b>Trust the label.</b> Vendor links can carry the bundle&rsquo;s measured colour, not just its code.</li>
+          </ul>
+        </div>
+
+        <div className={`wrap ${styles.faqCard}`}>
+          <Faq />
         </div>
       </section>
 
-      <section className={`wrap ${styles.faq}`}>
-        <Faq />
+      {/* 6 — Finale */}
+      <section data-scene="6" className={styles.cta}>
+        <div className={`wrap ${styles.ctaInner}`}>
+          <h2>Will it blend?</h2>
+          <p className={styles.lede}>Find out before you send the money.</p>
+          <div className={styles.ctaButtons}>
+            <Link href="/scan" className="btn btn-primary">Scan my hair</Link>
+            <Link href="/method" className="btn btn-ghost">How we measure</Link>
+          </div>
+        </div>
       </section>
-
-      <section className={`wrap ${styles.honest}`} aria-labelledby="honest-title">
-        <h2 id="honest-title">What Rangi won&rsquo;t do</h2>
-        <ul>
-          <li>Store your photos. They&rsquo;re used for one scan and discarded.</li>
-          <li>Guess your race, ethnicity or identity. It measures colour and curl, nothing else.</li>
-          <li>Hide uncertainty. Dim light, dyed ends or a split reading lower the confidence, and the result says why.</li>
-          <li>Pretend codes are standard. Vendor links can carry the bundle&rsquo;s measured colour, not just the label.</li>
-        </ul>
-      </section>
-    </>
+    </div>
   );
 }

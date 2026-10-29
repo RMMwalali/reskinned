@@ -2,24 +2,28 @@
 @import "@fontsource-variable/hanken-grotesk/index.css";
 
 :root {
-  /* Colour — see DESIGN.md. Warm beauty-retail palette: berry ink, coral action, cream + lilac surfaces. */
-  --ink: #7a2533;
-  --ink-2: #84434b;
-  --ink-3: #8f5961;
-  --cream: #f8f1eb;
-  --cream-2: #f1e6dc;
+  /* Colour — see DESIGN.md. Cinematic neutral: near-white stage, near-black ink, jacaranda accent, frosted lilac glow. */
+  --ink: #17151b;
+  --ink-2: #3d3a43;
+  --ink-3: #6b6773;
+  --cream: #f3f2f0;
+  --cream-2: #e9e7e4;
   --white: #ffffff;
-  --coral: #cf3f1a;
-  --coral-ink: #a8300f;
-  --lilac: #eee2f3;
-  --lilac-2: #dcc9e8;
+  --stage: #fafaf9;
+  --action: #17151b;
+  --action-hover: #34303a;
+  --accent: #5b3fb0;
+  --accent-ink: #452e8c;
+  --mark: #f9d9cf;
+  --lilac: #eee8f8;
+  --lilac-2: #dcd2f2;
   --blend: #1e7a4e;
   --blend-bg: #e3f2ea;
   --clash: #b42318;
   --clash-bg: #fbe7e3;
   --amber: #8a5a00;
   --amber-bg: #f8ecd2;
-  --line: #ecdcd4;
+  --line: #e4e2e0;
 
   /* Type */
   --font-display: "Fraunces Variable", Georgia, serif;
@@ -45,8 +49,10 @@
   --s-8: 4.5rem;
   --s-9: 7rem;
 
-  --radius: 8px;
-  --radius-sm: 6px;
+  --radius: 16px;
+  --radius-sm: 10px;
+  --radius-lg: 40px;
+  --shadow-float: 0 30px 60px -30px rgb(23 21 27 / 0.28), 0 10px 20px -12px rgb(23 21 27 / 0.12);
   --page: 1160px;
   --gutter: clamp(16px, 4vw, 40px);
 
@@ -66,12 +72,12 @@ html {
 
 body {
   margin: 0;
-  background: var(--white);
+  background: var(--stage);
   color: var(--ink);
   font-family: var(--font-text);
-  font-weight: 500;
+  font-weight: 430;
   font-size: var(--step-0);
-  letter-spacing: 0.02em;
+  letter-spacing: 0.005em;
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
 }
@@ -80,10 +86,10 @@ h1,
 h2,
 h3 {
   font-family: var(--font-display);
-  font-weight: 320;
-  font-variation-settings: "SOFT" 100, "WONK" 0;
-  line-height: 1.08;
-  letter-spacing: -0.02em;
+  font-weight: 360;
+  font-variation-settings: "SOFT" 30, "WONK" 0;
+  line-height: 1.04;
+  letter-spacing: -0.025em;
   margin: 0;
   text-wrap: balance;
 }
@@ -122,7 +128,7 @@ textarea {
 }
 
 a {
-  color: var(--coral);
+  color: var(--accent);
   text-underline-offset: 3px;
 }
 
@@ -132,7 +138,7 @@ img {
 }
 
 :focus-visible {
-  outline: 3px solid var(--coral);
+  outline: 3px solid var(--accent);
   outline-offset: 3px;
   border-radius: 4px;
 }
@@ -172,7 +178,7 @@ img {
   gap: var(--s-2);
   min-height: 48px;
   padding: 0 var(--s-5);
-  border-radius: 999px;
+  border-radius: 12px;
   border: 1.5px solid transparent;
   font: 600 var(--step-0) / 1 var(--font-text);
   text-decoration: none;
@@ -183,20 +189,121 @@ img {
   transform: translateY(1px);
 }
 .btn-primary {
-  background: var(--coral);
+  background: var(--action);
   color: var(--white);
+  box-shadow: 0 1px 0 rgb(255 255 255 / 0.12) inset, 0 8px 18px -10px rgb(23 21 27 / 0.6);
 }
 .btn-primary:hover {
-  background: var(--coral-ink);
+  background: var(--action-hover);
 }
 .btn-ghost {
-  background: transparent;
+  background: var(--cream-2);
   color: var(--ink);
-  border-color: var(--ink);
 }
 .btn-ghost:hover {
-  background: var(--ink);
-  color: var(--cream);
+  background: var(--line);
+}
+
+/* The header floats over the page; leave room, except for full-bleed cinematic pages. */
+main {
+  padding-top: 88px;
+}
+main:has(> [data-fullbleed]) {
+  padding-top: 0;
+}
+
+/* Lenis smooth scroll (from lenis/dist/lenis.css) */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+.lenis:not(.lenis-autoToggle).lenis-stopped {
+  overflow: clip;
+}
+.lenis.lenis-smooth iframe {
+  pointer-events: none;
+}
+
+/* Scroll-lit paragraph (ScrollWords) */
+.scroll-words span {
+  color: #c7c3cc;
+  transition: color 240ms var(--ease), background-color 240ms var(--ease);
+}
+.scroll-words span[data-on="true"] {
+  color: var(--ink);
+}
+.scroll-words .mark-word[data-on="true"] {
+  background: var(--mark);
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+}
+
+/* Live chips synced to the 3D scene */
+.live-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 14px 8px 8px;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--white) 80%, transparent);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: 0 10px 30px -18px rgb(23 21 27 / 0.4);
+  font-size: 0.8125rem;
+  white-space: nowrap;
+}
+.live-chip i {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  transition: background 300ms var(--ease);
+}
+.live-sep {
+  width: 1px;
+  height: 14px;
+  background: var(--line);
+}
+.measure-chip {
+  display: grid;
+  gap: 6px;
+  width: min(100%, 340px);
+  padding: var(--s-4);
+  border-radius: var(--radius);
+  background: color-mix(in srgb, var(--white) 82%, transparent);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: 0 16px 40px -28px rgb(23 21 27 / 0.45);
+  font-size: 0.8125rem;
+}
+.measure-chip div {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--s-4);
+  transition: opacity 300ms var(--ease);
+}
+.measure-chip div[data-out="false"] {
+  opacity: 0.3;
+}
+.measure-chip span {
+  color: var(--ink-3);
+}
+.measure-chip b {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 600;
+}
+.measure-chip b i {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+}
+
+/* Highlighted phrase, like a marker pen */
+.mark {
+  background: var(--mark);
+  border-radius: 6px;
+  padding: 0 4px;
 }
 .btn[disabled] {
   opacity: 0.45;

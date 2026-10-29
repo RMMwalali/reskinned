@@ -296,7 +296,7 @@ function HeadGuide({ turn }: { turn: number }) {
         <path d={`M${-30} 128 Q0 104 30 128`} fill="none" stroke="var(--ink)" strokeWidth="2" />
       </g>
       {turn !== 0 ? (
-        <path d={turn > 0 ? "M84 20 q14 6 18 20 m0 0 l-7 -3 m7 3 l2 -7" : "M36 20 q-14 6 -18 20 m0 0 l7 -3 m-7 3 l-2 -7"} fill="none" stroke="var(--coral)" strokeWidth="2.5" strokeLinecap="round" />
+        <path d={turn > 0 ? "M84 20 q14 6 18 20 m0 0 l-7 -3 m7 3 l2 -7" : "M36 20 q-14 6 -18 20 m0 0 l7 -3 m-7 3 l-2 -7"} fill="none" stroke="var(--accent)" strokeWidth="2.5" strokeLinecap="round" />
       ) : null}
     </svg>
   );
