@@ -1,139 +1,129 @@
 import type { Metadata } from "next";
-import { HAIR_CODES } from "@/lib/codes";
-import { hexToLab } from "@/lib/colour";
-import styles from "./method.module.css";
+import { NOISE, STYLES } from "@/lib/edges";
+import { TensionMeter } from "@/components/TensionMeter";
+import styles from "@/components/ui.module.css";
 
-export const metadata: Metadata = { title: "How we measure — Rangi" };
+export const metadata: Metadata = { title: "How it works — edge.wise" };
 
 const PIPELINE = [
-  {
-    api: "YouCam Hair Type Detection",
-    input: "Front, right and left photos",
-    output: "Curl pattern from 1 to 4c, e.g. “4a to 4b — Kinky Soft to Coily”",
-    use: "Mapped to the closest commercial texture: Afro Kinky, Kinky Curly, Kinky Straight and so on. Your leave-out style (natural, stretched, relaxed) adjusts the mapping.",
-    units: 2,
-  },
-  {
-    api: "YouCam Hair Length Detection",
-    input: "Front photo",
-    output: "Length band, from “above the ears” to “long hair”",
-    use: "Decides the install. Short leave-outs can't hide tracks, so Rangi recommends a closure or wig instead of a colour match you'd never need.",
-    units: 2,
-  },
-  {
-    api: "YouCam Skin Tone Analysis",
-    input: "Front photo",
-    output: "Hair colour class, plus face lighting quality",
-    use: "An independent check on Rangi's colour reading. If YouCam and Rangi disagree, confidence drops and the result says so. Poor lighting lowers confidence too.",
-    units: 20,
-  },
-  {
-    api: "Rangi colour engine",
-    input: "The pixels you tap",
-    output: "Measured hex, uniformity, distance to every code",
-    use: "YouCam's hair colour comes in 7 broad classes, too coarse to separate 1 from 1B. So Rangi measures the pixels itself: it drops the brightest and darkest 20% (shine and shadow), averages the rest in linear light, and ranks every code by CIEDE2000 distance.",
-    units: 0,
-  },
-  {
-    api: "YouCam Hair Color",
-    input: "Front photo + matched hex",
-    output: "Your photo with the code's colour on your own hair",
-    use: "The visual proof. You judge the blend at the hairline yourself, instead of trusting a vendor's ring-light photo.",
-    units: 1,
-  },
+  ["YouCam Hair Density Detection ×2", "Two hairline photos, head tilted down", "Hairline density 0–3 per take. edge.wise averages them and uses the gap between them to judge reliability.", "1 unit each"],
+  ["YouCam Hair Length Detection", "Front photo (optional)", "Length band. Longer, heavier installs pull harder on the root.", "2 units"],
+  ["YouCam Hair Type Detection", "Front + both sides (optional)", "Curl pattern, 1 to 4c, recorded with each check-in.", "2 units"],
+  ["edge.wise trend engine", "Your check-in history", "Baseline (median of your first readings), change vs baseline, consecutive declines.", "on device"],
+  ["edge.wise tension model", "Styles worn, weeks, extensions, relaxer, symptoms", "Tension load over 6 months, with recent styles weighted more.", "on device"],
+  ["YouCam Hairstyle Generator", "Front photo + a gentler style", "You, wearing the lower-tension alternative.", "2 units"],
 ];
 
 const RULES = [
-  ["Two codes within ΔE 1.5 of your sample", "Medium confidence. We name both codes and which to order."],
-  ["Best code more than ΔE 8 away", "Lower confidence. Hair may be dyed or the light coloured."],
-  ["Tapped area mixes tones (spread > 6)", "Lower confidence. We ask you to tap a flatter patch."],
-  ["YouCam's colour class disagrees with Rangi", "Confidence drops two levels. We show both readings."],
-  ["YouCam rates the lighting poorly", "Lower confidence. We ask for daylight."],
-  ["Side photos missing", "No texture advice, rather than a guess."],
-  ["Very dark sample (L* below 14)", "We warn that 1 and 1B differ mostly in warmth, which phone cameras flatten."],
+  ["Down 0.5 or more from your baseline", "Act now, and see a dermatologist"],
+  ["Down 0.3 or more, two check-ins in a row", "Act now"],
+  ["Down 0.2 or more", "Watch"],
+  [`Within ±${NOISE} of baseline`, "Steady: normal photo-to-photo variation"],
+  ["YouCam rates density extremely low", "Act now, and see a dermatologist"],
+  ["Tension load high (8+)", "Watch. Act if density is also falling"],
+  ["Pain, stinging, bumps or tenting after install", "Watch, and loosen the style now"],
+  ["Itching or tingling on the crown", "See a dermatologist: can signal a scarring type of hair loss"],
+  ["The two takes disagree by more than 0.3", "Reading flagged as unreliable; retake"],
 ];
 
 export default function MethodPage() {
-  const total = PIPELINE.reduce((s, p) => s + p.units, 0);
   return (
-    <div className={`wrap ${styles.page}`}>
+    <div className={styles.page}>
       <header className={styles.head}>
-        <h1>How we measure</h1>
-        <p>
-          Every number Rangi shows comes from a measurement or a published formula. Here is exactly what runs, what each step decides, and where Rangi can be wrong.
-        </p>
+        <h1>How it works</h1>
+        <p>Every status edge.wise shows comes from a measurement or a published rule. Here is exactly what runs, what decides what, and where it can be wrong.</p>
       </header>
 
-      <section aria-labelledby="pipe">
-        <h2 id="pipe">The pipeline</h2>
-        <ol className={styles.pipeline}>
-          {PIPELINE.map((p) => (
-            <li key={p.api}>
-              <div className={styles.pipeHead}>
-                <h3>{p.api}</h3>
-                <span className="data">{p.units ? `${p.units} unit${p.units > 1 ? "s" : ""}` : "on device"}</span>
+      <section className={styles.panel}>
+        <h2>The pipeline</h2>
+        <div style={{ display: "grid", gap: 10 }}>
+          {PIPELINE.map(([api, input, out, cost]) => (
+            <article key={api} style={{ display: "grid", gap: 4, padding: "var(--s-4)", borderRadius: 16, border: "1px solid var(--line)", borderLeft: "4px solid var(--accent)" }}>
+              <div className={styles.row} style={{ justifyContent: "space-between" }}>
+                <strong>{api}</strong>
+                <span className={styles.small}>{cost}</span>
               </div>
-              <dl>
-                <div><dt>In</dt><dd>{p.input}</dd></div>
-                <div><dt>Out</dt><dd>{p.output}</dd></div>
-                <div><dt>Decides</dt><dd>{p.use}</dd></div>
-              </dl>
-            </li>
+              <span className={styles.small}>In: {input}</span>
+              <span style={{ color: "var(--ink-2)" }}>{out}</span>
+            </article>
           ))}
-        </ol>
-        <p className={`data ${styles.cost}`}>
-          A full scan plus one try-on costs {total} YouCam units. Rangi checks the account balance before every scan and switches to a clearly labelled demo when the budget runs out.
-        </p>
+        </div>
+        <p className={styles.small}>A full check-in costs at most 7 YouCam units. The server checks the balance first and switches to a clearly labelled demo reading if it runs out.</p>
       </section>
 
-      <section aria-labelledby="conf">
-        <h2 id="conf">When Rangi is less sure</h2>
-        <table className={styles.table}>
+      <section className={styles.panel}>
+        <h2>The rules</h2>
+        <table style={{ width: "100%", borderCollapse: "collapse" }}>
           <thead>
-            <tr><th scope="col">Condition</th><th scope="col">What happens</th></tr>
+            <tr>
+              <th style={{ textAlign: "left", padding: 10, borderBottom: "1px solid var(--line)" }} className={styles.label}>If</th>
+              <th style={{ textAlign: "left", padding: 10, borderBottom: "1px solid var(--line)" }} className={styles.label}>Then</th>
+            </tr>
           </thead>
           <tbody>
-            {RULES.map(([c, w]) => (
-              <tr key={c}><td>{c}</td><td>{w}</td></tr>
+            {RULES.map(([i, t]) => (
+              <tr key={i}>
+                <td style={{ padding: 10, borderBottom: "1px solid var(--line)", fontWeight: 600, width: "50%" }}>{i}</td>
+                <td style={{ padding: 10, borderBottom: "1px solid var(--line)", color: "var(--ink-2)" }}>{t}</td>
+              </tr>
             ))}
           </tbody>
         </table>
       </section>
 
-      <section aria-labelledby="codes">
-        <h2 id="codes">The colour codes</h2>
-        <p className={styles.sub}>
-          There is no official standard for hair colour codes, so these are Rangi&rsquo;s reference estimates of how each code photographs indoors. Because codes vary by factory, vendor links can carry a colour measured from the vendor&rsquo;s own product photo instead.
-        </p>
-        <div className={styles.codes}>
-          {HAIR_CODES.map((c) => {
-            const lab = hexToLab(c.hex);
-            return (
-              <div key={c.code} className={styles.code}>
-                <span className={styles.chip} style={{ background: c.hex }} aria-hidden="true" />
-                <p><strong className="data">{c.code}</strong> {c.name}</p>
-                <p className="data">{c.hex} · L* {lab.L.toFixed(1)}</p>
-              </div>
-            );
-          })}
+      <section className={styles.panel}>
+        <h2>Style tension</h2>
+        <p className={styles.sub}>Ranked from the American Academy of Dermatology&rsquo;s guidance and a Johns Hopkins review of hair-care practices. Extensions add weight; relaxed hair and painful installs multiply it.</p>
+        <div style={{ display: "grid", gap: 8 }}>
+          {STYLES.map((s) => (
+            <div key={s.id} style={{ display: "grid", gridTemplateColumns: "minmax(0, 1fr) auto", gap: 4, paddingBottom: 8, borderBottom: "1px solid var(--line)" }}>
+              <span>
+                <strong>{s.name}</strong>
+                <br />
+                <span className={styles.small}>{s.why}</span>
+              </span>
+              <TensionMeter value={s.tension} />
+            </div>
+          ))}
         </div>
       </section>
 
-      <section aria-labelledby="limits">
-        <h2 id="limits">Known limits</h2>
-        <ul className={styles.limits}>
-          <li>Phone cameras auto-adjust white balance, which shifts colour. Daylight and a plain background help most.</li>
-          <li>Curly and coily hair shrinks, so measured length can read shorter than your stretched length.</li>
-          <li>YouCam Hair Type Detection reports a range (for example 4a to 4b), not a single type. Rangi keeps that range rather than inventing precision.</li>
-          <li>The try-on recolours your hair. It shows colour blend at the hairline, not the texture or length of a bundle.</li>
-          <li>Rangi&rsquo;s colour maths is unit-tested against published CIEDE2000 reference pairs (Sharma, Wu &amp; Dalal, 2005).</li>
+      <section className={styles.panel}>
+        <h2>Known limits</h2>
+        <ul className={styles.list}>
+          <li>edge.wise is a cosmetic tracker, not a medical device. It never names a condition as yours.</li>
+          <li>The ±{NOISE} noise band is an assumption until calibrated against repeated real scans. The two-take check exists because of this.</li>
+          <li>YouCam&rsquo;s density reading depends on light, angle and how the hair is worn. Compare like with like: same light, hair pushed back.</li>
+          <li>Tension weights are a ranking built from published guidance, not a measured force. They decide advice, never a diagnosis.</li>
+          <li>Hairstyle try-on shows the look of a style, not how tightly it&rsquo;s installed.</li>
         </ul>
       </section>
 
-      <section aria-labelledby="privacy">
-        <h2 id="privacy">Privacy</h2>
+      <section className={styles.panel} id="sources">
+        <h2>Sources</h2>
+        <ul className={styles.list}>
+          <li>
+            American Academy of Dermatology, <a href="https://www.aad.org/public/diseases/hair-loss/causes/hairstyles" target="_blank" rel="noopener noreferrer">Hairstyles that pull can cause hair loss</a>
+          </li>
+          <li>
+            AAD 74th Annual Meeting survey with the Black Women&rsquo;s Health Study (n = 5,594): 47.6% reported hair loss, 81.4% never saw a doctor. <a href="https://www.sciencedaily.com/releases/2016/03/160304093239.htm" target="_blank" rel="noopener noreferrer">ScienceDaily summary</a>
+          </li>
+          <li>
+            Johns Hopkins review of hair-care practices and traction alopecia, <em>Journal of the American Academy of Dermatology</em>. <a href="https://hub.jhu.edu/2016/05/05/risky-hairstyles-traction-alopecia" target="_blank" rel="noopener noreferrer">JHU Hub summary</a>
+          </li>
+          <li>
+            The Standard (Kenya), <a href="https://www.standardmedia.co.ke/evewoman/living/article/2001523478/struggle-of-traction-alopecia-among-kenyan-women" target="_blank" rel="noopener noreferrer">Struggle of traction alopecia among Kenyan women</a>
+          </li>
+          <li>
+            Perfect Corp, <a href="https://docs.perfectcorp.com/reference/ai_hair_density_detection" target="_blank" rel="noopener noreferrer">AI Hair Density Detection API</a>
+          </li>
+        </ul>
+      </section>
+
+      <section className={styles.panel} id="privacy">
+        <h2>Privacy</h2>
         <p className={styles.sub}>
-          Photos are resized on your phone, sent to YouCam for one scan, and never written to Rangi&rsquo;s storage. There are no accounts. Vendor links contain only product details. Rangi measures colour and curl. It does not estimate race, ethnicity, age or identity.
+          Photos are resized on your phone, sent to YouCam for one check-in, and never written to edge.wise&rsquo;s storage. Your history (numbers and answers, no images) lives only in your browser, and you can delete it any time. Stylist cards carry only your status and install rules, never photos. There are no accounts and no tracking.
         </p>
       </section>
     </div>

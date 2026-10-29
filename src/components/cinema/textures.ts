@@ -1,105 +1,45 @@
 import * as THREE from "three";
-import { hexToLab } from "@/lib/colour";
 
-// Procedural textures drawn on canvas. No image files, no network.
+// Procedural textures drawn on canvas at runtime. No image files, no network.
 
-function shade(hex: string, k: number): string {
-  const n = parseInt(hex.slice(1), 16);
-  const ch = [(n >> 16) & 255, (n >> 8) & 255, n & 255].map((v) => Math.round(k >= 0 ? v + (255 - v) * k : v * (1 + k)));
-  return `rgb(${ch[0]},${ch[1]},${ch[2]})`;
+const FONT = "'Hanken Grotesk Variable', system-ui, sans-serif";
+
+function tex(c: HTMLCanvasElement) {
+  const t = new THREE.CanvasTexture(c);
+  t.colorSpace = THREE.SRGBColorSpace;
+  t.anisotropy = 4;
+  return t;
 }
 
-/** Face of a hair swatch card: the code colour, fine strands, and its label. */
-export function swatchTexture(hex: string, code: string, name: string): THREE.CanvasTexture {
-  const w = 256;
-  const h = 1024;
+function canvas(w: number, h: number) {
   const c = document.createElement("canvas");
   c.width = w;
   c.height = h;
-  const g = c.getContext("2d")!;
-  g.fillStyle = hex;
-  g.fillRect(0, 0, w, h);
-  // Strands: thin vertical streaks with gentle drift, lighter and darker than the base.
-  let seed = code.split("").reduce((s, ch) => s + ch.charCodeAt(0), 7);
-  const rand = () => ((seed = (seed * 16807) % 2147483647) / 2147483647);
-  for (let i = 0; i < 260; i++) {
-    const x = rand() * w;
-    const drift = (rand() - 0.5) * 18;
-    g.strokeStyle = shade(hex, rand() > 0.5 ? 0.08 + rand() * 0.14 : -0.1 - rand() * 0.2);
-    g.globalAlpha = 0.35 + rand() * 0.4;
-    g.lineWidth = 0.6 + rand() * 1.6;
-    g.beginPath();
-    g.moveTo(x, 150);
-    g.bezierCurveTo(x + drift, h * 0.4, x - drift, h * 0.7, x + drift * 0.5, h);
-    g.stroke();
-  }
-  g.globalAlpha = 1;
-  // Sheen band, like light catching hair.
-  const sheen = g.createLinearGradient(0, h * 0.25, 0, h * 0.5);
-  sheen.addColorStop(0, "rgba(255,255,255,0)");
-  sheen.addColorStop(0.5, "rgba(255,255,255,0.14)");
-  sheen.addColorStop(1, "rgba(255,255,255,0)");
-  g.fillStyle = sheen;
-  g.fillRect(0, h * 0.25, w, h * 0.25);
-  // Label tab.
-  const light = hexToLab(hex).L > 55;
-  g.fillStyle = light ? "rgba(23,21,27,0.86)" : "rgba(255,255,255,0.92)";
-  g.font = "600 64px 'Hanken Grotesk Variable', system-ui, sans-serif";
-  g.textAlign = "center";
-  g.fillText(code, w / 2, 96);
-  g.font = "500 20px 'Hanken Grotesk Variable', system-ui, sans-serif";
-  g.globalAlpha = 0.7;
-  g.fillText(name.toUpperCase(), w / 2, 128);
-  g.fillText(hex, w / 2, h - 40);
-  const tex = new THREE.CanvasTexture(c);
-  tex.colorSpace = THREE.SRGBColorSpace;
-  tex.anisotropy = 4;
-  return tex;
+  return [c, c.getContext("2d")!] as const;
 }
 
-/** Circular caption that orbits the colour orb. */
-export function ringTexture(text: string): THREE.CanvasTexture {
-  const s = 1024;
-  const c = document.createElement("canvas");
-  c.width = s;
-  c.height = s;
-  const g = c.getContext("2d")!;
-  g.translate(s / 2, s / 2);
-  g.fillStyle = "rgba(23,21,27,0.72)";
-  g.font = "500 38px 'Hanken Grotesk Variable', system-ui, sans-serif";
-  g.textAlign = "center";
-  g.textBaseline = "middle";
-  const r = s / 2 - 46;
-  const chars = text.split("");
-  const step = (Math.PI * 2) / chars.length;
-  chars.forEach((ch, i) => {
-    g.save();
-    g.rotate(i * step);
-    g.translate(0, -r);
-    g.fillText(ch, 0, 0);
-    g.restore();
-  });
-  const tex = new THREE.CanvasTexture(c);
-  tex.colorSpace = THREE.SRGBColorSpace;
-  tex.anisotropy = 4;
-  return tex;
+/** Soft radial glow used behind the focal object. */
+export function glowTexture(): THREE.CanvasTexture {
+  const [c, g] = canvas(256, 256);
+  const grad = g.createRadialGradient(128, 128, 0, 128, 128, 128);
+  grad.addColorStop(0, "rgba(255,255,255,1)");
+  grad.addColorStop(0.35, "rgba(255,255,255,0.55)");
+  grad.addColorStop(1, "rgba(255,255,255,0)");
+  g.fillStyle = grad;
+  g.fillRect(0, 0, 256, 256);
+  return tex(c);
 }
 
-/** A frosted photo card showing one capture angle (front, right, left). */
-export function photoCardTexture(view: "front" | "right" | "left", label: string): THREE.CanvasTexture {
+/** Hairline photo card (head tilted down), with a take label and a light check. */
+export function photoCardTexture(label: string, take: number): THREE.CanvasTexture {
   const w = 520;
   const h = 700;
-  const c = document.createElement("canvas");
-  c.width = w;
-  c.height = h;
-  const g = c.getContext("2d")!;
-  // Card
+  const [c, g] = canvas(w, h);
   const bg = g.createLinearGradient(0, 0, 0, h);
   bg.addColorStop(0, "#ffffff");
   bg.addColorStop(1, "#f1eef6");
   g.fillStyle = bg;
   g.fillRect(0, 0, w, h);
-  // Photo well
   const px = 26, py = 26, pw = w - 52, ph = h - 150;
   const well = g.createLinearGradient(0, py, 0, py + ph);
   well.addColorStop(0, "#e9e5ef");
@@ -112,58 +52,59 @@ export function photoCardTexture(view: "front" | "right" | "left", label: string
   g.beginPath();
   g.roundRect(px, py, pw, ph, 22);
   g.clip();
-  const cx = w / 2 + (view === "right" ? 26 : view === "left" ? -26 : 0);
-  const cy = py + ph * 0.42;
-  // Shoulders
+  // Head tilted down: forehead large in frame, hairline arc across the top third.
+  const cx = w / 2 + (take === 2 ? 8 : -6);
+  const cy = py + ph * 0.62;
   g.fillStyle = "#b8acd0";
   g.beginPath();
-  g.ellipse(w / 2, py + ph + 40, 190, 150, 0, Math.PI, 0);
+  g.ellipse(w / 2, py + ph + 70, 220, 150, 0, Math.PI, 0);
   g.fill();
-  // Neck
-  g.fillStyle = "#7d4f36";
-  g.fillRect(cx - 34, cy + 70, 68, 110);
-  // Hair: a soft coily cloud
-  let seed = view.length * 97 + 13;
-  const rand = () => ((seed = (seed * 16807) % 2147483647) / 2147483647);
-  g.fillStyle = "#241a15";
-  for (let i = 0; i < 70; i++) {
-    const a = rand() * Math.PI * 2;
-    const rr = 95 + rand() * 45;
-    const x = cx + Math.cos(a) * rr * (view === "front" ? 1 : 0.9) - (view === "right" ? 22 : view === "left" ? -22 : 0) * (Math.cos(a) < 0 ? 1 : 0.3);
-    const y = cy - 20 + Math.sin(a) * rr * 0.92;
-    if (y > cy + 70) continue;
-    g.beginPath();
-    g.arc(x, y, 30 + rand() * 26, 0, Math.PI * 2);
-    g.fill();
-  }
-  // Face
   g.fillStyle = "#8a5a3e";
   g.beginPath();
-  g.ellipse(cx + (view === "front" ? 0 : view === "right" ? 18 : -18), cy + 18, view === "front" ? 72 : 60, 92, 0, 0, Math.PI * 2);
+  g.ellipse(cx, cy, 150, 190, 0, 0, Math.PI * 2);
   g.fill();
-  if (view === "front") {
-    g.fillStyle = "#2a1d17";
+  // Hair mass above the hairline
+  let seed = 31 + take * 7;
+  const rand = () => ((seed = (seed * 16807) % 2147483647) / 2147483647);
+  g.fillStyle = "#231914";
+  g.beginPath();
+  g.ellipse(cx, cy - 150, 200, 120, 0, Math.PI, 0);
+  g.fill();
+  for (let i = 0; i < 90; i++) {
+    const a = Math.PI + rand() * Math.PI;
+    const x = cx + Math.cos(a) * (170 + rand() * 40);
+    const y = cy - 150 + Math.sin(a) * (100 + rand() * 30);
     g.beginPath();
-    g.arc(cx - 26, cy + 8, 6, 0, Math.PI * 2);
-    g.arc(cx + 26, cy + 8, 6, 0, Math.PI * 2);
+    g.arc(x, y, 18 + rand() * 18, 0, Math.PI * 2);
     g.fill();
   }
-  g.restore();
-  // Framing guides
-  g.strokeStyle = "rgba(255,255,255,0.95)";
-  g.lineWidth = 5;
+  // Hairline: fine strands along the edge, sparser at the temples
+  g.strokeStyle = "#231914";
   g.lineCap = "round";
-  const m = 52;
-  [[px + m, py + m, 1, 1], [px + pw - m, py + m, -1, 1], [px + m, py + ph - m, 1, -1], [px + pw - m, py + ph - m, -1, -1]].forEach(([x, y, dx, dy]) => {
+  for (let i = 0; i < 160; i++) {
+    const u = rand() * 2 - 1;
+    if (Math.abs(u) > 0.62 && rand() < 0.55) continue;
+    const ang = Math.PI * 1.5 + u * 1.1;
+    const x = cx + Math.cos(ang) * 150;
+    const y = cy - 150 + 70 + Math.sin(ang) * -10 - (1 - u * u) * 26;
+    g.lineWidth = 1.2 + rand() * 1.4;
     g.beginPath();
-    g.moveTo(x, y + 34 * dy);
-    g.lineTo(x, y);
-    g.lineTo(x + 34 * dx, y);
+    g.moveTo(x, y + 10);
+    g.quadraticCurveTo(x + (rand() - 0.5) * 8, y - 6, x + (rand() - 0.5) * 10, y - 20);
     g.stroke();
-  });
+  }
+  // Scan arc highlight on the hairline
+  g.strokeStyle = "rgba(91,63,176,0.9)";
+  g.lineWidth = 5;
+  g.setLineDash([12, 10]);
+  g.beginPath();
+  g.ellipse(cx, cy - 72, 165, 70, 0, Math.PI * 1.05, Math.PI * 1.95);
+  g.stroke();
+  g.setLineDash([]);
+  g.restore();
   // Label row
   g.fillStyle = "#17151b";
-  g.font = "600 34px 'Hanken Grotesk Variable', system-ui, sans-serif";
+  g.font = `600 34px ${FONT}`;
   g.textBaseline = "middle";
   g.fillText(label, 34, h - 66);
   g.fillStyle = "#e3f2ea";
@@ -171,46 +112,35 @@ export function photoCardTexture(view: "front" | "right" | "left", label: string
   g.roundRect(w - 196, h - 90, 164, 48, 24);
   g.fill();
   g.fillStyle = "#1e7a4e";
-  g.font = "600 24px 'Hanken Grotesk Variable', system-ui, sans-serif";
+  g.font = `600 24px ${FONT}`;
   g.fillText("✓ Light even", w - 178, h - 66);
-  const tex = new THREE.CanvasTexture(c);
-  tex.colorSpace = THREE.SRGBColorSpace;
-  tex.anisotropy = 4;
-  return tex;
+  return tex(c);
 }
 
-/** Soft radial glow used behind the focal object. */
-export function glowTexture(): THREE.CanvasTexture {
-  const s = 256;
-  const c = document.createElement("canvas");
-  c.width = s;
-  c.height = s;
-  const g = c.getContext("2d")!;
-  const grad = g.createRadialGradient(s / 2, s / 2, 0, s / 2, s / 2, s / 2);
-  grad.addColorStop(0, "rgba(255,255,255,1)");
-  grad.addColorStop(0.35, "rgba(255,255,255,0.55)");
-  grad.addColorStop(1, "rgba(255,255,255,0)");
-  g.fillStyle = grad;
-  g.fillRect(0, 0, s, s);
-  const tex = new THREE.CanvasTexture(c);
-  tex.colorSpace = THREE.SRGBColorSpace;
-  return tex;
+/** Face of the density gauge. */
+export function gaugeTexture(): THREE.CanvasTexture {
+  const [c, g] = canvas(512, 512);
+  g.textAlign = "center";
+  g.fillStyle = "#17151b";
+  g.font = `400 150px 'Fraunces Variable', Georgia, serif`;
+  g.fillText("2.31", 256, 280);
+  g.font = `500 34px ${FONT}`;
+  g.fillStyle = "#6b6773";
+  g.fillText("hairline density / 3", 256, 340);
+  return tex(c);
 }
 
-/** Round soft dot for particles. */
-export function dotTexture(): THREE.CanvasTexture {
-  const s = 64;
-  const c = document.createElement("canvas");
-  c.width = s;
-  c.height = s;
-  const g = c.getContext("2d")!;
-  const grad = g.createRadialGradient(s / 2, s / 2, 0, s / 2, s / 2, s / 2);
-  grad.addColorStop(0, "rgba(255,255,255,1)");
-  grad.addColorStop(0.5, "rgba(255,255,255,0.8)");
-  grad.addColorStop(1, "rgba(255,255,255,0)");
-  g.fillStyle = grad;
-  g.fillRect(0, 0, s, s);
-  const tex = new THREE.CanvasTexture(c);
-  tex.colorSpace = THREE.SRGBColorSpace;
-  return tex;
+/** A small text label for 3D bars and chart points. */
+export function labelTexture(text: string, sub?: string, colour = "#17151b"): THREE.CanvasTexture {
+  const [c, g] = canvas(512, 160);
+  g.textAlign = "center";
+  g.fillStyle = colour;
+  g.font = `600 52px ${FONT}`;
+  g.fillText(text, 256, sub ? 70 : 96);
+  if (sub) {
+    g.fillStyle = "#6b6773";
+    g.font = `500 36px ${FONT}`;
+    g.fillText(sub, 256, 124);
+  }
+  return tex(c);
 }

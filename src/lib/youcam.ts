@@ -52,7 +52,7 @@ export function parseTaskError(raw: unknown, fallbackMessage?: unknown): { code:
 /** Upload one image and return its file_id. */
 export async function uploadImage(bytes: Uint8Array, contentType: string, feature: string): Promise<string> {
   const body = JSON.stringify({
-    files: [{ content_type: contentType, file_name: `rangi-${feature}.${contentType.includes("png") ? "png" : "jpg"}`, file_size: bytes.byteLength }],
+    files: [{ content_type: contentType, file_name: `edgewise-${feature}.${contentType.includes("png") ? "png" : "jpg"}`, file_size: bytes.byteLength }],
   });
   // The feature-scoped path is what live integrations used; the bare path is the documented fallback.
   let res = await fetch(`${BASE}/s2s/v2.0/file/${feature}`, { method: "POST", headers: headers(), body });
@@ -104,6 +104,25 @@ export async function runTask<T = Record<string, unknown>>(
     }
   }
   throw new YouCamError("The analysis took too long", "TaskTimeout");
+}
+
+export type Template = { id: string; thumb: string; title: string; category_name?: string };
+
+/** List a feature's style templates (all pages, capped). */
+export async function listTemplates(slug: string, version: "v2.0" | "v2.1" = "v2.0", max = 120): Promise<Template[]> {
+  const out: Template[] = [];
+  let token: string | undefined;
+  do {
+    const q = new URLSearchParams({ page_size: "20" });
+    if (token) q.set("starting_token", token);
+    const res = await fetch(`${BASE}/s2s/${version}/task/template/${slug}?${q}`, { headers: headers(), cache: "no-store" });
+    const j = await readJson(res);
+    if (!res.ok) throw errorFrom(res.status, j);
+    const d = j.data as { templates?: Template[]; next_token?: string };
+    out.push(...(d?.templates ?? []));
+    token = d?.next_token || undefined;
+  } while (token && out.length < max);
+  return out;
 }
 
 /** Remaining API units (sum across token types), or null if unavailable. */

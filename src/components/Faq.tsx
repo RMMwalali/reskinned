@@ -2,31 +2,31 @@ import styles from "./Faq.module.css";
 
 const QUESTIONS: [string, string][] = [
   [
-    "Does Rangi work on 4C hair?",
-    "Yes. YouCam's Hair Type Detection reads curl patterns from 1 through 4c, and Rangi maps them to commercial textures from silky straight to afro kinky. Coily hair shrinks, so Rangi reminds you that measured length can read shorter than your stretched length.",
+    "Is this a diagnosis?",
+    "No. edge.wise is a cosmetic tracker. It measures how your hairline changes and how much tension your styles put on it. It can't tell you why hair is thinning, so whenever the trend is steep or you report crown itching, it tells you to see a board-certified dermatologist.",
   ],
   [
-    "Why don't you just trust the colour code?",
-    "There's no industry standard for codes. One factory's 1B can look like another's 2. Vendors can photograph the real bundle so Rangi compares measured colour, not just the label.",
+    "Who is it for?",
+    "Anyone whose styles pull at the hairline: braids, cornrows, weaves, wigs, locs, tight ponytails and slick buns. Traction hair loss is most studied in Black women, but dermatologists also see it in dancers, athletes, and anyone who wears the same tight style for long stretches.",
+  ],
+  [
+    "Why two hairline photos?",
+    "Photos vary with light and angle. Taking the same shot twice lets edge.wise measure how steady the reading is. If the two disagree, it says so and asks for a retake instead of raising a false alarm.",
   ],
   [
     "What happens to my photos?",
-    "They're resized on your phone, sent to YouCam for one scan, and never stored by Rangi. There are no accounts.",
+    "They're resized on your phone, sent to YouCam for that check-in only, and never stored. Your history (numbers and answers, no images) stays in your browser. There are no accounts.",
   ],
   [
-    "How accurate is it?",
-    "Every result shows a confidence level and the reasons behind it. Dim or yellow light, dyed ends, or a colour sitting between two codes all lower it, and Rangi says so instead of guessing.",
-  ],
-  [
-    "What if I'm between two codes?",
-    "Rangi tells you both, which to order first, and how far apart they are. The try-on lets you see each one on your own hair.",
+    "Do I have to stop wearing protective styles?",
+    "No. The planner keeps the look you want and lowers the tension: knotless instead of knotted, bigger and shorter braids, glueless instead of glued, edges left out, and shorter wear time.",
   ],
 ];
 
-export function Faq({ title = "F.A.Q." }: { title?: string }) {
+export function Faq() {
   return (
     <div className={styles.faq}>
-      <h2>{title}</h2>
+      <h2>Questions</h2>
       <div className={styles.list}>
         {QUESTIONS.map(([q, a]) => (
           <details key={q} className={styles.item}>

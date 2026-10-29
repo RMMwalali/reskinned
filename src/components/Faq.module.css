@@ -6,7 +6,7 @@
 }
 
 .faq h2 {
-  font-size: var(--step-3);
+  font-size: clamp(2rem, 1.3rem + 2vw, 3rem);
 }
 
 .list {

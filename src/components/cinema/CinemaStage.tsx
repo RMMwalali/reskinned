@@ -75,7 +75,7 @@ export function CinemaStage() {
   }, []);
 
   return (
-    <div className="rangi-stage" aria-hidden="true">
+    <div className="stage-3d" aria-hidden="true">
       <SceneBoundary>
         <Scene />
       </SceneBoundary>
