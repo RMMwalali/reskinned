@@ -157,7 +157,7 @@ function Side() {
   );
 }
 
-export function PoseGuide({ kind, flip = false }: { kind: Kind; flip?: boolean }) {
+export function PoseGuide({ kind, flip = false, label: showLabel = true }: { kind: Kind; flip?: boolean; label?: boolean }) {
   const label = LABEL[kind];
   return (
     <svg viewBox="0 0 300 400" preserveAspectRatio="xMidYMid slice" aria-hidden="true" style={{ position: "absolute", inset: 0, width: "100%", height: "100%" }}>
@@ -165,13 +165,15 @@ export function PoseGuide({ kind, flip = false }: { kind: Kind; flip?: boolean }
       <g transform={flip ? "translate(300 0) scale(-1 1)" : undefined}>
         {kind === "tilt" ? <Tilt /> : kind === "front" ? <Front /> : <Side />}
       </g>
-      <Frame />
+      {showLabel ? <Frame /> : null}
+      {showLabel ? (
       <g transform="translate(14 14)">
         <rect width={label.length * 9.2 + 24} height="30" rx="15" fill={INK} />
         <text x="12" y="20.5" fontSize="15" fontWeight="700" letterSpacing="1.2" fill={BG} fontFamily="var(--font-cond)">
           {label.toUpperCase()}
         </text>
       </g>
+      ) : null}
     </svg>
   );
 }

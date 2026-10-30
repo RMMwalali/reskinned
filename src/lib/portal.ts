@@ -34,6 +34,7 @@ export type Subscriber = {
   /** Past the last guarantee window, and whether every window has a check-in. */
   guaranteeDue: boolean;
   evidence: boolean;
+  missedDays: number;
 };
 
 const MIX: [TreatmentId, number, number][] = [
@@ -88,6 +89,11 @@ export function sampleCohort(n = 240): Subscriber[] {
       risk += 35;
       reasons.push(lastCheckDays === null ? "Never checked in" : `No check-in for ${lastCheckDays} days`);
     }
+    const missedDays = Math.round(r() < 0.3 ? 6 + r() * 14 : r() * 4);
+    if (missedDays >= 7) {
+      risk += 15;
+      reasons.push(`Missed ${missedDays} days last month`);
+    }
     if (p.verdict === "early-dip") {
       risk += 25;
       reasons.push("Early dip: likely worried");
@@ -102,7 +108,7 @@ export function sampleCohort(n = 240): Subscriber[] {
     }
     const windows = guaranteeWindows(valid, new Date(start).toISOString(), PORTAL_NOW);
     const guaranteeDue = month * 30.44 >= 217;
-    out.push({ id: `S-${String(1040 + i * 7).padStart(5, "0")}`, treatment, price, month, lastCheckDays, checkIns: valid.length, verdict: p.verdict, change: p.change, runoutDays, risk: Math.min(100, risk), reasons, guaranteeDue, evidence: claimReady(windows) });
+    out.push({ id: `S-${String(1040 + i * 7).padStart(5, "0")}`, treatment, price, month, lastCheckDays, checkIns: valid.length, verdict: p.verdict, change: p.change, runoutDays, risk: Math.min(100, risk), reasons, guaranteeDue, evidence: claimReady(windows), missedDays });
   }
   return out;
 }

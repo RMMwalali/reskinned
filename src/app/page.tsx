@@ -2,27 +2,24 @@ import Link from "next/link";
 import { Faq } from "@/components/Faq";
 import { StylePhoto } from "@/components/StylePhoto";
 import { Motion } from "@/components/topas/Motion";
-import { STYLES, type StyleId } from "@/lib/edges";
-import { SCENE_PHOTOS, STYLE_PHOTOS } from "@/lib/photos";
+import { SCENE_PHOTOS, STYLE_PHOTOS, type Photo } from "@/lib/photos";
 import s from "@/components/topas/landing.module.css";
 
 
-const SHORT: Record<StyleId, string> = {
-  out: "Out & natural",
-  "loose-updo": "Loose updo",
-  "glueless-wig": "Glueless wig",
-  twists: "Twists",
-  knotless: "Knotless",
-  locs: "Locs",
-  "sew-in": "Sew-in",
-  "box-braids": "Box braids",
-  "tight-ponytail": "Slick bun",
-  cornrows: "Cornrows",
-  "glued-wig": "Glued lace",
-};
+type Reading = { name: string; api: string; value: string; photo: Photo; position?: string; href: string };
 
-const level = (t: number) => (t >= 0.6 ? "high" : t >= 0.35 ? "mid" : "low");
-const LEVEL_WORD = { low: "Low pull", mid: "Medium pull", high: "High pull" } as const;
+const READINGS: Reading[] = [
+  { name: "Hairline density", api: "Hair Density", value: "1.66 / 3", photo: SCENE_PHOTOS.takeA, position: "50% 30%", href: "/check" },
+  { name: "Hairline height", api: "Face Analyzer", value: "−1.2 pts", photo: STYLE_PHOTOS.out, href: "/check" },
+  { name: "Skin irritation", api: "Skin Analysis", value: "Redness 64", photo: STYLE_PHOTOS.twists, href: "/check" },
+  { name: "Breakage", api: "Hair Frizziness", value: "Frizzy", photo: SCENE_PHOTOS.side, href: "/check" },
+  { name: "Curl pattern", api: "Hair Type", value: "4a–4b", photo: STYLE_PHOTOS["loose-updo"], href: "/check" },
+  { name: "Length", api: "Hair Length", value: "Shoulder", photo: STYLE_PHOTOS["sew-in"], href: "/check" },
+  { name: "Fuller look", api: "Hair Volume", value: "Try-on", photo: STYLE_PHOTOS["glueless-wig"], href: "/fuller" },
+  { name: "Fringe", api: "Bangs", value: "Try-on", photo: STYLE_PHOTOS.locs, href: "/fuller" },
+  { name: "Colour", api: "Hair Color", value: "Try-on", photo: STYLE_PHOTOS["box-braids"], href: "/fuller" },
+  { name: "Gentler styles", api: "Hairstyle Generator", value: "Try-on", photo: STYLE_PHOTOS.knotless, href: "/plan" },
+];
 
 function Marquee({ words, tone, dir = 1, tilt }: { words: string[]; tone: "crimson" | "cream" | "sun"; dir?: 1 | -1; tilt: number }) {
   // Two copies of the run, so the strip can loop seamlessly at -50%.
@@ -205,35 +202,31 @@ export default function Home() {
 
       <Wave from="var(--teal)" to="var(--paper)" flip />
 
-      {/* ---------------------------------------------------------- Card rail */}
+      {/* ---------------------------------------------------------- Card rail: every reading */}
       <section className={s.rail} data-rail>
         <div className={`wrap ${s.railHead}`}>
-          <h2 className={s.h2}>Same look. Less pull.</h2>
+          <h2 className={s.h2}>One check-in. Ten readings.</h2>
         </div>
         <p className={s.ghost} data-ghost aria-hidden="true">
-          less pull · less pull
+          ten readings · ten readings
         </p>
         <div className={s.track} data-track>
-          {STYLES.map((st, i) => {
-            const lv = level(st.tension);
-            return (
-              <Link key={st.id} href={`/plan?want=${st.id}`} className={s.cardSlot} data-low={i % 2 === 1}>
-                <span className={`data ${s.cardNum}`}>{String(i + 1).padStart(2, "0")}</span>
-                <span className={s.card} data-card={i % 2 ? "odd" : "even"}>
-                  <span className={s.cardPhoto}>
-                    <StylePhoto photo={STYLE_PHOTOS[st.id]} sizes="(max-width: 760px) 70vw, 380px" />
-                  </span>
-                  <span className={s.cardPull} data-level={lv}>
-                    {LEVEL_WORD[lv]}
-                  </span>
-                  <span className={s.cardName}>{SHORT[st.id]}</span>
+          {READINGS.map((r, i) => (
+            <Link key={r.name} href={r.href} className={s.cardSlot} data-low={i % 2 === 1}>
+              <span className={`data ${s.cardNum}`}>{String(i + 1).padStart(2, "0")}</span>
+              <span className={s.card} data-card={i % 2 ? "odd" : "even"}>
+                <span className={s.cardPhoto}>
+                  <StylePhoto photo={r.photo} sizes="(max-width: 760px) 70vw, 380px" position={r.position} />
                 </span>
-              </Link>
-            );
-          })}
-          <Link href="/plan" className={s.railEnd}>
-            <span>Plan your next style</span>
-            <small>with try-on →</small>
+                <span className={s.cardApi}>{r.api}</span>
+                <span className={`data ${s.cardValue}`}>{r.value}</span>
+                <span className={s.cardName}>{r.name}</span>
+              </span>
+            </Link>
+          ))}
+          <Link href="/check" className={s.railEnd}>
+            <span>Start tracking</span>
+            <small>two minutes →</small>
           </Link>
         </div>
       </section>

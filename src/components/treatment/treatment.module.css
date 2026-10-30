@@ -762,3 +762,12 @@
     grid-template-columns: 1fr;
   }
 }
+
+.missed {
+  justify-self: start;
+  padding: 8px 14px;
+  border-radius: 14px;
+  background: var(--crimson);
+  color: var(--white);
+  font-weight: 700;
+}

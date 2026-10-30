@@ -4,21 +4,33 @@ import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { STYLES, type CheckIn, type DensityTerm, type StyleId, type Symptoms } from "@/lib/edges";
 import { history } from "@/lib/history";
-import { makeThumb, thumbStore } from "@/lib/plan";
+import { makeThumb, planStore, thumbStore } from "@/lib/plan";
 import { prepareImage, type Prepared } from "@/lib/image-client";
 import { STYLE_PHOTOS } from "@/lib/photos";
 import { PoseGuide } from "./PoseGuide";
 import { StylePhoto } from "./StylePhoto";
 import { TensionMeter } from "./TensionMeter";
+import { PlanSetup } from "./treatment/TreatmentReport";
 import styles from "./ui.module.css";
 
 type Slot = "tiltA" | "tiltB" | "front" | "right" | "left";
-const STEPS = ["About", "Style", "Feel", "Photos"] as const;
+type StepName = "about" | "style" | "feel" | "month" | "photos";
+const TRACTION_STEPS: StepName[] = ["about", "style", "feel", "photos"];
+const TREATMENT_STEPS: StepName[] = ["about", "month", "photos"];
 const STAGES = ["Uploading photos", "Reading hairline density (take 1)", "Reading hairline density (take 2)", "Measuring hairline height and length", "Comparing with your history"];
 
 export function CheckInFlow() {
   const router = useRouter();
+  const plan = planStore.use();
+  // Braid and install questions only matter for traction hair loss.
+  const traction = Boolean(plan?.items.some((i) => i.id === "gentler-styles"));
+  const STEPS = traction ? TRACTION_STEPS : TREATMENT_STEPS;
   const [step, setStep] = useState(0);
+  const at = STEPS[Math.min(step, STEPS.length - 1)];
+  const go = (name: StepName) => setStep(STEPS.indexOf(name));
+  const [missedDays, setMissedDays] = useState(0);
+  const [shedding, setShedding] = useState(false);
+  const [irritation, setIrritation] = useState(false);
   const [style, setStyle] = useState<StyleId>("box-braids");
   const [weeks, setWeeks] = useState(4);
   const [extensions, setExtensions] = useState(true);
@@ -98,8 +110,9 @@ export function CheckInFlow() {
         skin: j.skin,
         upperThird: j.upperThird,
         frizz: j.frizz,
-        style: { style, weeks, extensions, relaxed },
-        symptoms,
+        style: traction ? { style, weeks, extensions, relaxed } : { style: "out", weeks: 0, extensions: false, relaxed: false },
+        symptoms: traction ? symptoms : { tightSigns: false, brokenEdges: false, crownItch: symptoms.crownItch },
+        adherence: traction ? undefined : { missedDays, shedding, irritation },
         demo: j.mode === "demo",
       };
       history.add(entry);
@@ -144,29 +157,59 @@ export function CheckInFlow() {
 
   return (
     <div ref={top} style={{ display: "grid", gap: "var(--s-5)", scrollMarginTop: 100 }}>
-      <ol className={styles.progress} aria-label={`Step ${step + 1} of ${STEPS.length}: ${STEPS[step]}`}>
+      <ol className={styles.progress} aria-label={`Step ${step + 1} of ${STEPS.length}`}>
         {STEPS.map((label, i) => (
           <li key={label} data-on={i <= step} />
         ))}
       </ol>
-      {error && step !== 3 ? <p className={styles.error} role="alert">{error}</p> : null}
+      {error && at !== "photos" ? <p className={styles.error} role="alert">{error}</p> : null}
 
-      {step === 0 && (
+      {at === "about" && !plan ? <PlanSetup /> : null}
+
+      {at === "about" && plan ? (
         <section className={styles.panel}>
           <h2>Two minutes, once a month.</h2>
           <ul className={styles.list}>
-            <li>You&rsquo;ll answer three quick questions about how you wear your hair, then take two photos of your hairline with your head lowered about 45°.</li>
-            <li>YouCam measures your hairline density from the photos. edge.wise compares it with where you started, so you can see whether your treatment is working.</li>
-            <li>Photos go to YouCam for this check-in only; edge.wise keeps no copy on its servers. A small thumbnail stays on this phone so you can compare months side by side.</li>
-            <li>edge.wise doesn&rsquo;t diagnose. If something looks wrong, it&rsquo;ll tell you to see a dermatologist.</li>
+            <li>{traction ? "Three questions about your current style." : "Two questions about this month."} Then two hairline photos, head lowered about 45°.</li>
+            <li>Photos go to YouCam for this check-in only. A small thumbnail stays on this phone.</li>
           </ul>
           <button className="btn btn-primary" style={{ justifySelf: "start" }} onClick={() => setStep(1)}>
             Start
           </button>
         </section>
+      ) : null}
+
+      {at === "month" && (
+        <section className={styles.panel}>
+          <h2>This month</h2>
+          <div className={styles.row}>
+            <span>Days you missed your treatment</span>
+            <div className={styles.stepper}>
+              <button aria-label="Fewer days" onClick={() => setMissedDays((d) => Math.max(0, d - 1))}>−</button>
+              <output aria-live="polite">{missedDays} {missedDays === 1 ? "day" : "days"}</output>
+              <button aria-label="More days" onClick={() => setMissedDays((d) => Math.min(31, d + 1))}>+</button>
+            </div>
+          </div>
+          <label className={styles.toggle}>
+            <input type="checkbox" checked={shedding} onChange={(e) => setShedding(e.target.checked)} />
+            <span>More shedding than usual</span>
+          </label>
+          <label className={styles.toggle}>
+            <input type="checkbox" checked={irritation} onChange={(e) => setIrritation(e.target.checked)} />
+            <span>Itching, redness or flaking where you apply it</span>
+          </label>
+          <label className={styles.toggle}>
+            <input type="checkbox" checked={symptoms.crownItch} onChange={(e) => setSymptoms({ ...symptoms, crownItch: e.target.checked })} />
+            <span>Burning or tenderness on the top of your head</span>
+          </label>
+          <div className={styles.row}>
+            <button className="btn btn-ghost" onClick={() => go("about")}>Back</button>
+            <button className="btn btn-primary" onClick={() => go("photos")}>Next</button>
+          </div>
+        </section>
       )}
 
-      {step === 1 && (
+      {at === "style" && (
         <section className={styles.panel}>
           <h2>What&rsquo;s in your hair right now?</h2>
           <div className={styles.options} role="radiogroup" aria-label="Current style">
@@ -193,56 +236,51 @@ export function CheckInFlow() {
               <input type="checkbox" checked={extensions} onChange={(e) => setExtensions(e.target.checked)} />
               <span>
                 Added hair or extensions
-                <small>Extra weight pulls on the root.</small>
               </span>
             </label>
             <label className={styles.toggle}>
               <input type="checkbox" checked={relaxed} onChange={(e) => setRelaxed(e.target.checked)} />
               <span>
                 Relaxed or permed hair underneath
-                <small>Dermatologists say extensions are riskier on chemically treated hair.</small>
               </span>
             </label>
           </div>
           <div className={styles.row}>
-            <button className="btn btn-ghost" onClick={() => setStep(0)}>Back</button>
-            <button className="btn btn-primary" onClick={() => setStep(2)}>Next</button>
+            <button className="btn btn-ghost" onClick={() => go("about")}>Back</button>
+            <button className="btn btn-primary" onClick={() => go("feel")}>Next</button>
           </div>
         </section>
       )}
 
-      {step === 2 && (
+      {at === "feel" && (
         <section className={styles.panel}>
           <h2>How does it feel?</h2>
           <label className={styles.toggle}>
             <input type="checkbox" checked={symptoms.tightSigns} onChange={(e) => setSymptoms({ ...symptoms, tightSigns: e.target.checked })} />
             <span>
               Pain, stinging, small bumps, or skin pulled up like a tent
-              <small>Dermatologists say these mean a style is too tight.</small>
             </span>
           </label>
           <label className={styles.toggle}>
             <input type="checkbox" checked={symptoms.brokenEdges} onChange={(e) => setSymptoms({ ...symptoms, brokenEdges: e.target.checked })} />
             <span>
               Broken hairs or a receding line at the front or temples
-              <small>Early signs worth tracking.</small>
             </span>
           </label>
           <label className={styles.toggle}>
             <input type="checkbox" checked={symptoms.crownItch} onChange={(e) => setSymptoms({ ...symptoms, crownItch: e.target.checked })} />
             <span>
               Itching, tingling or tenderness on the top of your head
-              <small>This can point to a different kind of hair loss, so we&rsquo;ll suggest a dermatologist.</small>
             </span>
           </label>
           <div className={styles.row}>
-            <button className="btn btn-ghost" onClick={() => setStep(1)}>Back</button>
-            <button className="btn btn-primary" onClick={() => setStep(3)}>Next</button>
+            <button className="btn btn-ghost" onClick={() => go("style")}>Back</button>
+            <button className="btn btn-primary" onClick={() => go("photos")}>Next</button>
           </div>
         </section>
       )}
 
-      {step === 3 && (
+      {at === "photos" && (
         <section className={styles.panel}>
           <h2>Your hairline, twice.</h2>
           <p className={styles.sub}>
@@ -258,7 +296,6 @@ export function CheckInFlow() {
               <input type="checkbox" checked={skinCheck} onChange={(e) => setSkinCheck(e.target.checked)} />
               <span>
                 <strong>Also check my skin for irritation</strong>
-                
               </span>
             </label>
           ) : null}
@@ -282,7 +319,7 @@ export function CheckInFlow() {
             </div>
           ) : (
             <div className={styles.row}>
-              <button className="btn btn-ghost" onClick={() => setStep(2)}>Back</button>
+              <button className="btn btn-ghost" onClick={() => setStep(step - 1)}>Back</button>
               <button className="btn btn-primary" disabled={!photos.tiltA} onClick={submit}>
                 {photos.tiltA ? "Measure my hairline" : "Add a hairline photo"}
               </button>

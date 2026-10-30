@@ -89,6 +89,8 @@ export type CheckIn = {
   skin?: Partial<Record<"redness" | "moisture" | "acne" | "texture", number>>;
   /** YouCam Face Analyzer: top third of the face (hairline to brows), % of face height. */
   upperThird?: number;
+  /** For treatment users: this month's adherence and side effects. */
+  adherence?: { missedDays: number; shedding: boolean; irritation: boolean };
   /** YouCam Hair Frizziness Detection, 0–3. */
   frizz?: { mapping: number; term: string };
   style: StyleLog;

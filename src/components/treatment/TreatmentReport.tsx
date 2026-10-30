@@ -103,6 +103,7 @@ function Report() {
   const [editing, setEditing] = useState(false);
   const p = useMemo(() => progress(list, plan), [list, plan]);
   const hl = useMemo(() => hairlineHeight(list), [list]);
+  const lastAdh = [...list].sort((a, b) => a.date.localeCompare(b.date)).at(-1)?.adherence;
 
   if (!plan || editing) return <PlanSetup initial={plan} onDone={() => setEditing(false)} />;
 
@@ -121,6 +122,7 @@ function Report() {
         </div>
         <h2>{p.headline}</h2>
         <p>{p.body}</p>
+        {lastAdh && lastAdh.missedDays >= 5 ? <p className={s.missed}>Missed {lastAdh.missedDays} days last month. Gaps slow results.</p> : null}
         {p.change !== null ? (
           <div className={s.nums}>
             <span>

@@ -37,6 +37,15 @@ export function picks(list: CheckIn[], plan: Plan | null): Pick[] {
   for (const a of skin?.advice ?? []) if (a.products.length) out.push({ reason: a.title, products: a.products, source: "Skin Analysis" });
 
   const latest = [...list].sort((a, b) => a.date.localeCompare(b.date)).at(-1);
+  // Reported irritation counts even without a skin reading.
+  if (latest?.adherence?.irritation && !out.some((x) => x.products.includes("gentle-moisturizer"))) {
+    const minox = plan?.items.some((i) => i.id === "minoxidil-topical");
+    out.push({
+      reason: minox ? "Irritation you reported: try the foam instead of the solution" : "Irritation you reported",
+      products: minox ? ["minox-foam-5", "gentle-moisturizer"] : ["gentle-moisturizer"],
+      source: "Your check-in",
+    });
+  }
   if (latest?.frizz && latest.frizz.mapping >= 2) {
     out.push({ reason: `${latest.frizz.term}: breakage can look like thinning`, products: ["bond-repair", "satin-bonnet"], source: "Hair Frizziness" });
   }

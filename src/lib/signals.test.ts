@@ -23,6 +23,11 @@ describe("picks", () => {
   it("suggests fibers while density is low", () => {
     expect(picks([ci("2026-06-01", 1.3)], null).some((p) => p.products.includes("hair-fibers"))).toBe(true);
   });
+  it("turns reported irritation on minoxidil into the foam swap", () => {
+    const c = { ...ci("2026-06-01", 1.9), adherence: { missedDays: 0, shedding: false, irritation: true } };
+    const plan = { items: [{ id: "minoxidil-topical" as const, start: "2026-01-01" }] };
+    expect(picks([c], plan)[0].products).toContain("minox-foam-5");
+  });
   it("gives the sample a skin swap and a breakage pick", () => {
     const d = demoTreatment(new Date("2026-10-30"));
     const p = picks(d.list, d.plan).map((x) => x.source);
