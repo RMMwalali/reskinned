@@ -6,6 +6,7 @@ import { assess, buildCard, encodeCard, styleById } from "@/lib/edges";
 import { history, useHistory } from "@/lib/history";
 import { planStore } from "@/lib/plan";
 import { Routine } from "./treatment/Routine";
+import { SkinPanel } from "./treatment/SkinPanel";
 import { TreatmentReport } from "./treatment/TreatmentReport";
 import { TensionMeter } from "./TensionMeter";
 import { TrendChart } from "./TrendChart";
@@ -17,6 +18,7 @@ export function Dashboard() {
   return (
     <div style={{ display: "grid", gap: "var(--s-5)" }}>
       <TreatmentReport />
+      <SkinPanel />
       <Routine />
       <Hairline />
     </div>

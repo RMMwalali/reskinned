@@ -29,6 +29,7 @@ export const PRODUCTS: Product[] = [
   { id: "prp-session", name: "PRP session", detail: "Partner clinic · 45 min", price: 450, supplyDays: null, for: ["prp"], buy: "book" },
   { id: "microneedle-session", name: "Microneedling session", detail: "Partner clinic · 30 min", price: 180, supplyDays: null, for: ["microneedling"], buy: "book" },
   { id: "laser-cap", name: "Laser cap", detail: "Home device · 3 sessions a week", price: 399, supplyDays: null, for: ["laser"], buy: "cart" },
+  { id: "gentle-moisturizer", name: "Fragrance-free moisturizer", detail: "For skin along the hairline · 100 ml", price: 14, supplyDays: 60, for: [], buy: "cart" },
   { id: "satin-bonnet", name: "Satin bonnet", detail: "Less friction at night", price: 18, supplyDays: null, for: ["gentler-styles", "minoxidil-topical"], buy: "cart" },
   { id: "glueless-cap", name: "Glueless wig grip band", detail: "Holds a wig without glue on the hairline", price: 14, supplyDays: null, for: ["gentler-styles"], buy: "cart" },
   { id: "soft-brush", name: "Soft edge brush", detail: "Lays edges without tugging", price: 9, supplyDays: null, for: ["gentler-styles"], buy: "cart" },

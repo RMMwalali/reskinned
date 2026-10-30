@@ -100,7 +100,7 @@ export default function Home() {
 
       <div className={s.ribbons}>
         <Marquee tone="crimson" tilt={-3} words={["Know if it’s working", "Don’t quit at month three", "Measured, not guessed", "Never run out"]} />
-        <Marquee tone="cream" tilt={2} dir={-1} words={["Hair Density Detection", "Hair Length Detection", "Hair Type Detection", "Hairstyle Try-On", "Built on YouCam AI", "Minoxidil", "Finasteride", "PRP", "Traction"]} />
+        <Marquee tone="cream" tilt={2} dir={-1} words={["Hair Density Detection", "Skin Analysis", "Hair Length Detection", "Hair Type Detection", "Hairstyle Try-On", "Built on YouCam AI", "Minoxidil", "Finasteride", "PRP", "Traction"]} />
       </div>
 
       {/* ---------------------------------------------------------- Problem */}

@@ -494,3 +494,86 @@
     grid-template-columns: minmax(0, 1fr) auto;
   }
 }
+
+/* ---------------------------------------------------------------- skin */
+.skinGrid {
+  display: grid;
+  gap: 12px;
+}
+.skinRow {
+  display: grid;
+  grid-template-columns: 170px minmax(0, 1fr) 80px;
+  gap: var(--s-4);
+  align-items: center;
+}
+.skinName {
+  font: 700 1rem/1.1 var(--font-cond);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+.skinBar {
+  position: relative;
+  height: 16px;
+  border-radius: 999px;
+  background: var(--cream-2);
+}
+.skinBar b {
+  position: absolute;
+  inset: 0 auto 0 0;
+  border-radius: 999px;
+  background: var(--teal);
+}
+.skinRow[data-bad="true"] .skinBar b {
+  background: var(--crimson);
+}
+.skinWas {
+  position: absolute;
+  z-index: 1;
+  top: -5px;
+  bottom: -5px;
+  width: 3px;
+  translate: -50% 0;
+  border-radius: 3px;
+  background: var(--ink);
+}
+.skinNum {
+  font-size: 1.4rem;
+  font-weight: 700;
+  text-align: right;
+}
+.skinNum small {
+  font-size: 0.95rem;
+  color: var(--ink-3);
+}
+.skinRow[data-bad="true"] .skinNum small {
+  color: var(--crimson);
+}
+.advice {
+  display: grid;
+  gap: 8px;
+  padding: 18px 20px;
+  border-radius: 20px;
+  background: var(--lilac);
+  border-left: 8px solid var(--crimson);
+}
+.advice b {
+  font: 900 1.4rem/1 var(--font-display);
+  font-stretch: 76%;
+  text-transform: uppercase;
+  color: var(--crimson);
+}
+.advice :global(.btn) {
+  min-height: 44px;
+  font-size: 0.95rem;
+}
+
+@media (max-width: 640px) {
+  .skinRow {
+    grid-template-columns: minmax(0, 1fr) 70px;
+    gap: 6px 12px;
+  }
+  .skinBar {
+    grid-column: 1 / -1;
+    grid-row: 2;
+  }
+}

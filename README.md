@@ -19,6 +19,7 @@ Built for the [YouCam API Skin AI & eCommerce Hackathon](https://youcam-api-skin
 | **Plan** (`/dashboard`) | Pick your treatments (minoxidil, finasteride, spironolactone, PRP, microneedling, laser, ketoconazole, gentler styles) and start dates. |
 | **Check in monthly** (`/check`) | Two hairline photos, head lowered 45°. YouCam **Hair Density Detection** runs on both takes; the gap between them flags unreliable readings. **Hair Length** and **Hair Type Detection** add context. |
 | **Progress report** | Baseline, change, month on treatment and the results window. Verdicts: *Started / On track / Early dip / Holding / Working / Talk to your prescriber*. A nudge through the months when most people quit. Side-by-side thumbnails kept only on the phone. |
+| **Skin check** | Optional: YouCam **AI Skin Analysis** (redness, moisture, breakouts, texture) on the front photo each month. Irritation rising on minoxidil solution suggests the propylene-glycol-free foam and a fragrance-free moisturizer, one tap into the cart. |
 | **Routine shop** | Run-out reminders and a cart with the partner brand's products; prescription items route to the prescriber, clinic treatments to booking. Demo checkout, clearly labelled. |
 | **For brands** (`/brands`) | The retention case, pricing and an ROI calculator. |
 | **Gentler styles** (`/plan`, `/card/…`) | For traction hair loss: gentler versions of a style with **YouCam Hairstyle Generator** try-on, and a stylist card. |

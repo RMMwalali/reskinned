@@ -11,6 +11,7 @@ const PIPELINE = [
   ["YouCam Hair Density Detection ×2", "Two hairline photos, head tilted down", "Hairline density 0–3 per take. edge.wise averages them and uses the gap between them to judge reliability.", "1 unit each"],
   ["YouCam Hair Length Detection", "Front photo (optional)", "Length band. Longer, heavier installs pull harder on the root.", "2 units"],
   ["YouCam Hair Type Detection", "Front + both sides (optional)", "Curl pattern, 1 to 4c, recorded with each check-in.", "2 units"],
+  ["YouCam AI Skin Analysis", "Front photo (optional)", "Redness, moisture, breakouts and texture, 1–100. Compared with your first skin reading to catch treatment irritation; a fall of 10+ points is flagged.", "9 units"],
   ["edge.wise trend engine", "Your check-in history", "Baseline (median of your first readings), change vs baseline, consecutive declines.", "on device"],
   ["edge.wise treatment model", "Your treatments and start dates", "Where you are against the usual results window: early, holding, working, or time to see your prescriber.", "on device"],
   ["edge.wise tension model", "Styles worn, weeks, extensions, relaxer, symptoms", "Tension load over 6 months, with recent styles weighted more.", "on device"],
@@ -51,7 +52,7 @@ export default function MethodPage() {
             </article>
           ))}
         </div>
-        <p className={styles.small}>A full check-in costs at most 7 YouCam units. The server checks the balance first and switches to a clearly labelled demo reading if it runs out.</p>
+        <p className={styles.small}>A full check-in costs at most 7 YouCam units, or 16 with the skin check. The server checks the balance first and switches to a clearly labelled demo reading if it runs out.</p>
       </section>
 
       <section className={styles.panel}>
@@ -114,6 +115,7 @@ export default function MethodPage() {
         <h2>Known limits</h2>
         <ul className={styles.list}>
           <li>edge.wise is a cosmetic tracker, not a medical device. It never names a condition as yours, and it doesn&rsquo;t judge whether a treatment works for you medically; your prescriber does.</li>
+          <li>The skin check reads the whole face, not the scalp, so it&rsquo;s a signal to look closer, not a measurement of scalp irritation.</li>
           <li>YouCam&rsquo;s density score is coarse (0 to 3). Month-to-month changes are small, so edge.wise looks at the trend across months, not single readings.</li>
           <li>The ±{NOISE} noise band is an assumption until calibrated against repeated real scans. The two-take check exists because of this.</li>
           <li>YouCam&rsquo;s density reading depends on light, angle and how the hair is worn. Compare like with like: same light, hair pushed back.</li>

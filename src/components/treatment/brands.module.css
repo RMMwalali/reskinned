@@ -178,3 +178,125 @@
     grid-template-columns: 1fr;
   }
 }
+
+/* ---------------------------------------------------------------- portal */
+.sampleBar {
+  justify-self: start;
+  padding: 6px 12px;
+  border-radius: 999px;
+  background: var(--saffron);
+  color: var(--crimson-d) !important;
+  font: 700 0.9rem/1.2 var(--font-cond) !important;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+.kpis {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: var(--s-4);
+}
+.kpis > div {
+  display: grid;
+  gap: 4px;
+  align-content: start;
+  padding: 20px;
+  border-radius: 22px;
+  background: var(--white);
+  border: 2px solid var(--ink);
+}
+.kpis > div[data-tone="crimson"] {
+  background: var(--crimson);
+  border-color: var(--crimson);
+  color: var(--white);
+}
+.kpis > div[data-tone="sun"] {
+  background: var(--saffron);
+  border-color: var(--crimson-d);
+  color: var(--crimson-d);
+}
+.kpis span {
+  font: 700 0.9rem/1.1 var(--font-cond);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+.kpis b {
+  font-size: clamp(2.4rem, 1.8rem + 2vw, 3.4rem);
+  font-weight: 700;
+  line-height: 1;
+}
+.riskList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+}
+.riskList li {
+  display: grid;
+  grid-template-columns: 70px minmax(0, 1fr) auto;
+  gap: var(--s-4);
+  align-items: center;
+  padding: 14px 0;
+  border-top: 1px solid var(--line);
+}
+.riskScore {
+  display: grid;
+  place-items: center;
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: var(--saffron);
+  color: var(--crimson-d);
+  line-height: 1;
+}
+.riskScore[data-high="true"] {
+  background: var(--crimson);
+  color: var(--white);
+}
+.riskScore b {
+  font-size: 1.6rem;
+}
+.riskScore small {
+  font: 700 0.7rem/1 var(--font-cond);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+.riskWho {
+  display: grid;
+  gap: 4px;
+}
+.riskWho > b {
+  font: 800 1.15rem/1 var(--font-display);
+  font-stretch: 85%;
+}
+.riskWho > small {
+  color: var(--ink-2);
+}
+.reasons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.reasons i {
+  font-style: normal;
+  font-size: 0.8rem;
+  padding: 3px 8px;
+  border-radius: 999px;
+  background: var(--cream-2);
+}
+
+@media (max-width: 860px) {
+  .kpis {
+    grid-template-columns: 1fr 1fr;
+  }
+  .riskList li {
+    grid-template-columns: 56px minmax(0, 1fr);
+  }
+  .riskList li > :last-child {
+    grid-column: 1 / -1;
+    justify-items: start !important;
+  }
+  .riskScore {
+    width: 52px;
+    height: 52px;
+  }
+}

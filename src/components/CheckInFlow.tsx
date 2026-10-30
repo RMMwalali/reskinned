@@ -29,6 +29,7 @@ export function CheckInFlow() {
   const [sending, setSending] = useState(false);
   const [stage, setStage] = useState(0);
   const [error, setError] = useState<string | null>(null);
+  const [skinCheck, setSkinCheck] = useState(true);
   const top = useRef<HTMLDivElement>(null);
   const first = useRef(true);
 
@@ -70,6 +71,7 @@ export function CheckInFlow() {
     setError(null);
     const fd = new FormData();
     (Object.keys(photos) as Slot[]).forEach((k) => fd.set(k, photos[k]!.blob, `${k}.jpg`));
+    if (skinCheck && photos.front) fd.set("skin", "1");
     try {
       const res = await fetch("/api/checkin", { method: "POST", body: fd, signal: AbortSignal.timeout(150_000) });
       const j = (await res.json().catch(() => ({ error: res.status === 504 ? "YouCam took too long to answer. Please try again." : `The check-in failed (error ${res.status}). Please try again.` }))) as {
@@ -79,6 +81,7 @@ export function CheckInFlow() {
         term: DensityTerm;
         length?: string;
         hairType?: string;
+        skin?: CheckIn["skin"];
         error?: string;
       };
       if (!res.ok) throw new Error(j.error ?? "The check-in failed. Please try again.");
@@ -90,6 +93,7 @@ export function CheckInFlow() {
         term: j.term,
         length: j.length,
         hairType: j.hairType,
+        skin: j.skin,
         style: { style, weeks, extensions, relaxed },
         symptoms,
         demo: j.mode === "demo",
@@ -246,8 +250,17 @@ export function CheckInFlow() {
           <div className={styles.photos}>
             {slot("tiltA", "Hairline, take 1", "Face the camera, then lower your head about 45°.", "tilt", true)}
             {slot("tiltB", "Hairline, take 2", "Same again. A steady reading needs both.", "tilt")}
-            {slot("front", "Front", "Looking straight ahead, hair down. Adds length.", "front")}
+            {slot("front", "Front", "Looking straight ahead, face filling most of the frame. Adds length and the skin check.", "front")}
           </div>
+          {photos.front ? (
+            <label className={styles.toggle}>
+              <input type="checkbox" checked={skinCheck} onChange={(e) => setSkinCheck(e.target.checked)} />
+              <span>
+                <strong>Also check my skin for irritation</strong>
+                <small>YouCam Skin AI scores redness, dryness, breakouts and texture. Some treatments irritate the skin along the hairline; edge.wise watches for it month to month.</small>
+              </span>
+            </label>
+          ) : null}
           <details>
             <summary style={{ cursor: "pointer", fontWeight: 600 }}>Add side photos for your curl pattern</summary>
             <div className={styles.photos} style={{ marginTop: "var(--s-3)" }}>

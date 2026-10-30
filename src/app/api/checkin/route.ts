@@ -7,6 +7,9 @@ export const maxDuration = 120;
 // can measure how repeatable the reading is), plus Hair Length on the front
 // photo and, if side photos are given, Hair Type. At most 7 units.
 const UNITS = 7;
+// Skin Analysis (SD, 4 concerns) on the front photo: 9 units, only when asked.
+const SKIN_UNITS = 9;
+const SKIN_ACTIONS = ["redness", "moisture", "acne", "texture"];
 
 type Failure = { feature: string; code: string; message: string };
 
@@ -28,12 +31,13 @@ export async function POST(req: Request) {
     return Response.json({ error: "Photos must be under 10 MB." }, { status: 413 });
   }
   if (!tiltA) return Response.json({ error: "A hairline photo is required." }, { status: 400 });
+  const wantSkin = form.get("skin") === "1" && Boolean(front);
 
   let demoReason: string | null = null;
   if (!hasKey()) demoReason = "No YouCam API key is configured on this deployment.";
   else {
     const units = await getCredit();
-    if (units !== null && units < UNITS) demoReason = `The API budget is below one check-in (${units} units left).`;
+    if (units !== null && units < UNITS + (wantSkin ? SKIN_UNITS : 0)) demoReason = `The API budget is below one check-in (${units} units left).`;
   }
 
   if (demoReason) {
@@ -47,6 +51,7 @@ export async function POST(req: Request) {
       term: termFor(density),
       length: front ? "above chest" : undefined,
       hairType: right && left ? "4a to 4b · Kinky Soft to Coily" : undefined,
+      skin: wantSkin ? { redness: 74, moisture: 66, acne: 82, texture: 69 } : undefined,
       failures: [],
     });
   }
@@ -74,7 +79,7 @@ export async function POST(req: Request) {
       return { value: Number(r.hair_density.mapping), term: r.hair_density.term };
     });
 
-  const [d1, d2, len, type] = await Promise.all([
+  const [d1, d2, len, type, skin] = await Promise.all([
     density(tiltA),
     tiltB ? density(tiltB) : Promise.resolve(null),
     front
@@ -89,6 +94,18 @@ export async function POST(req: Request) {
           const ids = await Promise.all([front, right, left].map((f) => uploadImage(f.bytes, f.type, "hair-type-detection")));
           const r = await runTask<{ hair_type: { mapping: string; term: string } }>("hair-type-detection", { src_file_ids: ids });
           return `${r.hair_type.mapping} · ${r.hair_type.term}`;
+        })
+      : Promise.resolve(null),
+    wantSkin && front
+      ? attempt("skin", async () => {
+          const id = await uploadImage(front.bytes, front.type, "skin-analysis");
+          const r = await runTask<{ output: { type: string; ui_score: number }[] }>("skin-analysis", {
+            src_file_id: id,
+            dst_actions: SKIN_ACTIONS,
+            miniserver_args: { enable_mask_overlay: false },
+            format: "json",
+          });
+          return Object.fromEntries(r.output.filter((o) => SKIN_ACTIONS.includes(o.type)).map((o) => [o.type, Math.round(o.ui_score)]));
         })
       : Promise.resolve(null),
   ]);
@@ -106,6 +123,7 @@ export async function POST(req: Request) {
     term: readings.length > 1 && readings[0].term !== readings[1].term ? termFor(avg) : readings[0].term,
     length: len ?? undefined,
     hairType: type ?? undefined,
+    skin: skin ?? undefined,
     failures,
   });
 }

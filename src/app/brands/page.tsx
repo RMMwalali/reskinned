@@ -28,7 +28,8 @@ export default function BrandsPage() {
           Hair-loss treatment is a subscription business, and its biggest leak is people quitting before results show. edge.wise gives each subscriber a measured, monthly progress report inside your product, with your shop one tap away.
         </p>
         <div className={ui.row}>
-          <Link className="btn btn-primary" href="/dashboard">Try the subscriber view</Link>
+          <Link className="btn btn-primary" href="/brands/portal">See the partner portal</Link>
+          <Link className="btn btn-ghost" href="/dashboard">Try the subscriber view</Link>
           <Link className="btn btn-ghost" href="/method">How it measures</Link>
         </div>
       </header>

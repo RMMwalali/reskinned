@@ -85,6 +85,8 @@ export type CheckIn = {
   term: DensityTerm;
   length?: string;
   hairType?: string;
+  /** YouCam Skin Analysis scores (1–100, higher is healthier), when a front photo was checked. */
+  skin?: Partial<Record<"redness" | "moisture" | "acne" | "texture", number>>;
   style: StyleLog;
   symptoms: Symptoms;
   demo?: boolean;
