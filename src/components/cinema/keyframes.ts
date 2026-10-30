@@ -21,7 +21,7 @@ const hid = (pos: V3): Placed => ({ pos, n: [pos[0] * 0.2, 1.6, pos[2]], scale: 
 export const KEYS: Key[] = [
   // 0 hero — a full, healthy hairline
   {
-    hairline: { pos: [2.45, -0.35, 0], n: [0, 1.35, 0], scale: 1, vis: 1, pull: 0, thin: 0 },
+    hairline: { pos: [2.45, -0.35, 0], n: [0, 2.05, 0], scale: 1, vis: 1, pull: 0, thin: 0 },
     cards: { ...hid([2.6, 0, -2]), spread: 0 },
     gauge: { ...hid([2.6, 0, -2]), fill: 0 },
     chart: { ...hid([2.6, 0, -2]), reveal: 0 },
@@ -30,7 +30,7 @@ export const KEYS: Key[] = [
   },
   // 1 problem — tension pulls, then the temples thin
   {
-    hairline: { pos: [-2.5, -0.3, 0], n: [0, 1.4, 0], scale: 1.05, vis: 1, pull: "up", thin: "up" },
+    hairline: { pos: [-2.5, -0.3, 0], n: [0, 2.1, 0], scale: 1.05, vis: 1, pull: "up", thin: "up" },
     cards: { ...hid([2.6, 0, -2]), spread: 0 },
     gauge: { ...hid([2.6, 0, -2]), fill: 0 },
     chart: { ...hid([2.6, 0, -2]), reveal: 0 },
@@ -40,8 +40,8 @@ export const KEYS: Key[] = [
   // 2 check-in — two hairline photos, density gauge fills
   {
     hairline: { pos: [2.6, -0.3, -2.5], n: [0, 1.4, -2.5], scale: 0.4, vis: 0, pull: 1, thin: 0.85 },
-    cards: { pos: [1.85, 0.25, -0.4], n: [-0.55, 1.75, -0.4], scale: 0.95, vis: 1, spread: 1 },
-    gauge: { pos: [3.75, -0.55, 0.6], n: [0.85, 1.35, 0.6], scale: 0.75, vis: 1, fill: "up" },
+    cards: { pos: [1.85, 0.25, -0.4], n: [-0.5, 2.55, -0.4], scale: 1.2, vis: 1, spread: 1 },
+    gauge: { pos: [3.75, -0.55, 0.6], n: [0.95, 2.2, 0.6], scale: 0.75, vis: 1, fill: "up" },
     chart: { ...hid([2.6, 0, -2]), reveal: 0 },
     bars: { ...hid([2.6, -0.6, -2]), sort: 0 },
     glow: { pos: [2.6, 0, -2.5], n: [0, 1.6, -2.5], scale: 8, opacity: 0.85 },
@@ -51,7 +51,7 @@ export const KEYS: Key[] = [
     hairline: { pos: [2.6, -0.3, -2.5], n: [0, 1.4, -2.5], scale: 0.4, vis: 0, pull: 0, thin: 0 },
     cards: { pos: [2.4, 0, -2.5], n: [0, 1.6, -2.5], scale: 0.5, vis: 0, spread: 0 },
     gauge: { pos: [2.6, 0, -2.5], n: [0, 1.6, -2.5], scale: 0.4, vis: 0, fill: 1 },
-    chart: { pos: [2.5, -0.05, 0], n: [0, 1.6, 0], scale: 1, vis: 1, reveal: "up" },
+    chart: { pos: [2.5, -0.05, 0], n: [0, 2.45, 0], scale: 1, vis: 1, reveal: "up" },
     bars: { ...hid([2.6, -0.6, -2]), sort: 0 },
     glow: { pos: [2.5, 0, -2.5], n: [0, 1.6, -2.5], scale: 8, opacity: 0.9 },
   },
@@ -61,7 +61,7 @@ export const KEYS: Key[] = [
     cards: { pos: [2.4, 0, -2.5], n: [0, 1.6, -2.5], scale: 0.5, vis: 0, spread: 0 },
     gauge: { pos: [2.6, 0, -2.5], n: [0, 1.6, -2.5], scale: 0.4, vis: 0, fill: 1 },
     chart: { pos: [2.5, 0, -2.5], n: [0, 1.6, -2.5], scale: 0.5, vis: 0, reveal: 1 },
-    bars: { pos: [2.45, -0.75, 0], n: [0, 1.0, 0], scale: 1, vis: 1, sort: "up" },
+    bars: { pos: [2.45, -0.75, 0], n: [0, 1.75, 0], scale: 1, vis: 1, sort: "up" },
     glow: { pos: [2.5, 0, -2.5], n: [0, 1.6, -2.5], scale: 8, opacity: 0.9 },
   },
   // 5 stylist — quiet stage behind the conversation
@@ -75,7 +75,7 @@ export const KEYS: Key[] = [
   },
   // 6 finale — a full hairline again
   {
-    hairline: { pos: [0, 0.9, -0.5], n: [0, 1.6, -0.5], scale: 1.05, vis: 1, pull: 0, thin: 0 },
+    hairline: { pos: [0, 0.9, -0.5], n: [0, 2.0, -0.5], scale: 1.05, vis: 1, pull: 0, thin: 0 },
     cards: { pos: [2.4, 0, -2.5], n: [0, 1.6, -2.5], scale: 0.5, vis: 0, spread: 0 },
     gauge: { pos: [2.6, 0, -2.5], n: [0, 1.6, -2.5], scale: 0.4, vis: 0, fill: 1 },
     chart: { pos: [2.5, 0, -2.5], n: [0, 1.6, -2.5], scale: 0.5, vis: 0, reveal: 1 },

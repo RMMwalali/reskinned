@@ -153,6 +153,18 @@
   .saferCard {
     grid-template-columns: 84px minmax(0, 1fr);
   }
+  /* Two compact columns of styles on phones */
+  .options {
+    grid-template-columns: 1fr 1fr;
+  }
+  .option {
+    padding: 8px 8px 12px;
+    gap: 6px;
+    font-size: 0.875rem;
+  }
+  .optionPhoto {
+    aspect-ratio: 1;
+  }
 }
 
 .option:hover {
