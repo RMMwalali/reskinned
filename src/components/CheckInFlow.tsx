@@ -5,7 +5,8 @@ import { useRouter } from "next/navigation";
 import { STYLES, type CheckIn, type DensityTerm, type StyleId, type Symptoms } from "@/lib/edges";
 import { history } from "@/lib/history";
 import { prepareImage, type Prepared } from "@/lib/image-client";
-import { SCENE_PHOTOS, STYLE_PHOTOS } from "@/lib/photos";
+import { STYLE_PHOTOS } from "@/lib/photos";
+import { PoseGuide } from "./PoseGuide";
 import { StylePhoto } from "./StylePhoto";
 import { TensionMeter } from "./TensionMeter";
 import styles from "./ui.module.css";
@@ -115,7 +116,7 @@ export function CheckInFlow() {
             // eslint-disable-next-line @next/next/no-img-element
             <img src={p.url} alt={`${title} photo`} />
           ) : (
-            <Guide kind={guide} />
+            <PoseGuide kind={guide} flip={key === "right"} />
           )}
           <input type="file" accept="image/*" capture="user" className="sr-only" onChange={(e) => onFile(key, e.target.files?.[0])} />
           <span className={styles.dropLabel}>{busy === key ? "Preparing…" : p ? "Retake" : "Add photo"}</span>
@@ -272,22 +273,5 @@ export function CheckInFlow() {
         </section>
       )}
     </div>
-  );
-}
-
-const GUIDE_PHOTOS = { tilt: SCENE_PHOTOS.takeA, front: STYLE_PHOTOS.out, side: SCENE_PHOTOS.side } as const;
-
-function Guide({ kind }: { kind: "tilt" | "front" | "side" }) {
-  // A real example photo, faded, with a framing guide: "like this".
-  return (
-    <span className={styles.example} aria-hidden="true">
-      <StylePhoto photo={GUIDE_PHOTOS[kind]} sizes="240px" position={kind === "tilt" ? "50% 20%" : "50% 30%"} />
-      <span className={styles.exampleTag}>Example</span>
-      {kind === "tilt" ? (
-        <svg viewBox="0 0 100 100" preserveAspectRatio="none" className={styles.exampleArc}>
-          <path d="M18 34 Q50 12 82 34" fill="none" stroke="#fff" strokeWidth="1.6" strokeDasharray="4 3" vectorEffect="non-scaling-stroke" />
-        </svg>
-      ) : null}
-    </span>
   );
 }
