@@ -2,12 +2,10 @@ import Link from "next/link";
 import { Faq } from "@/components/Faq";
 import { StylePhoto } from "@/components/StylePhoto";
 import { Motion } from "@/components/topas/Motion";
-import { buildCard, demoHistory, encodeCard, STYLES, type StyleId } from "@/lib/edges";
+import { STYLES, type StyleId } from "@/lib/edges";
 import { SCENE_PHOTOS, STYLE_PHOTOS } from "@/lib/photos";
 import s from "@/components/topas/landing.module.css";
 
-// A sample stylist card, so visitors can see what a braider receives.
-const DEMO_CARD = encodeCard(buildCard(demoHistory(new Date("2026-10-29T00:00:00Z")), "Amara"));
 
 const SHORT: Record<StyleId, string> = {
   out: "Out & natural",
@@ -77,23 +75,23 @@ export default function Home() {
           <div className={s.heroPhotoWrap} data-intro>
             <figure className={s.heroPhoto}>
               <StylePhoto photo={SCENE_PHOTOS.takeA} sizes="(max-width: 760px) 40vw, 300px" priority position="50% 40%" />
-              <figcaption>Take A · head down</figcaption>
+              <figcaption>Month 1 · head down 45°</figcaption>
             </figure>
-            <p className={s.script} aria-hidden="true">two photos, two minutes!</p>
+            <p className={s.script} aria-hidden="true">two minutes a month!</p>
           </div>
 
           <div className={s.ticketWrap} data-intro>
             <div className={s.ticket}>
-              <p className={s.kicker}>Hairline tracker · built on YouCam AI</p>
+              <p className={s.kicker}>Hair-loss progress tracker · built on YouCam AI</p>
               <h1 className={s.heroTitle}>
-                Catch it while it can <span>grow back.</span>
+                Know if it&rsquo;s <span>working.</span>
               </h1>
               <p className={s.lede}>
-                Tight braids, glued wigs and slick buns can slowly pull out your edges. edge.wise tracks your hairline between installs and warns you while the damage is still reversible.
+                Hair-loss treatments take months to show results, and most people quit before they do. edge.wise measures your hairline against where you started, every month, so you can see it working, or know it&rsquo;s time to change course.
               </p>
               <div className={s.ctaRow}>
-                <Link href="/check" className="btn btn-primary">Check my edges</Link>
-                <Link href={`/card/${DEMO_CARD}`} className="btn btn-ghost">I&rsquo;m a stylist</Link>
+                <Link href="/check" className="btn btn-primary">Start tracking</Link>
+                <Link href="/brands" className="btn btn-ghost">For brands</Link>
               </div>
             </div>
           </div>
@@ -101,8 +99,8 @@ export default function Home() {
       </section>
 
       <div className={s.ribbons}>
-        <Marquee tone="crimson" tilt={-3} words={["Keep your edges", "Catch it early", "Same look, less pull", "Tell your braider"]} />
-        <Marquee tone="cream" tilt={2} dir={-1} words={["Hair Density Detection", "Hair Length Detection", "Hair Type Detection", "Hairstyle Try-On", "Built on YouCam AI"]} />
+        <Marquee tone="crimson" tilt={-3} words={["Know if it’s working", "Don’t quit at month three", "Measured, not guessed", "Never run out"]} />
+        <Marquee tone="cream" tilt={2} dir={-1} words={["Hair Density Detection", "Hair Length Detection", "Hair Type Detection", "Hairstyle Try-On", "Built on YouCam AI", "Minoxidil", "Finasteride", "PRP", "Traction"]} />
       </div>
 
       {/* ---------------------------------------------------------- Problem */}
@@ -110,28 +108,28 @@ export default function Home() {
         <div className="wrap">
           <p className={s.label}>The problem</p>
           <h2 className={s.h2} data-split>
-            Nobody watches your edges.
+            Month three is where it dies.
           </h2>
           <p className={s.body}>
-            Every install pulls at the same follicles for weeks. You don&rsquo;t feel it until the temples start to go. Caught early, dermatologists say traction hair loss can reverse. Left too long, it scars and it&rsquo;s permanent.
+            Minoxidil, finasteride, PRP: they all take months before anything shows, and a mirror can&rsquo;t measure a slow change. The early weeks can even look worse. So people stop, often right before it would have worked, and the brands and clinics treating them lose them too.
           </p>
           <div className={s.stats}>
             <div className={s.stat} data-tone="sun" data-pop="-8">
-              <b className="data">47.6%</b>
-              <span>of 5,594 US women surveyed reported hair loss</span>
+              <b className="data">86%</b>
+              <span>of 400 patients stopped minoxidil, most within six months</span>
             </div>
             <div className={s.stat} data-tone="crimson" data-pop="10">
-              <b className="data">81%</b>
-              <span>of them never saw a doctor about it</span>
+              <b className="data">6–12 mo</b>
+              <span>before minoxidil usually shows results</span>
             </div>
             <div className={s.stat} data-tone="teal" data-pop="-6">
-              <b className="data">6–12 wk</b>
-              <span>that one install pulls on the same roots</span>
+              <b className="data">+170%</b>
+              <span>growth in women&rsquo;s hair-loss subscribers at one US telehealth brand</span>
             </div>
           </div>
-          <p className={s.scriptInk} aria-hidden="true">early, it grows back. late, it doesn&rsquo;t.</p>
+          <p className={s.scriptInk} aria-hidden="true">stop early, start over.</p>
           <p className={s.source}>
-            Survey: AAD 74th Annual Meeting with the Black Women&rsquo;s Health Study. <Link href="/method#sources">Sources</Link>
+            Dermatology and Therapy (2023); American Academy of Dermatology; Hims &amp; Hers Q1 2025 shareholder letter. <Link href="/method#sources">Sources</Link>
           </p>
         </div>
       </section>
@@ -147,10 +145,10 @@ export default function Home() {
               <h2 className={s.h2Light}>Four steps. No guesswork.</h2>
               <ol className={s.stepList}>
                 {[
-                  ["Check in", "Two hairline photos before every install, head tilted down. YouCam reads density from both and edge.wise checks they agree."],
-                  ["Track", "Each reading is compared with your own baseline and the tension of every style you’ve worn. Steady, watch or act now."],
-                  ["Plan", "Want box braids? Knotless, bigger and shorter does the same job with less pull. Try it on with YouCam."],
-                  ["Share", "Send your braider a card: your status, what to avoid and how to install gently."],
+                  ["Set your plan", "Pick your treatments and when you started. edge.wise knows when results should show for each one."],
+                  ["Check in monthly", "Two hairline photos, head lowered 45°. YouCam reads density from both; edge.wise checks they agree."],
+                  ["See the trend", "Every reading against your own starting point: on track, holding, working, or time to talk to your prescriber."],
+                  ["Stay stocked", "Reorder before you run out, from the brand you already use. A gap of a few weeks can undo months."],
                 ].map(([t, d], i) => (
                   <li key={t} data-step={i}>
                     <span className={`data ${s.stepNum}`}>0{i + 1}</span>
@@ -171,49 +169,44 @@ export default function Home() {
                   <span className={s.stamp}>Take B</span>
                 </div>
                 <span className={s.reading}>
-                  Density <b className="data">2.31</b> · takes agree
+                  Density <b className="data">1.42</b> · takes agree
                 </span>
               </div>
               {/* 02 — the trend */}
               <div className={s.layer} data-layer style={{ rotate: "4deg", translate: "12% -14%" }}>
                 <div className={s.trendCard}>
-                  <span className={s.trendTag}>Watch</span>
+                  <span className={s.trendTag}>Working</span>
                   <svg viewBox="0 0 220 110">
-                    <rect x="0" y="24" width="220" height="22" fill="var(--lilac)" />
-                    <line x1="0" x2="220" y1="35" y2="35" stroke="var(--crimson)" strokeDasharray="5 5" strokeWidth="1.5" />
-                    <polyline points="10,34 60,38 110,52 160,70 210,60" fill="none" stroke="var(--ink)" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" />
+                    <rect x="0" y="41" width="220" height="22" fill="var(--lilac)" />
+                    <line x1="0" x2="220" y1="52" y2="52" stroke="var(--crimson)" strokeDasharray="5 5" strokeWidth="1.5" />
+                    <polyline points="10,52 60,66 110,56 160,36 210,18" fill="none" stroke="var(--ink)" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" />
                     {[
-                      [10, 34],
-                      [60, 38],
-                      [110, 52],
-                      [160, 70],
-                      [210, 60],
+                      [10, 52],
+                      [60, 66],
+                      [110, 56],
+                      [160, 36],
+                      [210, 18],
                     ].map(([x, y]) => (
                       <circle key={x} cx={x} cy={y} r="6" fill="var(--saffron)" stroke="var(--ink)" strokeWidth="2.5" />
                     ))}
                   </svg>
-                  <span className={s.trendFoot}>−0.24 since your baseline</span>
+                  <span className={s.trendFoot}>+0.24 since month 0</span>
                 </div>
               </div>
               {/* 03 — the swap */}
               <div className={s.layer} data-layer style={{ rotate: "-3deg", translate: "-4% -30%" }}>
                 <div className={s.swapCard}>
-                  <span className={s.swapPhoto}>
-                    <StylePhoto photo={STYLE_PHOTOS["box-braids"]} sizes="140px" />
-                  </span>
-                  <span className={s.swapArrow}>→</span>
-                  <span className={s.swapPhoto}>
-                    <StylePhoto photo={STYLE_PHOTOS.knotless} sizes="140px" />
-                  </span>
-                  <b>Box braids → knotless, bigger, shorter</b>
+                  <b className={s.monthBig}>Month 3</b>
+                  <b>On track. Too early for regrowth.</b>
+                  <small className={s.monthNote}>This is the stretch when most people quit.</small>
                 </div>
               </div>
               {/* 04 — the stylist card */}
               <div className={s.layer} data-layer style={{ rotate: "6deg", translate: "10% -48%" }}>
                 <div className={s.miniTicket}>
-                  <span>Amara&rsquo;s edges</span>
-                  <b>Watch</b>
-                  <small>Leave the hairline out · No glue · Out in 6 weeks</small>
+                  <span>Your routine</span>
+                  <b>9 days left</b>
+                  <small>Minoxidil 5% foam · Reorder $44</small>
                 </div>
               </div>
             </div>
@@ -226,9 +219,9 @@ export default function Home() {
       {/* ---------------------------------------------------------- Card rail */}
       <section className={s.rail} data-rail>
         <div className={`wrap ${s.railHead}`}>
-          <p className={s.label}>Plan a style</p>
+          <p className={s.label}>If your styles pull</p>
           <h2 className={s.h2}>Same look. Less pull.</h2>
-          <p className={s.railSub}>Eleven styles, ranked from the gentlest to the hardest on your edges. Pick one to plan it.</p>
+          <p className={s.railSub}>Traction hair loss is the one kind you can stop by changing how you wear your hair. Eleven styles, gentlest to hardest on your hairline. Pick one to plan it.</p>
         </div>
         <p className={s.ghost} data-ghost aria-hidden="true">
           less pull · less pull
@@ -258,51 +251,64 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ---------------------------------------------------------- Stylist */}
+      {/* ---------------------------------------------------------- For brands */}
       <section className={s.stylist}>
         <div className="wrap">
-          <p className={s.labelSun}>For your braider</p>
+          <p className={s.labelSun}>For brands and clinics</p>
           <h2 className={s.h2Light} data-split>
-            Your stylist is the front line.
+            Retention they can see.
           </h2>
         </div>
-        <div className={s.cloud} aria-label="What the stylist card asks for">
+        <div className={s.cloud} aria-label="What edge.wise does for treatment brands">
           <div className={s.cloudRow} data-drift="1">
-            <span data-c="w">Edges out</span>
-            <span data-c="p">No glue</span>
-            <span data-c="w">Bigger parts</span>
-            <span data-c="p">Lighter hair</span>
-            <span data-c="w">Edges out</span>
+            <span data-c="w">Proof at month 3</span>
+            <span data-c="p">Fewer cancellations</span>
+            <span data-c="w">On-time reorders</span>
+            <span data-c="p">Proof at month 3</span>
           </div>
           <div className={s.cloudRow} data-drift="-1">
-            <span data-c="p">If it hurts, loosen it</span>
-            <span data-c="w">Out in 6 weeks</span>
-            <span data-c="p">Shoulder length</span>
+            <span data-c="p">Your shop inside</span>
+            <span data-c="w">Clinic referrals</span>
+            <span data-c="p">No medical claims</span>
           </div>
           <div className={s.cloudRow} data-drift="1">
-            <span data-c="w">No tight buns</span>
-            <span data-c="p">Change the parting</span>
-            <span data-c="w">Rest weeks</span>
-            <span data-c="p">No glue</span>
+            <span data-c="w">Embed in a day</span>
+            <span data-c="p">Built on YouCam</span>
+            <span data-c="w">Monthly check-ins</span>
+            <span data-c="p">Your shop inside</span>
           </div>
         </div>
         <div className={`wrap ${s.stylistFoot}`}>
           <div>
-            <p className={s.shout}>Send the card!</p>
+            <p className={s.shout}>Keep them past month six!</p>
             <p className={s.stylistBody}>
-              Dermatologists say stylists are often the first to see thinning. Before the appointment, send your braider a card with your hairline status and how to install gently. It carries no photos.
+              Hair-loss treatment is a subscription business, and its biggest leak is customers quitting before results show. edge.wise gives every subscriber a monthly, measured progress report inside your app, with your products one tap away.
             </p>
-            <Link href={`/card/${DEMO_CARD}`} className="btn btn-sun">See a stylist card</Link>
+            <Link href="/brands" className="btn btn-sun">See the numbers</Link>
           </div>
           <div className={s.chatWrap} data-pop="8">
             <div className={s.chat}>
-              <p className={s.them}>Hi! Can I book knotless for Saturday? Medium, mid-back.</p>
-              <p className={s.me}>Booked. Can you send your edge.wise card first?</p>
-              <p className={s.them}>
-                <b>Got it. I&rsquo;ll keep the front loose.</b> Mid-back is heavy for your edges. Shoulder length?
+              <p className={s.roiHead}>A brand with 10,000 subscribers at $30 a month</p>
+              <p className={s.roiRow}>
+                <span>Keep 1 in 10 more past month six</span>
+                <b className="data">+1,000</b>
+              </p>
+              <p className={s.roiRow}>
+                <span>× 6 more months × $30</span>
+                <b className="data">+$180,000</b>
+              </p>
+              <p className={s.roiRow}>
+                <span>edge.wise at $1 a user a month, 6 months</span>
+                <b className="data">−$60,000</b>
+              </p>
+              <p className={s.roiRow}>
+                <span>
+                  <b style={{ fontSize: "1rem" }}>Net, in six months</b>
+                </span>
+                <b className="data">+$120,000</b>
               </p>
             </div>
-            <p className={s.scriptSun} aria-hidden="true">she&rsquo;ll thank you</p>
+            <p className={s.scriptSun} aria-hidden="true">pays for itself</p>
           </div>
         </div>
       </section>
@@ -316,10 +322,10 @@ export default function Home() {
           </h2>
           <div className={s.tickets}>
             {[
-              ["Diagnose you", "It tracks change. When it matters, it sends you to a dermatologist."],
-              ["Keep your photos", "Used for one check-in, then discarded. Your history stays on your phone."],
-              ["Cry wolf", "Two takes per check-in. It tells you when a reading isn’t reliable."],
-              ["Shame your style", "Protective styles are fine. It helps you wear them gently."],
+              ["Diagnose you", "It measures change. Whether a treatment is right for you is your prescriber’s call."],
+              ["Keep your photos", "Photos go to YouCam for one reading. Thumbnails stay on your phone, never our servers."],
+              ["Cry wolf", "Two takes every check-in, and it tells you when a reading isn’t reliable."],
+              ["Sell you a cure", "No miracle products. The shop only stocks what your plan already uses."],
             ].map(([t, d], i) => (
               <div key={t} className={s.honestCard} data-pop={i % 2 ? 7 : -7} data-i={i}>
                 <span className="data">0{i + 1}</span>
@@ -345,12 +351,12 @@ export default function Home() {
         </div>
         <div className={`wrap ${s.finaleInner}`}>
           <h2 className={s.finaleTitle} data-split>
-            Keep your edges.
+            Don&rsquo;t quit at month three.
           </h2>
-          <p className={s.scriptWhite}>two minutes before your next install</p>
+          <p className={s.scriptWhite}>two minutes a month</p>
           <div className={s.ctaRow}>
-            <Link href="/check" className="btn btn-cream">Check my edges</Link>
-            <Link href="/method" className="btn btn-sun">How it works</Link>
+            <Link href="/check" className="btn btn-cream">Start tracking</Link>
+            <Link href="/brands" className="btn btn-sun">For brands</Link>
           </div>
         </div>
       </section>

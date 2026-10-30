@@ -1,35 +1,35 @@
-# edge.wise — catch it while it can grow back
+# edge.wise — know if your hair treatment is working
 
-edge.wise tracks your hairline between installs and catches styling-related thinning (traction hair loss from tight braids, cornrows, weaves, glued wigs, slick buns) while it can still be reversed. It plans gentler versions of the styles you want, shows them on you, and gives your stylist a card telling them how to install gently.
+Hair-loss treatments take months to show results, and most people quit before they do. edge.wise measures your hairline against your own starting point every month with YouCam AI, tells you where you are against the usual results window for your treatment, and keeps your routine stocked through a partner brand's shop. Brands and clinics embed it to keep subscribers past month six.
 
 Built for the [YouCam API Skin AI & eCommerce Hackathon](https://youcam-api-skin-ai-ecommerce.devpost.com/).
 
-## The problem
+## The problem, and who pays
 
-- In an American Academy of Dermatology survey of **5,594** African-American women, **47.6%** reported hair loss on the crown or top of the scalp, and **81.4% had never seen a doctor** about it. Braids, weaves and relaxers were linked to it. ([summary](https://www.sciencedaily.com/releases/2016/03/160304093239.htm))
-- A Johns Hopkins review estimates **one-third** of African-American women have traction alopecia, and rates braids with extensions, weaves and glued wigs highest risk. ([summary](https://hub.jhu.edu/2016/05/05/risky-hairstyles-traction-alopecia))
-- Trichologists warn the mainstream slicked-back bun trend causes it too, and that it's **reversible early, permanent late**.
-- Real cases: Kenyan women describe depression, teasing, being turned away from ceremonies, and growth creams that irritated their skin ([The Standard](https://www.standardmedia.co.ke/evewoman/living/article/2001523478/struggle-of-traction-alopecia-among-kenyan-women)).
-- Wigs and extensions are an **$8.1B** global market (2025), growing to **$15.7B by 2034**.
-
-The gap: hair loss caught early is more likely to be reversible, but nobody tracks the hairline between installs. Dermatologists call the stylist "the front line", yet stylists never see the history.
+- **People quit before results show.** In a study of 400 patients at a dermatology clinic, **86.3% stopped topical minoxidil**, most within six months ([Dermatology and Therapy, 2023](https://link.springer.com/article/10.1007/s13555-023-00919-x)).
+- **Results take months.** Minoxidil usually takes **6–12 months**; finasteride about **4 months** to notice improvement ([American Academy of Dermatology](https://www.aad.org/public/diseases/hair-loss/treatment/diagnosis-treat)).
+- **It's a large, growing subscription market.** Hims & Hers reports year-on-year subscriber growth above **45% in men's and 170% in women's hair loss**, and about **$84** monthly revenue per subscriber company-wide ([Q1 2025 shareholder letter](https://www.sec.gov/Archives/edgar/data/1773751/000177375125000152/finalq12025shareholderle.htm)).
+- **Who pays:** treatment brands, telehealth services, pharmacies and clinics, per active user. Every subscriber kept past month six is months of revenue they would otherwise lose. Consumers use it free.
+- **Traction hair loss** (tight braids, glued wigs, slick buns) is supported too: choosing "Gentler styles" adds style-tension tracking, gentler-style planning with YouCam try-on, and a stylist card.
 
 ## What it does
 
 | | |
 |---|---|
-| **Check in** (`/check`) | Current style, weeks worn, extensions, relaxer, and how it feels (pain, broken edges, crown itching). Then two hairline photos. |
-| **Measure** | YouCam **Hair Density Detection** runs on *both* takes; the gap between them flags unreliable readings. **Hair Length** and (with side photos) **Hair Type Detection** add context. |
-| **Track** (`/dashboard`) | Your own baseline, change vs baseline, consecutive declines, and a 6-month **tension load** (style tension × weeks, weighted to recent). Status: **Steady / Watch / Act now**, each with plain-language reasons and next steps. Routes to a dermatologist when it matters. |
-| **Plan** (`/plan`) | Gentler ways to get the look you want (knotless vs knotted, glueless vs glued, bigger/shorter, edges left out), with install rules from the AAD, and **YouCam Hairstyle Generator** try-on. |
-| **Share** (`/card/…`) | A stylist card (status, what to avoid, how to install gently) shared by link, WhatsApp or the share sheet. No photos inside. |
+| **Plan** (`/dashboard`) | Pick your treatments (minoxidil, finasteride, spironolactone, PRP, microneedling, laser, ketoconazole, gentler styles) and start dates. |
+| **Check in monthly** (`/check`) | Two hairline photos, head lowered 45°. YouCam **Hair Density Detection** runs on both takes; the gap between them flags unreliable readings. **Hair Length** and **Hair Type Detection** add context. |
+| **Progress report** | Baseline, change, month on treatment and the results window. Verdicts: *Started / On track / Early dip / Holding / Working / Talk to your prescriber*. A nudge through the months when most people quit. Side-by-side thumbnails kept only on the phone. |
+| **Routine shop** | Run-out reminders and a cart with the partner brand's products; prescription items route to the prescriber, clinic treatments to booking. Demo checkout, clearly labelled. |
+| **For brands** (`/brands`) | The retention case, pricing and an ROI calculator. |
+| **Gentler styles** (`/plan`, `/card/…`) | For traction hair loss: gentler versions of a style with **YouCam Hairstyle Generator** try-on, and a stylist card. |
 
-Engine: `src/lib/edges.ts` (deterministic, every rule cites its source), tests in `src/lib/edges.test.ts`. Methods, rules, limits and sources are public at `/method`.
+Engines: `src/lib/treatments.ts` (treatment timelines and progress verdicts) and `src/lib/edges.ts` (trend and style tension), both deterministic and unit-tested. Methods, timelines, limits and sources are public at `/method`.
 
 ## Honesty and privacy
 
-- Cosmetic tracking, not a diagnosis. It never names a condition as yours.
-- Photos are resized on the phone, sent to YouCam for one check-in, never stored. History (numbers only) stays in the browser and can be deleted. No accounts.
+- Cosmetic tracking, not a diagnosis. It never names a condition as yours or judges whether a treatment works medically; the prescriber does.
+- Photos are resized on the phone and sent to YouCam for one check-in; edge.wise keeps no copy on its servers. History, plan and small thumbnails stay in the browser and can be deleted. No accounts.
+- Every shop listing on the demo is a sample; no payment is taken.
 - Without an API key, or when the unit budget runs out, readings are clearly labelled demo values. A sample history is available and always marked.
 
 ## Run it

@@ -4,9 +4,9 @@ import "./globals.css";
 import styles from "./layout.module.css";
 
 export const metadata: Metadata = {
-  title: "edge.wise — protect your edges",
+  title: "edge.wise — know if your hair treatment is working",
   description:
-    "edge.wise tracks your hairline between installs and catches styling-related thinning while it can still be reversed. Safer styles, try-on, and a card for your stylist. Built on YouCam AI.",
+    "Hair-loss treatments take months to show results, and most people quit before then. edge.wise measures your hairline against your own baseline every month, so you can see whether it's working, and keeps your routine stocked. Built on YouCam AI.",
 };
 
 export const viewport: Viewport = { themeColor: "#b21236" };
@@ -35,16 +35,16 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
               <span className={styles.logoText}>edge.wise</span>
             </Link>
             <Link href="/check" className={styles.badge}>
-              <i aria-hidden="true" /> Free · two minutes
+              <i aria-hidden="true" /> Free · two minutes a month
             </Link>
             <nav className={styles.nav} aria-label="Main">
-              <Link href="/dashboard">My edges</Link>
-              <Link href="/plan">Plan a style</Link>
+              <Link href="/dashboard">My progress</Link>
+              <Link href="/brands">For brands</Link>
               <Link href="/method">How it works</Link>
             </nav>
             <div className={styles.right}>
-              <Link href="/dashboard" className={styles.textLink}>My edges</Link>
-              <Link href="/check" className="btn btn-cream">Check my edges</Link>
+              <Link href="/dashboard" className={styles.textLink}>My progress</Link>
+              <Link href="/check" className="btn btn-cream">Check in</Link>
             </div>
           </div>
         </header>
@@ -56,13 +56,14 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
           <div className={`wrap ${styles.footGrid}`}>
             <div className={styles.footBrand}>
               <p className={styles.footLogo}>edge.wise</p>
-              <p>Catch styling-related hairline loss while it can still grow back.</p>
+              <p>Know if your hair treatment is working, before you give up on it.</p>
             </div>
             <nav aria-label="Footer" className={styles.footLinks}>
               <p className={styles.footHead}>Product</p>
-              <Link href="/check">Check my edges</Link>
-              <Link href="/dashboard">My edges</Link>
-              <Link href="/plan">Plan a style</Link>
+              <Link href="/check">Check in</Link>
+              <Link href="/dashboard">My progress</Link>
+              <Link href="/plan">Plan a gentler style</Link>
+              <Link href="/brands">For brands</Link>
             </nav>
             <nav aria-label="About" className={styles.footLinks}>
               <p className={styles.footHead}>About</p>
@@ -71,7 +72,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
               <Link href="/method#privacy">Privacy</Link>
             </nav>
             <p className={styles.footNote}>
-              edge.wise is a cosmetic tracking tool, not a medical device, and it doesn&rsquo;t diagnose. If you notice hair loss, see a board-certified dermatologist. Built for the YouCam API Skin AI &amp; eCommerce Hackathon.
+              edge.wise is a cosmetic tracking tool, not a medical device. It doesn&rsquo;t diagnose or judge whether a treatment works for you medically; your prescriber does. If you notice hair loss, see a board-certified dermatologist. Built for the YouCam API Skin AI &amp; eCommerce Hackathon.
             </p>
           </div>
         </footer>

@@ -2,12 +2,12 @@ import styles from "./Faq.module.css";
 
 const QUESTIONS: [string, string][] = [
   [
-    "Is this a diagnosis?",
-    "No. edge.wise is a cosmetic tracker. It measures how your hairline changes and how much tension your styles put on it. It can't tell you why hair is thinning, so whenever the trend is steep or you report crown itching, it tells you to see a board-certified dermatologist.",
+    "Does edge.wise tell me if my treatment works?",
+    "It tells you whether your hairline is changing, measured against where you started, and when results usually show for what you're using. Whether a treatment is right for you medically is your prescriber's call. If the trend keeps falling after the first months, it tells you to take the report to them.",
   ],
   [
-    "Who is it for?",
-    "Anyone whose styles pull at the hairline: braids, cornrows, weaves, wigs, locs, tight ponytails and slick buns. Traction hair loss is most studied in Black women, but dermatologists also see it in dancers, athletes, and anyone who wears the same tight style for long stretches.",
+    "Why monthly?",
+    "Hair grows about a centimetre a month and treatments work over many months. Checking daily only shows noise. Once a month, same light, same pose, shows the trend.",
   ],
   [
     "Why two hairline photos?",
@@ -15,11 +15,15 @@ const QUESTIONS: [string, string][] = [
   ],
   [
     "What happens to my photos?",
-    "They're resized on your phone, sent to YouCam for that check-in only, and never stored. Your history (numbers and answers, no images) stays in your browser. There are no accounts.",
+    "They're resized on your phone and sent to YouCam for that reading only. edge.wise keeps no copy on its servers. A small thumbnail stays on your phone for the side-by-side view, and you can delete everything any time. There are no accounts.",
   ],
   [
-    "Do I have to stop wearing protective styles?",
-    "No. The planner keeps the look you want and lowers the tension: knotless instead of knotted, bigger and shorter braids, glueless instead of glued, edges left out, and shorter wear time.",
+    "Who sells the products in the shop?",
+    "In a real deployment, the brand or clinic that offers edge.wise to you. On this demo site every listing is a sample and no payment is taken. Prescription medicines never go in the cart: they're refilled through your prescriber.",
+  ],
+  [
+    "What about braids and tight styles?",
+    "Traction hair loss is the one kind you can stop by changing how you wear your hair. Choose \"Gentler styles\" in your plan, and edge.wise also tracks the tension of each style you wear and suggests gentler versions you can try on.",
   ],
 ];
 

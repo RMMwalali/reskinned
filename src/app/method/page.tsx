@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { NOISE, STYLES } from "@/lib/edges";
+import { TREATMENTS } from "@/lib/treatments";
 import { ALL_CREDITS } from "@/lib/photos";
 import { TensionMeter } from "@/components/TensionMeter";
 import styles from "@/components/ui.module.css";
@@ -11,6 +12,7 @@ const PIPELINE = [
   ["YouCam Hair Length Detection", "Front photo (optional)", "Length band. Longer, heavier installs pull harder on the root.", "2 units"],
   ["YouCam Hair Type Detection", "Front + both sides (optional)", "Curl pattern, 1 to 4c, recorded with each check-in.", "2 units"],
   ["edge.wise trend engine", "Your check-in history", "Baseline (median of your first readings), change vs baseline, consecutive declines.", "on device"],
+  ["edge.wise treatment model", "Your treatments and start dates", "Where you are against the usual results window: early, holding, working, or time to see your prescriber.", "on device"],
   ["edge.wise tension model", "Styles worn, weeks, extensions, relaxer, symptoms", "Tension load over 6 months, with recent styles weighted more.", "on device"],
   ["YouCam Hairstyle Generator", "Front photo + a gentler style", "You, wearing the lower-tension alternative.", "2 units"],
 ];
@@ -73,6 +75,25 @@ export default function MethodPage() {
       </section>
 
       <section className={styles.panel}>
+        <h2>Treatment timelines</h2>
+        <p className={styles.sub}>When results usually become visible, which decides whether a flat reading means &ldquo;too early&rdquo; or &ldquo;holding&rdquo;. A fall of 0.2 or more after month 3 sends you to your prescriber.</p>
+        <div style={{ display: "grid", gap: 8 }}>
+          {TREATMENTS.map((t) => (
+            <div key={t.id} style={{ display: "grid", gridTemplateColumns: "minmax(0, 1fr) auto", gap: 4, paddingBottom: 8, borderBottom: "1px solid var(--line)" }}>
+              <span>
+                <strong>{t.name}</strong>
+                <br />
+                <span className={styles.small}>{t.source}</span>
+              </span>
+              <span className="data" style={{ fontWeight: 700, fontSize: "1.2rem" }}>
+                {t.results[0] === t.results[1] ? `${t.results[0]} mo` : `${t.results[0]}–${t.results[1]} mo`}
+              </span>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <section className={styles.panel}>
         <h2>Style tension</h2>
         <p className={styles.sub}>Ranked from the American Academy of Dermatology&rsquo;s guidance and a Johns Hopkins review of hair-care practices. Extensions add weight; relaxed hair and painful installs multiply it.</p>
         <div style={{ display: "grid", gap: 8 }}>
@@ -92,7 +113,8 @@ export default function MethodPage() {
       <section className={styles.panel}>
         <h2>Known limits</h2>
         <ul className={styles.list}>
-          <li>edge.wise is a cosmetic tracker, not a medical device. It never names a condition as yours.</li>
+          <li>edge.wise is a cosmetic tracker, not a medical device. It never names a condition as yours, and it doesn&rsquo;t judge whether a treatment works for you medically; your prescriber does.</li>
+          <li>YouCam&rsquo;s density score is coarse (0 to 3). Month-to-month changes are small, so edge.wise looks at the trend across months, not single readings.</li>
           <li>The ±{NOISE} noise band is an assumption until calibrated against repeated real scans. The two-take check exists because of this.</li>
           <li>YouCam&rsquo;s density reading depends on light, angle and how the hair is worn. Compare like with like: same light, hair pushed back.</li>
           <li>Tension weights are a ranking built from published guidance, not a measured force. They decide advice, never a diagnosis.</li>
@@ -114,6 +136,15 @@ export default function MethodPage() {
           </li>
           <li>
             The Standard (Kenya), <a href="https://www.standardmedia.co.ke/evewoman/living/article/2001523478/struggle-of-traction-alopecia-among-kenyan-women" target="_blank" rel="noopener noreferrer">Struggle of traction alopecia among Kenyan women</a>
+          </li>
+          <li>
+            American Academy of Dermatology, <a href="https://www.aad.org/public/diseases/hair-loss/treatment/diagnosis-treat" target="_blank" rel="noopener noreferrer">Hair loss: diagnosis and treatment</a> (treatment timelines)
+          </li>
+          <li>
+            Compliance to topical minoxidil and reasons for discontinuation among patients with androgenetic alopecia, <em>Dermatology and Therapy</em> 2023 (n = 400; 86.3% discontinued). <a href="https://link.springer.com/article/10.1007/s13555-023-00919-x" target="_blank" rel="noopener noreferrer">Article</a>
+          </li>
+          <li>
+            Hims &amp; Hers, <a href="https://www.sec.gov/Archives/edgar/data/1773751/000177375125000152/finalq12025shareholderle.htm" target="_blank" rel="noopener noreferrer">Q1 2025 shareholder letter</a> (hair-loss subscriber growth)
           </li>
           <li>
             Perfect Corp, <a href="https://docs.perfectcorp.com/reference/ai_hair_density_detection" target="_blank" rel="noopener noreferrer">AI Hair Density Detection API</a>
@@ -138,7 +169,7 @@ export default function MethodPage() {
       <section className={styles.panel} id="privacy">
         <h2>Privacy</h2>
         <p className={styles.sub}>
-          Photos are resized on your phone, sent to YouCam for one check-in, and never written to edge.wise&rsquo;s storage. Your history (numbers and answers, no images) lives only in your browser, and you can delete it any time. Stylist cards carry only your status and install rules, never photos. There are no accounts and no tracking.
+          Photos are resized on your phone, sent to YouCam for one check-in, and never written to edge.wise&rsquo;s servers. Your history, plan, and small hairline thumbnails for the side-by-side view live only in your browser, and you can delete them any time. Stylist cards carry only your status and install rules, never photos. There are no accounts and no tracking.
         </p>
       </section>
     </div>

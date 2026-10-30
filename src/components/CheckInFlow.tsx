@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { STYLES, type CheckIn, type DensityTerm, type StyleId, type Symptoms } from "@/lib/edges";
 import { history } from "@/lib/history";
+import { makeThumb, thumbStore } from "@/lib/plan";
 import { prepareImage, type Prepared } from "@/lib/image-client";
 import { STYLE_PHOTOS } from "@/lib/photos";
 import { PoseGuide } from "./PoseGuide";
@@ -94,6 +95,9 @@ export function CheckInFlow() {
         demo: j.mode === "demo",
       };
       history.add(entry);
+      // A small copy of the hairline photo stays on this phone for the side-by-side view.
+      const thumb = await makeThumb(photos.tiltA.url);
+      if (thumb) thumbStore.update((m) => ({ ...m, [entry.id]: thumb }));
       router.push("/dashboard?new=1");
     } catch (e) {
       const timeout = e instanceof DOMException && (e.name === "TimeoutError" || e.name === "AbortError");
@@ -142,11 +146,11 @@ export function CheckInFlow() {
 
       {step === 0 && (
         <section className={styles.panel}>
-          <h2>Two minutes, before your next install.</h2>
+          <h2>Two minutes, once a month.</h2>
           <ul className={styles.list}>
-            <li>You&rsquo;ll answer three quick questions about your current style, then take two photos of your hairline with your head lowered about 45°.</li>
-            <li>YouCam measures your hairline density from the photos. edge.wise compares it with your earlier check-ins and with the tension your styles put on your edges.</li>
-            <li>Photos are sent to YouCam for this check-in only and never stored. Your history stays on this phone.</li>
+            <li>You&rsquo;ll answer three quick questions about how you wear your hair, then take two photos of your hairline with your head lowered about 45°.</li>
+            <li>YouCam measures your hairline density from the photos. edge.wise compares it with where you started, so you can see whether your treatment is working.</li>
+            <li>Photos go to YouCam for this check-in only; edge.wise keeps no copy on its servers. A small thumbnail stays on this phone so you can compare months side by side.</li>
             <li>edge.wise doesn&rsquo;t diagnose. If something looks wrong, it&rsquo;ll tell you to see a dermatologist.</li>
           </ul>
           <button className="btn btn-primary" style={{ justifySelf: "start" }} onClick={() => setStep(1)}>
@@ -266,7 +270,7 @@ export function CheckInFlow() {
             <div className={styles.row}>
               <button className="btn btn-ghost" onClick={() => setStep(2)}>Back</button>
               <button className="btn btn-primary" disabled={!photos.tiltA} onClick={submit}>
-                {photos.tiltA ? "Check my edges" : "Add a hairline photo"}
+                {photos.tiltA ? "Measure my hairline" : "Add a hairline photo"}
               </button>
             </div>
           )}

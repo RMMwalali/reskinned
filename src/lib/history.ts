@@ -1,10 +1,13 @@
 "use client";
 
-// Check-in history lives only on this device (localStorage). No accounts, no
-// server copy, no photos — just the numbers and answers from each check-in.
+// Check-in history lives only on this device (localStorage). No accounts and no
+// server copy: the numbers and answers from each check-in, plus (in a separate
+// store) small hairline thumbnails for the side-by-side progress view.
 
 import { useSyncExternalStore } from "react";
 import { demoHistory, type CheckIn } from "./edges";
+import { planStore, thumbStore } from "./plan";
+import { demoTreatment } from "./treatments";
 
 const KEY = "edgewise.history.v1";
 const listeners = new Set<() => void>();
@@ -39,9 +42,22 @@ export const history = {
   },
   remove(id: string) {
     write(read().filter((c) => c.id !== id));
+    thumbStore.update((t) => {
+      const { [id]: _gone, ...rest } = t;
+      void _gone;
+      return rest;
+    });
   },
   clear() {
     write([]);
+    thumbStore.set({});
+    planStore.set(null);
+  },
+  /** Sample: seven months on minoxidil, an early dip, then regrowth. */
+  loadTreatmentSample() {
+    const d = demoTreatment();
+    write([...read().filter((c) => !c.demo), ...d.list]);
+    if (!planStore.get()) planStore.set(d.plan);
   },
   loadSample() {
     write([...read().filter((c) => !c.demo), ...demoHistory()]);
