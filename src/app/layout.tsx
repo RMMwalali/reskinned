@@ -9,14 +9,14 @@ export const metadata: Metadata = {
     "edge.wise tracks your hairline between installs and catches styling-related thinning while it can still be reversed. Safer styles, try-on, and a card for your stylist. Built on YouCam AI.",
 };
 
-export const viewport: Viewport = { themeColor: "#fafaf9" };
+export const viewport: Viewport = { themeColor: "#b21236" };
 
 function Mark() {
-  // A hairline arc with a soft fringe of strands.
+  // A round stamp: a hairline arc with a fringe of strands.
   return (
-    <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
-      <path d="M4 15c1.6-5 4.6-7.5 8-7.5s6.4 2.5 8 7.5" fill="none" stroke="#fff" strokeWidth="2" strokeLinecap="round" />
-      <path d="M8 12.2v2.2M12 10.7v2.5M16 12.2v2.2" stroke="#fff" strokeOpacity=".7" strokeWidth="1.6" strokeLinecap="round" />
+    <svg viewBox="0 0 24 24" width="26" height="26" aria-hidden="true">
+      <path d="M4 15c1.6-5 4.6-7.5 8-7.5s6.4 2.5 8 7.5" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" />
+      <path d="M8 12.2v2.4M12 10.7v2.7M16 12.2v2.4" stroke="currentColor" strokeOpacity=".75" strokeWidth="2" strokeLinecap="round" />
     </svg>
   );
 }
@@ -32,7 +32,10 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
               <span className={styles.logoMark}>
                 <Mark />
               </span>
-              edge.wise
+              <span className={styles.logoText}>edge.wise</span>
+            </Link>
+            <Link href="/check" className={styles.badge}>
+              <i aria-hidden="true" /> Free · two minutes
             </Link>
             <nav className={styles.nav} aria-label="Main">
               <Link href="/dashboard">My edges</Link>
@@ -41,12 +44,15 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
             </nav>
             <div className={styles.right}>
               <Link href="/dashboard" className={styles.textLink}>My edges</Link>
-              <Link href="/check" className="btn btn-primary">Check my edges</Link>
+              <Link href="/check" className="btn btn-cream">Check my edges</Link>
             </div>
           </div>
         </header>
         <main id="main">{children}</main>
         <footer className={styles.footer}>
+          <div className={styles.footStripes} aria-hidden="true">
+            <i /><i /><i /><i /><i />
+          </div>
           <div className={`wrap ${styles.footGrid}`}>
             <div className={styles.footBrand}>
               <p className={styles.footLogo}>edge.wise</p>

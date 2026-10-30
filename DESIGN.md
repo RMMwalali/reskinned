@@ -1,38 +1,25 @@
-# edge.wise — design notes
+# edge.wise design notes
 
-**Name:** always written `edge.wise`, lowercase, with the period.
+Inspired by bar-topas.ch: bold, warm and printed, with motion driven by scroll.
 
-**Direction:** cinematic and calm. A near-white stage, one 3D world under the landing page, scroll-driven scenes. App pages are quiet white panels on the same stage.
-
-**Voice:** a careful friend who knows hair. Plain, warm, never alarmist, never shaming protective styles. Says "see a dermatologist" whenever it matters and never diagnoses.
-
-## The 3D story (landing, `src/components/cinema/`)
-
-One fixed WebGL canvas (react-three-fiber) between the grey panels and the text. Each section has `data-scene="n"`; `CinemaStage` tracks which section holds the middle of the viewport and its progress, and `Scene` blends each actor between keyframes (`keyframes.ts`).
-
-| Scene | 3D | Page |
-|---|---|---|
-| 0 Hero | A full hairline of coily strands on a glass form | Headline + "For me / I'm a stylist" pill |
-| 1 Problem | Strands pulled taut, then the temples thin | Paragraph lights up word by word; live chip: tension, temples |
-| 2 Check in | Two tilted-head photo cards; density gauge fills to 2.31 | Take 1 / take 2 readout |
-| 3 Track | 3D trend: dip under tight styles, recovery after a break | Copy |
-| 4 Plan | Tension bars drop from box braids to gentler options | Copy |
-| 5 Share | Quiet stage | Stylist conversation, honesty cards, FAQ |
-| 6 Finale | A full hairline again | "Keep your edges." |
-
-All textures are drawn on canvas at runtime. Lenis smooth scroll; reduced motion disables smoothing and idle animation; if WebGL fails the page still reads. Phones put the 3D above a frosted text card.
-
-## Colour
-
-| Token | Hex | Role |
-|---|---|---|
-| `--stage` | `#FAFAF9` | Page |
-| `--ink` / `--action` | `#17151B` | Text, primary buttons |
-| `--accent` | `#5B3FB0` | Steps, links, focus, gauge |
-| `--lilac` | `#EEE8F8` | Glow, selection, pill |
-| `--blend` / `--amber` / `--clash` | `#1E7A4E` / `#8A5A00` / `#B42318` | Steady / Watch / Act now, tension levels |
+## Palette
+Crimson `#b21236` (brand, headings), tomato `#e8432b`, orange `#f47b20`, saffron `#feb914` (highlights, numbers), teal `#2c9fa2` (the "how it works" band), cream paper `#efebdf` (page), pink `#f6b3c2` (secondary text on crimson). The five-colour stripe band (crimson → tomato → orange → saffron → teal) opens the hero, closes the page and tops the footer.
 
 ## Type
+- Archivo variable at 62–80% width, weight 850–900, uppercase: headings, card names, the wordmark.
+- Barlow Condensed 600/700, uppercase and letter-spaced: labels, buttons, numbers.
+- Source Sans 3: body copy.
+- Caveat: short handwritten asides ("two photos, two minutes!").
 
-- **Display — Fraunces (wght 360, SOFT 30).** Headlines.
-- **Text — Hanken Grotesk 430.** Body and UI. Tabular figures for readings (`.data`).
+## Pieces
+- Tickets: cream cards with a dashed saffron inner border, slightly rotated.
+- Ribbons: tilted marquee strips that speed up with scroll velocity.
+- Wavy dividers between colour sections.
+- Pill buttons, uppercase condensed.
+
+## Motion (src/components/topas/Motion.tsx)
+GSAP ScrollTrigger + SplitText with Lenis smooth scroll, all opt-in through data attributes:
+- **Card rail**: the "Same look. Less pull." section pins while the 11 style cards (sorted by tension) slide sideways. Each card tilts and shrinks with its distance from the centre of the screen, over a giant outlined ghost word.
+- **Steps**: "Four steps" pins; each step drops a new card on a pile (photo → trend → swap → stylist card).
+- Headings rise word by word; stamps and tickets drop in tilted; rows of words drift sideways.
+- Reduced motion: no pins or smoothing; the rail becomes a native swipeable row and every step's text shows.

@@ -1,0 +1,985 @@
+/* edge.wise landing — bold printed look: colour stripes, tilted ribbons,
+   stamped tickets, wavy edges and a pinned card rail. */
+
+.page {
+  overflow-x: clip;
+  background: var(--paper);
+}
+
+/* ------------------------------------------------------------ shared */
+.label,
+.labelLight,
+.labelSun {
+  font: 700 1rem/1 var(--font-cond);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--tomato);
+  margin-bottom: var(--s-4);
+}
+.labelLight {
+  color: var(--saffron);
+}
+.labelSun {
+  color: var(--saffron);
+}
+
+.h2,
+.h2Light {
+  font-size: var(--step-5);
+  font-weight: 900;
+  font-stretch: 72%;
+  line-height: 0.88;
+  color: var(--crimson);
+  max-width: 12ch;
+}
+.h2Light {
+  color: var(--white);
+}
+
+.body {
+  max-width: 54ch;
+  margin-top: var(--s-6);
+  font-size: var(--step-1);
+  color: var(--ink-2);
+}
+
+.ctaRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-3);
+}
+
+.script,
+.scriptInk,
+.scriptSun,
+.scriptWhite {
+  font: 700 clamp(1.8rem, 1.2rem + 2vw, 2.8rem) / 1 var(--font-script);
+  color: var(--white);
+  rotate: -6deg;
+}
+.scriptInk {
+  color: var(--crimson);
+}
+.scriptSun {
+  color: var(--saffron);
+}
+
+/* ------------------------------------------------------------ stripes */
+.stripes {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+}
+.stripes i {
+  display: block;
+  transform-origin: 50% 0;
+}
+.stripes i:nth-child(even) {
+  transform-origin: 50% 100%;
+}
+.stripes i:nth-child(1) { background: var(--crimson); }
+.stripes i:nth-child(2) { background: var(--tomato); }
+.stripes i:nth-child(3) { background: var(--orange); }
+.stripes i:nth-child(4) { background: var(--saffron); }
+.stripes i:nth-child(5) { background: var(--teal); }
+
+/* ------------------------------------------------------------ hero */
+.hero {
+  position: relative;
+  min-height: max(100svh, 720px);
+  padding: 110px 0 140px;
+  display: grid;
+  align-content: end;
+  overflow: clip;
+}
+
+.word {
+  position: absolute;
+  inset: 84px 0 auto;
+  margin: 0;
+  text-align: center;
+  font: 900 clamp(6rem, 25vw, 26rem) / 0.8 var(--font-display);
+  font-stretch: 62%;
+  letter-spacing: -0.02em;
+  color: var(--paper);
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+.heroGrid {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 560px);
+  align-items: end;
+  gap: var(--s-6);
+}
+
+.heroPhotoWrap {
+  position: relative;
+  justify-self: start;
+  align-self: end;
+}
+
+.heroPhoto {
+  margin: 0;
+  width: clamp(170px, 20vw, 290px);
+  aspect-ratio: 4 / 5;
+  border-radius: 22px;
+  border: 8px solid var(--white);
+  background: var(--white);
+  box-shadow: var(--shadow-float);
+  rotate: -7deg;
+  position: relative;
+}
+.heroPhoto figcaption {
+  position: absolute;
+  left: 50%;
+  bottom: -18px;
+  translate: -50% 0;
+  white-space: nowrap;
+  padding: 6px 12px;
+  border-radius: 999px;
+  background: var(--saffron);
+  color: var(--crimson-d);
+  font: 700 0.9rem/1 var(--font-cond);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.ticketWrap {
+  position: relative;
+}
+
+.ticket {
+  position: relative;
+  rotate: -3deg;
+  display: grid;
+  gap: var(--s-4);
+  padding: clamp(24px, 3vw, 40px);
+  border-radius: 26px;
+  background: var(--white);
+  box-shadow: 0 0 0 6px var(--white), 0 30px 60px -30px rgb(36 22 20 / 0.6);
+  outline: 3px dashed var(--saffron);
+  outline-offset: -14px;
+}
+
+.kicker {
+  font: 700 0.95rem/1 var(--font-cond);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--tomato);
+}
+
+.heroTitle {
+  font-size: clamp(2.6rem, 1.6rem + 3.6vw, 4.6rem);
+  font-weight: 900;
+  font-stretch: 72%;
+  line-height: 0.9;
+  color: var(--crimson);
+}
+.heroTitle span {
+  display: inline-block;
+  padding: 0 0.12em;
+  background: var(--saffron);
+  rotate: -2deg;
+}
+
+.lede {
+  color: var(--ink-2);
+  font-size: var(--step-1);
+}
+
+.script {
+  position: absolute;
+  left: calc(100% + 4px);
+  top: 12%;
+  font-size: clamp(1.6rem, 1rem + 1.4vw, 2.3rem);
+  white-space: nowrap;
+  text-shadow: 0 2px 0 rgb(0 0 0 / 0.15);
+}
+
+/* ------------------------------------------------------------ ribbons */
+.ribbons {
+  position: relative;
+  z-index: 3;
+  margin: -110px 0 0;
+  height: 190px;
+  display: grid;
+  align-content: center;
+}
+
+.ribbon {
+  width: 120vw;
+  margin-left: -10vw;
+  overflow: hidden;
+  padding: 14px 0;
+  font: 900 clamp(1.6rem, 1rem + 2.4vw, 3rem) / 1 var(--font-display);
+  font-stretch: 70%;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+.ribbon + .ribbon {
+  margin-top: 6px;
+}
+.ribbon[data-tone="crimson"] {
+  background: var(--crimson);
+  color: var(--white);
+  position: relative;
+  z-index: 1;
+}
+.ribbon[data-tone="cream"] {
+  background: var(--white);
+  color: var(--crimson);
+  box-shadow: 0 0 0 3px var(--crimson);
+}
+.ribbon b {
+  color: var(--saffron);
+  margin: 0 0.5em;
+}
+
+.ribbonTrack {
+  display: flex;
+  width: max-content;
+}
+.run {
+  display: flex;
+  flex: none;
+}
+
+/* ------------------------------------------------------------ problem */
+.problem {
+  position: relative;
+  padding: var(--s-8) 0 var(--s-9);
+}
+
+.stats {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(16px, 3vw, 40px);
+  margin-top: var(--s-8);
+}
+
+.stat {
+  display: grid;
+  gap: var(--s-2);
+  padding: var(--s-6) var(--s-5);
+  border-radius: 26px;
+  background: var(--saffron);
+  color: var(--crimson-d);
+  rotate: -3deg;
+  outline: 3px dashed currentColor;
+  outline-offset: -12px;
+}
+.stat:nth-child(2) {
+  rotate: 2.5deg;
+  translate: 0 30px;
+}
+.stat:nth-child(3) {
+  rotate: -1.5deg;
+}
+.stat[data-tone="crimson"] {
+  background: var(--crimson);
+  color: var(--white);
+}
+.stat[data-tone="teal"] {
+  background: var(--teal);
+  color: var(--white);
+}
+.stat b {
+  font-size: clamp(3.4rem, 2rem + 5vw, 6rem);
+  font-weight: 700;
+  line-height: 0.9;
+}
+.stat span {
+  font: 600 1.15rem/1.25 var(--font-cond);
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  max-width: 22ch;
+}
+
+.scriptInk {
+  margin-top: var(--s-8);
+  text-align: right;
+  font-size: clamp(2.2rem, 1.4rem + 3vw, 3.6rem);
+}
+
+.source {
+  margin-top: var(--s-5);
+  font-size: var(--step--1);
+  color: var(--ink-3);
+}
+
+/* ------------------------------------------------------------ waves */
+.wave {
+  position: relative;
+  z-index: 1;
+  height: 80px;
+  margin-bottom: -1px;
+}
+.wave svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+/* ------------------------------------------------------------ steps */
+.steps {
+  background: var(--teal);
+  color: var(--white);
+}
+
+.stepsStage {
+  min-height: 100svh;
+  display: grid;
+  align-items: center;
+  padding: 110px 0 var(--s-7);
+}
+
+.stepsGrid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: var(--s-7);
+  align-items: center;
+}
+
+.stepList {
+  list-style: none;
+  margin: var(--s-6) 0 0;
+  padding: 0;
+  display: grid;
+  border-top: 2px solid rgb(255 255 255 / 0.3);
+}
+
+.stepList li {
+  display: grid;
+  grid-template-columns: 64px minmax(0, 1fr);
+  gap: var(--s-3);
+  padding: 14px 0;
+  border-bottom: 2px solid rgb(255 255 255 / 0.3);
+  opacity: 0.55;
+  transition: opacity 300ms var(--ease);
+}
+
+.stepNum {
+  font-size: 2rem;
+  font-weight: 700;
+  line-height: 1;
+  color: var(--saffron);
+}
+
+.stepText {
+  display: grid;
+  gap: 6px;
+}
+.stepText b {
+  font: 900 clamp(1.6rem, 1.2rem + 1.2vw, 2.2rem) / 1 var(--font-display);
+  font-stretch: 75%;
+  text-transform: uppercase;
+}
+.stepText > span {
+  display: block;
+  max-width: 46ch;
+  color: rgb(255 255 255 / 0.9);
+}
+
+/* Without motion every step reads at once. With it, only the active one opens. */
+.steps[data-active] .stepText > span {
+  display: none;
+}
+.steps[data-active="0"] [data-step="0"],
+.steps[data-active="1"] [data-step="1"],
+.steps[data-active="2"] [data-step="2"],
+.steps[data-active="3"] [data-step="3"],
+.steps:not([data-active]) .stepList li {
+  opacity: 1;
+}
+.steps[data-active="0"] [data-step="0"] .stepText > span,
+.steps[data-active="1"] [data-step="1"] .stepText > span,
+.steps[data-active="2"] [data-step="2"] .stepText > span,
+.steps[data-active="3"] [data-step="3"] .stepText > span {
+  display: block;
+}
+
+.pile {
+  position: relative;
+  height: min(70svh, 560px);
+  display: grid;
+  place-items: center;
+}
+
+.layer {
+  position: absolute;
+  display: grid;
+  justify-items: center;
+}
+
+.photoCard {
+  position: relative;
+  width: clamp(200px, 22vw, 300px);
+  aspect-ratio: 4 / 5;
+  border-radius: 20px;
+  border: 8px solid var(--white);
+  background: var(--white);
+  box-shadow: var(--shadow-float);
+}
+
+.stamp {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  padding: 6px 10px;
+  border-radius: 8px;
+  background: var(--crimson);
+  font: 700 0.9rem/1 var(--font-cond);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  rotate: -6deg;
+}
+
+.reading {
+  margin-top: -22px;
+  position: relative;
+  padding: 10px 16px;
+  border-radius: 999px;
+  background: var(--saffron);
+  color: var(--crimson-d);
+  font: 700 1rem/1 var(--font-cond);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  box-shadow: var(--shadow-float);
+}
+.reading b {
+  font-size: 1.3rem;
+}
+
+.trendCard {
+  position: relative;
+  display: grid;
+  gap: 8px;
+  width: clamp(230px, 24vw, 320px);
+  padding: 20px 20px 16px;
+  border-radius: 22px;
+  background: var(--white);
+  color: var(--ink);
+  box-shadow: var(--shadow-float);
+}
+.trendCard svg {
+  width: 100%;
+  overflow: visible;
+}
+.trendTag {
+  justify-self: start;
+  padding: 6px 12px;
+  border-radius: 999px;
+  background: var(--saffron);
+  color: var(--crimson-d);
+  font: 800 1.1rem/1 var(--font-display);
+  font-stretch: 75%;
+  text-transform: uppercase;
+}
+.trendFoot {
+  font: 700 0.95rem/1 var(--font-cond);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--crimson);
+}
+
+.swapCard {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: 10px;
+  width: clamp(250px, 26vw, 340px);
+  padding: 14px;
+  border-radius: 22px;
+  background: var(--tomato);
+  box-shadow: var(--shadow-float);
+}
+.swapPhoto {
+  display: block;
+  aspect-ratio: 1;
+  border-radius: 14px;
+  overflow: hidden;
+  border: 4px solid var(--white);
+}
+.swapArrow {
+  font: 900 2rem/1 var(--font-display);
+  color: var(--saffron);
+}
+.swapCard b {
+  grid-column: 1 / -1;
+  font: 800 1.15rem/1.05 var(--font-display);
+  font-stretch: 78%;
+  text-transform: uppercase;
+}
+
+.miniTicket {
+  display: grid;
+  gap: 4px;
+  width: clamp(230px, 22vw, 300px);
+  padding: 22px 24px;
+  border-radius: 20px;
+  background: var(--crimson);
+  outline: 3px dashed var(--saffron);
+  outline-offset: -10px;
+  box-shadow: var(--shadow-float);
+}
+.miniTicket span {
+  font: 700 0.95rem/1 var(--font-cond);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--pink);
+}
+.miniTicket b {
+  font: 900 2.6rem/0.9 var(--font-display);
+  font-stretch: 70%;
+  text-transform: uppercase;
+  color: var(--saffron);
+}
+.miniTicket small {
+  font-size: 0.9rem;
+}
+
+/* ------------------------------------------------------------ card rail */
+.rail {
+  position: relative;
+  min-height: 100svh;
+  padding: 110px 0 var(--s-7);
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  align-content: start;
+  gap: var(--s-3);
+  overflow: hidden;
+}
+
+.railHead {
+  position: relative;
+  z-index: 2;
+}
+.railHead .h2 {
+  max-width: none;
+  font-size: clamp(3rem, 1.6rem + 5vw, 6.4rem);
+}
+.railSub {
+  margin-top: var(--s-3);
+  color: var(--ink-2);
+  max-width: 48ch;
+}
+
+.ghost {
+  position: absolute;
+  left: 0;
+  top: 46%;
+  margin: 0;
+  font: 900 clamp(10rem, 30vw, 30rem) / 0.8 var(--font-display);
+  font-stretch: 62%;
+  text-transform: uppercase;
+  white-space: nowrap;
+  color: transparent;
+  -webkit-text-stroke: 2px rgb(178 18 54 / 0.16);
+  pointer-events: none;
+  translate: 0 -50%;
+}
+
+.track {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: flex-start;
+  gap: clamp(20px, 3vw, 44px);
+  padding: 40px var(--gutter) 70px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+}
+.page[data-motion="on"] .track {
+  overflow: visible;
+  width: max-content;
+}
+
+.cardSlot {
+  position: relative;
+  flex: none;
+  display: block;
+  scroll-snap-align: center;
+  text-decoration: none;
+  color: var(--white);
+}
+.cardSlot[data-low="true"] {
+  margin-top: 56px;
+}
+
+.cardNum {
+  position: absolute;
+  right: -14px;
+  top: -34px;
+  z-index: 2;
+  font-size: clamp(2.4rem, 1.8rem + 2vw, 3.4rem);
+  font-weight: 700;
+  line-height: 1;
+  color: var(--orange);
+}
+
+.card {
+  position: relative;
+  display: block;
+  width: clamp(230px, 24vw, 360px);
+  aspect-ratio: 4 / 5;
+  border-radius: 26px;
+  overflow: hidden;
+  box-shadow: var(--shadow-float);
+  will-change: transform;
+}
+.cardPhoto {
+  position: absolute;
+  inset: 0;
+  transition: scale 500ms var(--ease);
+}
+.cardSlot:hover .cardPhoto {
+  scale: 1.06;
+}
+.card::after {
+  content: "";
+  position: absolute;
+  inset: 45% 0 0;
+  background: linear-gradient(transparent, rgb(36 10 12 / 0.75));
+}
+
+.cardName {
+  position: absolute;
+  z-index: 1;
+  left: 18px;
+  right: 18px;
+  bottom: 16px;
+  font: 900 clamp(2rem, 1.4rem + 1.8vw, 3rem) / 0.86 var(--font-display);
+  font-stretch: 66%;
+  text-transform: uppercase;
+  text-shadow: 0 3px 0 rgb(0 0 0 / 0.25);
+}
+
+.cardPull {
+  position: absolute;
+  z-index: 1;
+  top: 14px;
+  left: 14px;
+  padding: 6px 10px;
+  border-radius: 999px;
+  font: 700 0.85rem/1 var(--font-cond);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  background: var(--teal);
+}
+.cardPull[data-level="mid"] {
+  background: var(--saffron);
+  color: var(--crimson-d);
+}
+.cardPull[data-level="high"] {
+  background: var(--crimson);
+}
+
+.railEnd {
+  flex: none;
+  align-self: center;
+  display: grid;
+  place-content: center;
+  text-align: center;
+  gap: 6px;
+  width: clamp(220px, 20vw, 300px);
+  aspect-ratio: 1;
+  margin-left: var(--s-6);
+  border-radius: 50%;
+  background: var(--crimson);
+  color: var(--white);
+  text-decoration: none;
+  rotate: -8deg;
+  transition: rotate 400ms var(--ease), background 200ms;
+  scroll-snap-align: center;
+}
+.railEnd:hover {
+  rotate: 4deg;
+  background: var(--crimson-d);
+}
+.railEnd span {
+  font: 900 clamp(1.8rem, 1.4rem + 1vw, 2.4rem) / 0.9 var(--font-display);
+  font-stretch: 70%;
+  text-transform: uppercase;
+  color: var(--saffron);
+  padding: 0 20px;
+}
+.railEnd small {
+  font: 700 1rem/1 var(--font-cond);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+/* ------------------------------------------------------------ stylist */
+.stylist {
+  background: var(--crimson);
+  color: var(--white);
+  padding: var(--s-9) 0;
+  overflow: hidden;
+}
+.stylist .h2Light {
+  max-width: 14ch;
+}
+
+.cloud {
+  margin: var(--s-7) 0;
+  display: grid;
+  gap: clamp(8px, 1.4vw, 18px);
+}
+
+.cloudRow {
+  display: flex;
+  justify-content: center;
+  gap: clamp(18px, 3vw, 44px);
+  white-space: nowrap;
+}
+.cloudRow span {
+  font: 900 clamp(2.4rem, 1.4rem + 4vw, 5.4rem) / 1 var(--font-display);
+  font-stretch: 66%;
+  text-transform: uppercase;
+  rotate: -4deg;
+}
+.cloudRow span:nth-child(even) {
+  rotate: 3deg;
+  translate: 0 10px;
+}
+.cloudRow span[data-c="p"] {
+  color: var(--pink);
+}
+
+.stylistFoot {
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+  gap: var(--s-7);
+  align-items: center;
+}
+.stylistFoot > div:first-child {
+  display: grid;
+  gap: var(--s-5);
+  justify-items: start;
+}
+
+.shout {
+  font: 900 clamp(3rem, 2rem + 5vw, 6.8rem) / 0.86 var(--font-display);
+  font-stretch: 66%;
+  text-transform: uppercase;
+  color: var(--saffron);
+  rotate: -3deg;
+}
+
+.stylistBody {
+  max-width: 46ch;
+  color: rgb(255 255 255 / 0.9);
+  font-size: var(--step-1);
+}
+
+.chatWrap {
+  position: relative;
+}
+.chat {
+  display: grid;
+  gap: 10px;
+  padding: 22px;
+  border-radius: 28px;
+  background: var(--white);
+  color: var(--ink);
+  rotate: 3deg;
+  outline: 3px dashed var(--saffron);
+  outline-offset: -12px;
+}
+.chat p {
+  max-width: 80%;
+  padding: 12px 16px;
+  border-radius: 20px;
+  line-height: 1.35;
+}
+.them {
+  background: var(--paper);
+  border-bottom-left-radius: 6px;
+}
+.me {
+  justify-self: end;
+  background: var(--crimson);
+  color: var(--white);
+  border-bottom-right-radius: 6px;
+}
+.chat b {
+  display: block;
+}
+.scriptSun {
+  position: absolute;
+  right: -6px;
+  bottom: -54px;
+}
+
+/* ------------------------------------------------------------ honesty + faq */
+.honest {
+  padding: var(--s-9) 0 var(--s-8);
+}
+.honest .h2 {
+  max-width: 14ch;
+}
+
+.tickets {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: clamp(14px, 2vw, 28px);
+  margin-top: var(--s-7);
+}
+
+.honestCard {
+  display: grid;
+  align-content: start;
+  gap: 8px;
+  padding: 24px 22px 26px;
+  border-radius: 22px;
+  background: var(--white);
+  border-top: 14px solid var(--crimson);
+  box-shadow: var(--shadow-float);
+  rotate: -2deg;
+}
+.honestCard:nth-child(even) {
+  rotate: 2deg;
+  translate: 0 18px;
+}
+.honestCard[data-i="1"] { border-top-color: var(--orange); }
+.honestCard[data-i="2"] { border-top-color: var(--saffron); }
+.honestCard[data-i="3"] { border-top-color: var(--teal); }
+.honestCard > span {
+  font-size: 2rem;
+  font-weight: 700;
+  line-height: 1;
+  color: var(--orange);
+}
+.honestCard b {
+  font: 900 1.7rem/0.95 var(--font-display);
+  font-stretch: 72%;
+  text-transform: uppercase;
+  color: var(--crimson);
+}
+.honestCard p {
+  color: var(--ink-2);
+}
+
+.faq {
+  margin-top: var(--s-9);
+  padding: clamp(24px, 4vw, 48px);
+  border-radius: 30px;
+  background: var(--white);
+}
+.faq h2 {
+  color: var(--crimson);
+  font-size: clamp(2.6rem, 1.6rem + 3vw, 4rem) !important;
+}
+
+/* ------------------------------------------------------------ finale */
+.finale {
+  position: relative;
+  min-height: 80svh;
+  display: grid;
+  place-items: center;
+  padding: var(--s-9) 0;
+  overflow: hidden;
+}
+.finaleInner {
+  position: relative;
+  display: grid;
+  justify-items: center;
+  text-align: center;
+  gap: var(--s-5);
+}
+.finaleTitle {
+  font-size: clamp(4rem, 2rem + 10vw, 12rem);
+  font-weight: 900;
+  font-stretch: 62%;
+  line-height: 0.82;
+  color: var(--paper);
+  text-shadow: 0 6px 0 rgb(0 0 0 / 0.12);
+}
+.scriptWhite {
+  margin-bottom: var(--s-4);
+}
+
+/* ------------------------------------------------------------ narrow screens */
+@media (max-width: 860px) {
+  .heroGrid {
+    grid-template-columns: 1fr;
+  }
+  .heroPhotoWrap {
+    display: none;
+  }
+  .hero {
+    padding-bottom: 120px;
+  }
+  .word {
+    top: 104px;
+  }
+  .stats {
+    grid-template-columns: 1fr;
+  }
+  .stat:nth-child(2) {
+    translate: 0;
+  }
+  .stepsGrid {
+    grid-template-columns: 1fr;
+    gap: var(--s-4);
+  }
+  .stepsStage {
+    padding: 96px 0 var(--s-5);
+  }
+  .steps .h2Light {
+    font-size: clamp(2.6rem, 11vw, 3.6rem);
+  }
+  .stepsCopy {
+    order: 2;
+  }
+  .stepList {
+    margin-top: var(--s-4);
+  }
+  .stepList li {
+    padding: 8px 0;
+    grid-template-columns: 44px minmax(0, 1fr);
+  }
+  .stepNum {
+    font-size: 1.4rem;
+  }
+  .stepText b {
+    font-size: 1.35rem;
+  }
+  .stepText > span {
+    font-size: 0.95rem;
+  }
+  .pile {
+    order: 1;
+    height: 34svh;
+    scale: 0.72;
+  }
+  .stylistFoot {
+    grid-template-columns: 1fr;
+  }
+  .tickets {
+    grid-template-columns: 1fr 1fr;
+  }
+  .card {
+    width: 66vw;
+  }
+  .railHead .h2 {
+    font-size: clamp(2.6rem, 12vw, 3.6rem);
+  }
+}
+
+@media (max-width: 520px) {
+  .tickets {
+    grid-template-columns: 1fr;
+  }
+  .honestCard:nth-child(even) {
+    translate: 0;
+  }
+  .ribbons {
+    margin-top: -90px;
+    height: 150px;
+  }
+}

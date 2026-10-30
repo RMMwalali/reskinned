@@ -1,42 +1,57 @@
-@import "@fontsource-variable/fraunces/full.css";
-@import "@fontsource-variable/hanken-grotesk/index.css";
+@import "@fontsource-variable/archivo/wdth.css";
+@import "@fontsource/barlow-condensed/600.css";
+@import "@fontsource/barlow-condensed/700.css";
+@import "@fontsource-variable/source-sans-3/index.css";
+@import "@fontsource-variable/caveat/index.css";
 
 :root {
-  /* Colour — see DESIGN.md. Cinematic neutral: near-white stage, near-black ink, jacaranda accent, frosted lilac glow. */
-  --ink: #17151b;
-  --ink-2: #3d3a43;
-  --ink-3: #6b6773;
-  --cream: #f3f2f0;
-  --cream-2: #e9e7e4;
-  --white: #ffffff;
-  --stage: #fafaf9;
-  --action: #17151b;
-  --action-hover: #34303a;
-  --accent: #5b3fb0;
-  --accent-ink: #452e8c;
-  --mark: #f9d9cf;
-  --lilac: #eee8f8;
-  --lilac-2: #dcd2f2;
-  --blend: #1e7a4e;
-  --blend-bg: #e3f2ea;
-  --clash: #b42318;
-  --clash-bg: #fbe7e3;
-  --amber: #8a5a00;
-  --amber-bg: #f8ecd2;
-  --line: #e4e2e0;
+  /* Colour — see DESIGN.md. Bold, warm and printed: crimson, cream, saffron, teal. */
+  --crimson: #b21236;
+  --crimson-d: #8c0d29;
+  --tomato: #e8432b;
+  --orange: #f47b20;
+  --saffron: #feb914;
+  --teal: #2c9fa2;
+  --teal-d: #1d5f61;
+  --pink: #f6b3c2;
+  --paper: #efebdf;
+
+  --ink: #241614;
+  --ink-2: #4a3a36;
+  --ink-3: #7a6a64;
+  --cream: #f6f2e7;
+  --cream-2: #e6e0cf;
+  --white: #fffdf7;
+  --stage: var(--paper);
+  --action: var(--crimson);
+  --action-hover: var(--crimson-d);
+  --accent: var(--crimson);
+  --accent-ink: var(--crimson-d);
+  --mark: #ffe08a;
+  --lilac: #fdf0c8;
+  --lilac-2: #fbe2a0;
+  --blend: #1d7a52;
+  --blend-bg: #dcefe2;
+  --clash: #b21236;
+  --clash-bg: #f9dfe2;
+  --amber: #9a5a00;
+  --amber-bg: #fdecc4;
+  --line: #d9d1bd;
 
   /* Type */
-  --font-display: "Fraunces Variable", Georgia, serif;
-  --font-text: "Hanken Grotesk Variable", "Hanken Grotesk", system-ui, sans-serif;
-  --font-data: "Hanken Grotesk Variable", "Hanken Grotesk", system-ui, sans-serif;
+  --font-display: "Archivo Variable", "Archivo", Impact, sans-serif;
+  --font-cond: "Barlow Condensed", "Archivo Variable", sans-serif;
+  --font-text: "Source Sans 3 Variable", "Source Sans 3", system-ui, sans-serif;
+  --font-data: "Barlow Condensed", "Source Sans 3 Variable", system-ui, sans-serif;
+  --font-script: "Caveat Variable", "Caveat", cursive;
 
   --step--1: 0.875rem;
-  --step-0: 1rem;
-  --step-1: 1.125rem;
+  --step-0: 1.0625rem;
+  --step-1: 1.1875rem;
   --step-2: 1.375rem;
   --step-3: clamp(1.75rem, 1.4rem + 1.6vw, 2.5rem);
-  --step-4: clamp(2.5rem, 1.8rem + 3.4vw, 4.5rem);
-  --step-5: clamp(3rem, 2rem + 5vw, 6.25rem);
+  --step-4: clamp(2.6rem, 1.6rem + 4vw, 5rem);
+  --step-5: clamp(3.4rem, 1.8rem + 7vw, 8.5rem);
 
   /* Space */
   --s-1: 0.25rem;
@@ -49,12 +64,12 @@
   --s-8: 4.5rem;
   --s-9: 7rem;
 
-  --radius: 16px;
+  --radius: 18px;
   --radius-sm: 10px;
-  --radius-lg: 40px;
-  --shadow-float: 0 30px 60px -30px rgb(23 21 27 / 0.28), 0 10px 20px -12px rgb(23 21 27 / 0.12);
-  --page: 1160px;
-  --gutter: clamp(16px, 4vw, 40px);
+  --radius-lg: 32px;
+  --shadow-float: 0 24px 50px -28px rgb(36 22 20 / 0.45);
+  --page: 1240px;
+  --gutter: clamp(16px, 4vw, 48px);
 
   --ease: cubic-bezier(0.2, 0.7, 0.2, 1);
   --fast: 180ms;
@@ -75,10 +90,9 @@ body {
   background: var(--stage);
   color: var(--ink);
   font-family: var(--font-text);
-  font-weight: 430;
+  font-weight: 420;
   font-size: var(--step-0);
-  letter-spacing: 0.005em;
-  line-height: 1.6;
+  line-height: 1.55;
   -webkit-font-smoothing: antialiased;
 }
 
@@ -86,18 +100,23 @@ h1,
 h2,
 h3 {
   font-family: var(--font-display);
-  font-weight: 360;
-  font-variation-settings: "SOFT" 30, "WONK" 0;
-  line-height: 1.04;
-  letter-spacing: -0.025em;
+  font-weight: 850;
+  font-stretch: 78%;
+  line-height: 0.95;
+  letter-spacing: -0.01em;
   margin: 0;
   text-wrap: balance;
 }
 
+h1,
+h2 {
+  text-transform: uppercase;
+}
+
 /* Small bold uppercase field label (e.g. COLOUR, TEXTURE). For labels, not headings. */
 .label {
-  font: 700 0.8125rem/1.2 var(--font-text);
-  letter-spacing: 0.06em;
+  font: 700 0.875rem/1.2 var(--font-cond);
+  letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--ink);
 }
@@ -106,8 +125,9 @@ h3 {
 .tag {
   display: inline-flex;
   align-items: center;
-  font: 600 0.75rem/1 var(--font-text);
-  letter-spacing: 0.02em;
+  font: 700 0.8125rem/1 var(--font-cond);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
   padding: 6px 10px;
   border-radius: 999px;
   background: var(--lilac);
@@ -169,21 +189,26 @@ img {
   border: 0;
 }
 
-/* Buttons */
+/* Buttons: heavy, uppercase pills */
 .btn {
   position: relative;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: var(--s-2);
-  min-height: 48px;
+  min-height: 50px;
   padding: 0 var(--s-5);
-  border-radius: 12px;
-  border: 1.5px solid transparent;
-  font: 600 var(--step-0) / 1 var(--font-text);
+  border-radius: 999px;
+  border: 2px solid transparent;
+  font: 700 1.05rem / 1 var(--font-cond);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
   text-decoration: none;
   cursor: pointer;
   transition: background var(--fast) var(--ease), color var(--fast) var(--ease), border-color var(--fast) var(--ease), transform var(--fast) var(--ease);
+}
+.btn:hover {
+  transform: rotate(-2deg) scale(1.03);
 }
 .btn:active {
   transform: translateY(1px);
@@ -191,22 +216,32 @@ img {
 .btn-primary {
   background: var(--action);
   color: var(--white);
-  box-shadow: 0 1px 0 rgb(255 255 255 / 0.12) inset, 0 8px 18px -10px rgb(23 21 27 / 0.6);
 }
 .btn-primary:hover {
   background: var(--action-hover);
 }
 .btn-ghost {
-  background: var(--cream-2);
+  background: transparent;
   color: var(--ink);
+  border-color: currentColor;
 }
 .btn-ghost:hover {
-  background: var(--line);
+  background: var(--ink);
+  color: var(--white);
+  border-color: var(--ink);
+}
+.btn-sun {
+  background: var(--saffron);
+  color: var(--crimson-d);
+}
+.btn-cream {
+  background: var(--white);
+  color: var(--crimson);
 }
 
 /* The header floats over the page; leave room, except for full-bleed cinematic pages. */
 main {
-  padding-top: 88px;
+  padding-top: 96px;
 }
 main:has(> [data-fullbleed]) {
   padding-top: 0;
@@ -222,81 +257,6 @@ html.lenis body {
 }
 .lenis.lenis-smooth iframe {
   pointer-events: none;
-}
-
-/* Scroll-lit paragraph (ScrollWords) */
-.scroll-words span {
-  color: #c7c3cc;
-  transition: color 240ms var(--ease), background-color 240ms var(--ease);
-}
-.scroll-words span[data-on="true"] {
-  color: var(--ink);
-}
-.scroll-words .mark-word[data-on="true"] {
-  background: var(--mark);
-  box-decoration-break: clone;
-  -webkit-box-decoration-break: clone;
-}
-
-/* Live chips synced to the 3D scene */
-.live-chip {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  padding: 8px 14px 8px 8px;
-  border-radius: 999px;
-  background: color-mix(in srgb, var(--white) 80%, transparent);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  box-shadow: 0 10px 30px -18px rgb(23 21 27 / 0.4);
-  font-size: 0.8125rem;
-  white-space: nowrap;
-}
-.live-chip i {
-  width: 22px;
-  height: 22px;
-  border-radius: 50%;
-  transition: background 300ms var(--ease);
-}
-.live-sep {
-  width: 1px;
-  height: 14px;
-  background: var(--line);
-}
-.measure-chip {
-  display: grid;
-  gap: 6px;
-  width: min(100%, 340px);
-  padding: var(--s-4);
-  border-radius: var(--radius);
-  background: color-mix(in srgb, var(--white) 82%, transparent);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  box-shadow: 0 16px 40px -28px rgb(23 21 27 / 0.45);
-  font-size: 0.8125rem;
-}
-.measure-chip div {
-  display: flex;
-  justify-content: space-between;
-  gap: var(--s-4);
-  transition: opacity 300ms var(--ease);
-}
-.measure-chip div[data-out="false"] {
-  opacity: 0.3;
-}
-.measure-chip span {
-  color: var(--ink-3);
-}
-.measure-chip b {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  font-weight: 600;
-}
-.measure-chip b i {
-  width: 12px;
-  height: 12px;
-  border-radius: 50%;
 }
 
 /* Highlighted phrase, like a marker pen */
