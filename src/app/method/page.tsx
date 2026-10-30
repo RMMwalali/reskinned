@@ -149,6 +149,9 @@ export default function MethodPage() {
             Hims &amp; Hers, <a href="https://www.sec.gov/Archives/edgar/data/1773751/000177375125000152/finalq12025shareholderle.htm" target="_blank" rel="noopener noreferrer">Q1 2025 shareholder letter</a> (hair-loss subscriber growth)
           </li>
           <li>
+            Nutrafol, <a href="https://nutrafol.com/hair/brand/support/legal/real-growth-guarantee/" target="_blank" rel="noopener noreferrer">Real Growth Guarantee terms</a> (photo windows used for the guarantee panel)
+          </li>
+          <li>
             Perfect Corp, <a href="https://docs.perfectcorp.com/reference/ai_hair_density_detection" target="_blank" rel="noopener noreferrer">AI Hair Density Detection API</a>
           </li>
         </ul>

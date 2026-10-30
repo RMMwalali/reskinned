@@ -577,3 +577,69 @@
     grid-row: 2;
   }
 }
+
+/* ---------------------------------------------------------------- guarantee */
+.windows {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--s-3);
+}
+.windows li {
+  display: grid;
+  gap: 4px;
+  padding: 16px;
+  border-radius: 18px;
+  border: 2px dashed var(--line);
+  background: var(--cream);
+}
+.windows li > span {
+  font-size: 1.6rem;
+  font-weight: 700;
+  line-height: 1;
+  color: var(--orange);
+}
+.windows b {
+  font: 800 1.15rem/1 var(--font-display);
+  font-stretch: 80%;
+  text-transform: uppercase;
+}
+.windows small {
+  color: var(--ink-3);
+}
+.windows em {
+  justify-self: start;
+  margin-top: 4px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: var(--cream-2);
+  font: 700 0.8rem/1 var(--font-cond);
+  font-style: normal;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+.windows li[data-state="done"] {
+  border: 2px solid var(--teal);
+}
+.windows li[data-state="done"] em {
+  background: var(--teal);
+  color: var(--white);
+}
+.windows li[data-state="open"] {
+  border: 2px solid var(--crimson);
+}
+.windows li[data-state="open"] em {
+  background: var(--crimson);
+  color: var(--white);
+}
+.windows li[data-state="missed"] em {
+  background: var(--ink-3);
+  color: var(--white);
+}
+@media (max-width: 640px) {
+  .windows {
+    grid-template-columns: 1fr;
+  }
+}

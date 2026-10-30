@@ -2,6 +2,7 @@
 // page renders the same everywhere. Every subscriber here is synthetic.
 
 import type { CheckIn } from "./edges";
+import { claimReady, guaranteeWindows } from "./guarantee";
 import { progress, treatmentById, type TreatmentId, type Verdict } from "./treatments";
 
 export const PORTAL_NOW = new Date("2026-10-30T09:00:00Z");
@@ -30,6 +31,9 @@ export type Subscriber = {
   runoutDays: number;
   risk: number;
   reasons: string[];
+  /** Past the last guarantee window, and whether every window has a check-in. */
+  guaranteeDue: boolean;
+  evidence: boolean;
 };
 
 const MIX: [TreatmentId, number, number][] = [
@@ -96,7 +100,9 @@ export function sampleCohort(n = 240): Subscriber[] {
       risk += 10;
       reasons.push(runoutDays <= 0 ? "Runs out today" : `Runs out in ${runoutDays} days`);
     }
-    out.push({ id: `S-${String(1040 + i * 7).padStart(5, "0")}`, treatment, price, month, lastCheckDays, checkIns: valid.length, verdict: p.verdict, change: p.change, runoutDays, risk: Math.min(100, risk), reasons });
+    const windows = guaranteeWindows(valid, new Date(start).toISOString(), PORTAL_NOW);
+    const guaranteeDue = month * 30.44 >= 217;
+    out.push({ id: `S-${String(1040 + i * 7).padStart(5, "0")}`, treatment, price, month, lastCheckDays, checkIns: valid.length, verdict: p.verdict, change: p.change, runoutDays, risk: Math.min(100, risk), reasons, guaranteeDue, evidence: claimReady(windows) });
   }
   return out;
 }
@@ -124,6 +130,8 @@ export function cohortStats(c: Subscriber[]) {
     reorders,
     reorderValue: reorders.reduce((t, s) => t + s.price * 3, 0),
     improving: c.filter((s) => s.verdict === "improving" || s.verdict === "holding").length,
+    guaranteeDue: c.filter((s) => s.guaranteeDue).length,
+    evidenceReady: c.filter((s) => s.guaranteeDue && s.evidence).length,
   };
 }
 

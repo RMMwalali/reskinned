@@ -96,6 +96,24 @@ export default function PortalPage() {
       </section>
 
       <section className={ui.panel}>
+        <h2>Guarantee claims</h2>
+        <p className={ui.sub}>
+          If you offer a results guarantee, each claim needs standardized photos from set windows, usually graded by hand. edge.wise collects them during the monthly check-ins and hands you the evidence with a measured trend.
+        </p>
+        <div className={s.kpis}>
+          <div>
+            <span>Past the last window</span>
+            <b className="data">{st.guaranteeDue}</b>
+          </div>
+          <div data-tone="sun">
+            <span>Complete evidence</span>
+            <b className="data">{st.evidenceReady}</b>
+            <small>{Math.round((st.evidenceReady / Math.max(1, st.guaranteeDue)) * 100)}% of them</small>
+          </div>
+        </div>
+      </section>
+
+      <section className={ui.panel}>
         <h2>At risk now</h2>
         <p className={ui.sub}>Ranked by risk: early in treatment, quiet for weeks, a worrying first reading, or about to run out. Send each one the progress message that fits.</p>
         <ol className={s.riskList}>

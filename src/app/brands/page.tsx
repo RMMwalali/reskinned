@@ -13,6 +13,20 @@ const STEPS = [
   ["They reorder from you", "Run-out reminders and a one-tap shop with your products. Prescription refills route to your prescribers."],
 ];
 
+const ALTERNATIVES = [
+  ["Consumer tracker apps", "Photo logs and rough AI estimates, sold to the subscriber. No link to your product, your shop or your retention.", "Your brand, your shop, your subscribers."],
+  ["Brand questionnaires and photo logs", "A month-3 survey or a camera roll. Nothing is measured, so nobody can say whether it's working.", "A measured density reading every month, against their own start."],
+  ["In-clinic imaging", "Accurate, but needs hardware and an appointment. Nothing happens between visits.", "At home, on their phone, between visits."],
+  ["Building it on YouCam yourself", "The API gives a score. You'd still need the capture protocol, reliability checks, treatment timelines, nudges, guarantee evidence and the portal.", "All of that, ready to embed."],
+];
+
+const PILOT = [
+  ["Repeatability", "Two takes per check-in for every user. Target: takes agree within ±0.15 in 90% of check-ins."],
+  ["Agreement", "A clinician grades a sample of photo pairs (better / same / worse). Target: edge.wise agrees in most of them."],
+  ["Retention", "Subscribers offered edge.wise against a matched group without it. Primary measure: still subscribed at month six."],
+  ["Revenue", "Reorders placed through the in-app shop, and guarantee claims that arrive with complete evidence."],
+];
+
 const PLANS = [
   ["Pilot", "Free", "90 days, up to 500 subscribers. We measure retention against a control group with you."],
   ["Growth", "$1 / active user / month", "Your products in the shop, your branding, monthly retention report."],
@@ -73,8 +87,41 @@ export default function BrandsPage() {
       </section>
 
       <section className={ui.panel}>
+        <h2>Why not just…</h2>
+        <div className={s.alts}>
+          {ALTERNATIVES.map(([a, gap, ours]) => (
+            <div key={a}>
+              <b>{a}</b>
+              <p>{gap}</p>
+              <p className={s.ours}>edge.wise: {ours}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <section className={ui.panel}>
+        <h2>Results guarantees, automated</h2>
+        <p className={ui.sub}>
+          Some brands refund customers who see no growth after six months. One US hair-supplement brand&rsquo;s guarantee asks for three sets of standardized photos in set windows (days 1–37, 97–127 and 187–217), with an expert grading them by hand. edge.wise collects those photos in the monthly check-in, flags missing windows before they close, and hands over a measured trend with the evidence.
+        </p>
+      </section>
+
+      <section className={ui.panel}>
         <h2>What it&rsquo;s worth</h2>
         <RoiCalculator />
+      </section>
+
+      <section className={ui.panel}>
+        <h2>What a pilot proves</h2>
+        <ol className={s.steps}>
+          {PILOT.map(([t, d], i) => (
+            <li key={t}>
+              <span className="data">0{i + 1}</span>
+              <b>{t}</b>
+              <p>{d}</p>
+            </li>
+          ))}
+        </ol>
       </section>
 
       <section className={ui.panel}>

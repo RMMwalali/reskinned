@@ -10,6 +10,7 @@ Built for the [YouCam API Skin AI & eCommerce Hackathon](https://youcam-api-skin
 - **Results take months.** Minoxidil usually takes **6–12 months**; finasteride about **4 months** to notice improvement ([American Academy of Dermatology](https://www.aad.org/public/diseases/hair-loss/treatment/diagnosis-treat)).
 - **It's a large, growing subscription market.** Hims & Hers reports year-on-year subscriber growth above **45% in men's and 170% in women's hair loss**, and about **$84** monthly revenue per subscriber company-wide ([Q1 2025 shareholder letter](https://www.sec.gov/Archives/edgar/data/1773751/000177375125000152/finalq12025shareholderle.htm)).
 - **Who pays:** treatment brands, telehealth services, pharmacies and clinics, per active user. Every subscriber kept past month six is months of revenue they would otherwise lose. Consumers use it free.
+- **Brands already pay to fight this, without measurement.** Hims runs a month-3 hair check-in questionnaire; Nutrafol's app has a photo log and its Real Growth Guarantee requires three sets of photos in fixed windows, graded by hand. Consumer tracker apps exist but sit outside the brand; clinic imaging (e.g. Canfield HairMetrix) needs in-office hardware.
 - **Traction hair loss** (tight braids, glued wigs, slick buns) is supported too: choosing "Gentler styles" adds style-tension tracking, gentler-style planning with YouCam try-on, and a stylist card.
 
 ## What it does
@@ -20,8 +21,10 @@ Built for the [YouCam API Skin AI & eCommerce Hackathon](https://youcam-api-skin
 | **Check in monthly** (`/check`) | Two hairline photos, head lowered 45°. YouCam **Hair Density Detection** runs on both takes; the gap between them flags unreliable readings. **Hair Length** and **Hair Type Detection** add context. |
 | **Progress report** | Baseline, change, month on treatment and the results window. Verdicts: *Started / On track / Early dip / Holding / Working / Talk to your prescriber*. A nudge through the months when most people quit. Side-by-side thumbnails kept only on the phone. |
 | **Skin check** | Optional: YouCam **AI Skin Analysis** (redness, moisture, breakouts, texture) on the front photo each month. Irritation rising on minoxidil solution suggests the propylene-glycol-free foam and a fragrance-free moisturizer, one tap into the cart. |
+| **Guarantee photos** | Results guarantees need standardized photos in set windows (days 1–37, 97–127, 187–217), graded by hand today. The monthly check-in fills them and exports an evidence pack with the measured trend. |
 | **Routine shop** | Run-out reminders and a cart with the partner brand's products; prescription items route to the prescriber, clinic treatments to booking. Demo checkout, clearly labelled. |
-| **For brands** (`/brands`) | The retention case, pricing and an ROI calculator. |
+| **For brands** (`/brands`) | The retention case, alternatives, guarantee automation, ROI calculator, pilot plan and pricing. |
+| **Partner portal** (`/brands/portal`) | Sample cohort: KPIs, the published drop-off curve, guarantee evidence, and a ranked at-risk list with tailored nudges. |
 | **Gentler styles** (`/plan`, `/card/…`) | For traction hair loss: gentler versions of a style with **YouCam Hairstyle Generator** try-on, and a stylist card. |
 
 Engines: `src/lib/treatments.ts` (treatment timelines and progress verdicts) and `src/lib/edges.ts` (trend and style tension), both deterministic and unit-tested. Methods, timelines, limits and sources are public at `/method`.

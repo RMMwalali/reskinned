@@ -7,6 +7,7 @@ import { history, useHistory } from "@/lib/history";
 import { planStore } from "@/lib/plan";
 import { Routine } from "./treatment/Routine";
 import { SkinPanel } from "./treatment/SkinPanel";
+import { GuaranteePanel } from "./treatment/GuaranteePanel";
 import { TreatmentReport } from "./treatment/TreatmentReport";
 import { TensionMeter } from "./TensionMeter";
 import { TrendChart } from "./TrendChart";
@@ -20,6 +21,7 @@ export function Dashboard() {
       <TreatmentReport />
       <SkinPanel />
       <Routine />
+      <GuaranteePanel />
       <Hairline />
     </div>
   );

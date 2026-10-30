@@ -200,7 +200,7 @@ export function demoTreatment(now = new Date()): { plan: Plan; list: CheckIn[] }
       row("t1", 6, 1.33, "Low Density"),
       row("t2", 5, 1.4, "Low Density", { redness: 77, moisture: 68, acne: 83, texture: 69 }),
       row("t3", 3, 1.51, "Medium Density"),
-      row("t4", 1, 1.66, "Medium Density", { redness: 64, moisture: 58, acne: 82, texture: 66 }),
+      row("t4", 0.8, 1.66, "Medium Density", { redness: 64, moisture: 58, acne: 82, texture: 66 }),
     ],
   };
 }

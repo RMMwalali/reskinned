@@ -300,3 +300,35 @@
     height: 52px;
   }
 }
+
+.alts {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--s-4);
+}
+.alts > div {
+  display: grid;
+  gap: 6px;
+  align-content: start;
+  padding: 20px;
+  border-radius: 20px;
+  background: var(--cream);
+  border: 2px solid var(--line);
+}
+.alts b {
+  font: 900 1.4rem/1 var(--font-display);
+  font-stretch: 76%;
+  text-transform: uppercase;
+}
+.alts p {
+  color: var(--ink-2);
+}
+.alts .ours {
+  color: var(--crimson);
+  font-weight: 700;
+}
+@media (max-width: 860px) {
+  .alts {
+    grid-template-columns: 1fr;
+  }
+}
