@@ -12,11 +12,32 @@ export const metadata: Metadata = {
 export const viewport: Viewport = { themeColor: "#b21236" };
 
 function Mark() {
-  // A round stamp: a hairline arc with a fringe of strands.
+  // A single hair growing from the skin, shown in cross-section: the shaft
+  // rises from its root (the bulb) through the skin surface.
   return (
-    <svg viewBox="0 0 24 24" width="26" height="26" aria-hidden="true">
-      <path d="M4 15c1.6-5 4.6-7.5 8-7.5s6.4 2.5 8 7.5" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" />
-      <path d="M8 12.2v2.4M12 10.7v2.7M16 12.2v2.4" stroke="currentColor" strokeOpacity=".75" strokeWidth="2" strokeLinecap="round" />
+    <svg viewBox="0 0 48 48" width="50" height="50" aria-hidden="true">
+      <defs>
+        <clipPath id="mark-clip">
+          <circle cx="24" cy="24" r="22" />
+        </clipPath>
+      </defs>
+      <g clipPath="url(#mark-clip)">
+        <g transform="translate(0 -3)">
+        {/* skin, below the surface line */}
+        <path d="M0 27 C8 24 15 29 24 27 S40 24 48 27 V52 H0 Z" fill="#f6b3c2" />
+        <path d="M0 27 C8 24 15 29 24 27 S40 24 48 27" fill="none" stroke="#fffdf7" strokeWidth="1.6" />
+        <path d="M0 33 C10 31 16 35 24 33 S40 31 48 33" fill="none" stroke="#e98fa4" strokeWidth="1" />
+        {/* follicle sheath */}
+        <path d="M20.2 27.6 V36 M27.8 27.6 V36" stroke="#b21236" strokeWidth="1.3" strokeLinecap="round" />
+        {/* root: the bulb, with the papilla underneath */}
+        <path d="M18.6 38.6 C18.6 33.8 29.4 33.8 29.4 38.6 C29.4 43.6 18.6 43.6 18.6 38.6 Z" fill="#feb914" />
+        <ellipse cx="24" cy="42.4" rx="2.4" ry="1.7" fill="#b21236" />
+        {/* the shaft, growing up through the skin */}
+        <path d="M24 37 C24 30 23.2 22 24.6 15.5 C25.6 11 28.4 7.6 32.4 6" fill="none" stroke="#feb914" strokeWidth="2.8" strokeLinecap="round" />
+        {/* growth marks */}
+        <path d="M35.6 9.4 l3.2 -1.4 M35.2 13.4 l3.4 0.6" stroke="#fffdf7" strokeWidth="1.5" strokeLinecap="round" />
+        </g>
+      </g>
     </svg>
   );
 }
