@@ -4,6 +4,8 @@ import { useEffect, useMemo, useState, useSyncExternalStore } from "react";
 import { STYLES, assess, saferStyles, styleById, type StyleId } from "@/lib/edges";
 import { useHistory } from "@/lib/history";
 import { prepareImage, type Prepared } from "@/lib/image-client";
+import { STYLE_PHOTOS } from "@/lib/photos";
+import { StylePhoto } from "./StylePhoto";
 import { TensionMeter } from "./TensionMeter";
 import styles from "./ui.module.css";
 
@@ -65,6 +67,9 @@ export function Planner() {
         <div className={styles.options} role="radiogroup" aria-label="Style you want">
           {STYLES.map((s) => (
             <button key={s.id} role="radio" aria-checked={want === s.id} className={styles.option} onClick={() => setWant(s.id)}>
+              <span className={styles.optionPhoto}>
+                <StylePhoto photo={STYLE_PHOTOS[s.id]} />
+              </span>
               <strong>{s.name}</strong>
               <TensionMeter value={s.tension} />
             </button>
@@ -83,7 +88,11 @@ export function Planner() {
         <h2>Gentler ways to get the look</h2>
         <div style={{ display: "grid", gap: "var(--s-3)" }}>
           {options.map((o) => (
-            <article key={o.style.id} style={{ display: "grid", gap: 10, padding: "var(--s-4)", borderRadius: 18, border: "1px solid var(--line)", background: o.style.id === want ? "var(--cream)" : "var(--white)" }}>
+            <article key={o.style.id} className={styles.saferCard} data-wanted={o.style.id === want}>
+              <span className={styles.saferPhoto}>
+                <StylePhoto photo={STYLE_PHOTOS[o.style.id]} sizes="140px" />
+              </span>
+              <div style={{ display: "grid", gap: 10, minWidth: 0 }}>
               <div className={styles.row} style={{ justifyContent: "space-between" }}>
                 <strong style={{ fontSize: "1.05rem" }}>
                   {o.style.name}
@@ -100,6 +109,7 @@ export function Planner() {
                   <li key={r}>{r}</li>
                 ))}
               </ul>
+              </div>
             </article>
           ))}
         </div>

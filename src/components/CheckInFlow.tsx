@@ -5,6 +5,8 @@ import { useRouter } from "next/navigation";
 import { STYLES, type CheckIn, type DensityTerm, type StyleId, type Symptoms } from "@/lib/edges";
 import { history } from "@/lib/history";
 import { prepareImage, type Prepared } from "@/lib/image-client";
+import { SCENE_PHOTOS, STYLE_PHOTOS } from "@/lib/photos";
+import { StylePhoto } from "./StylePhoto";
 import { TensionMeter } from "./TensionMeter";
 import styles from "./ui.module.css";
 
@@ -153,6 +155,9 @@ export function CheckInFlow() {
           <div className={styles.options} role="radiogroup" aria-label="Current style">
             {STYLES.map((x) => (
               <button key={x.id} role="radio" aria-checked={style === x.id} className={styles.option} onClick={() => setStyle(x.id)}>
+                <span className={styles.optionPhoto}>
+                  <StylePhoto photo={STYLE_PHOTOS[x.id]} />
+                </span>
                 <strong>{x.name}</strong>
                 <TensionMeter value={x.tension} />
               </button>
@@ -260,17 +265,19 @@ export function CheckInFlow() {
   );
 }
 
+const GUIDE_PHOTOS = { tilt: SCENE_PHOTOS.takeA, front: STYLE_PHOTOS.out, side: SCENE_PHOTOS.side } as const;
+
 function Guide({ kind }: { kind: "tilt" | "front" | "side" }) {
-  // Outline guides for each photo: head tilted down, front, side.
+  // A real example photo, faded, with a framing guide: "like this".
   return (
-    <svg viewBox="0 0 120 140" aria-hidden="true">
-      <g transform={kind === "tilt" ? "rotate(-14 60 70) translate(0 6)" : kind === "side" ? "translate(6 0)" : undefined}>
-        <ellipse cx="60" cy="58" rx="40" ry="38" fill="var(--cream-2)" stroke="var(--ink-3)" strokeWidth="2" strokeDasharray="4 4" />
-        <ellipse cx={kind === "side" ? 66 : 60} cy="74" rx={kind === "side" ? 20 : 24} ry="28" fill="var(--white)" stroke="var(--ink)" strokeWidth="2" />
-        <path d={kind === "side" ? "M46 54 Q64 40 84 52" : "M38 56 Q60 38 82 56"} fill="none" stroke="var(--accent)" strokeWidth="3" strokeLinecap="round" />
-      </g>
-      {kind === "tilt" ? <path d="M98 30 q8 12 2 26 m0 0 l-6 -4 m6 4 l3 -7" fill="none" stroke="var(--accent)" strokeWidth="2.5" strokeLinecap="round" /> : null}
-      <path d="M30 132 Q60 108 90 132" fill="none" stroke="var(--ink)" strokeWidth="2" />
-    </svg>
+    <span className={styles.example} aria-hidden="true">
+      <StylePhoto photo={GUIDE_PHOTOS[kind]} sizes="240px" position={kind === "tilt" ? "50% 20%" : "50% 30%"} />
+      <span className={styles.exampleTag}>Example</span>
+      {kind === "tilt" ? (
+        <svg viewBox="0 0 100 100" preserveAspectRatio="none" className={styles.exampleArc}>
+          <path d="M18 34 Q50 12 82 34" fill="none" stroke="#fff" strokeWidth="1.6" strokeDasharray="4 3" vectorEffect="non-scaling-stroke" />
+        </svg>
+      ) : null}
+    </span>
   );
 }

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { NOISE, STYLES } from "@/lib/edges";
+import { ALL_CREDITS } from "@/lib/photos";
 import { TensionMeter } from "@/components/TensionMeter";
 import styles from "@/components/ui.module.css";
 
@@ -117,6 +118,20 @@ export default function MethodPage() {
           <li>
             Perfect Corp, <a href="https://docs.perfectcorp.com/reference/ai_hair_density_detection" target="_blank" rel="noopener noreferrer">AI Hair Density Detection API</a>
           </li>
+        </ul>
+      </section>
+
+      <section className={styles.panel} id="credits">
+        <h2>Photo credits</h2>
+        <p className={styles.sub}>
+          Style and example photos are from <a href="https://www.pexels.com" target="_blank" rel="noopener noreferrer">Pexels</a>, used under the Pexels License. They show hairstyles only. Nobody pictured is shown as having hair loss.
+        </p>
+        <ul className={styles.list} style={{ columns: 2, columnGap: "var(--s-6)" }}>
+          {ALL_CREDITS.map((p) => (
+            <li key={p.id} style={{ breakInside: "avoid" }}>
+              <a href={`https://www.pexels.com/photo/${p.id}/`} target="_blank" rel="noopener noreferrer">{p.alt}</a>, by {p.by}
+            </li>
+          ))}
         </ul>
       </section>
 

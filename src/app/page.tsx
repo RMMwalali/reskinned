@@ -4,7 +4,9 @@ import { HeroPill } from "@/components/cinema/HeroPill";
 import { ReadingChip, TensionChip } from "@/components/cinema/LiveChip";
 import { ScrollWords } from "@/components/cinema/ScrollWords";
 import { Faq } from "@/components/Faq";
+import { StylePhoto } from "@/components/StylePhoto";
 import { buildCard, demoHistory, encodeCard } from "@/lib/edges";
+import { SCENE_PHOTOS } from "@/lib/photos";
 import styles from "@/components/cinema/cinema.module.css";
 
 // A sample stylist card for the hero's "I'm a stylist" tab.
@@ -124,6 +126,9 @@ export default function Home() {
             <Link href={`/card/${DEMO_CARD}`} className="btn btn-primary">See a stylist card</Link>
           </div>
           <div className={styles.chat} aria-label="Example conversation with a stylist">
+            <span className={styles.chatPhoto}>
+              <StylePhoto photo={SCENE_PHOTOS.braiding} sizes="(max-width: 760px) 90vw, 440px" position="50% 35%" />
+            </span>
             <div className={`${styles.bubble} ${styles.them}`}>Hi! Can I book knotless for Saturday? Medium, mid-back.</div>
             <div className={`${styles.bubble} ${styles.me}`}>
               Booked. Can you send your edge.wise card first?

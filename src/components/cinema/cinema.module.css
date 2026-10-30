@@ -297,6 +297,20 @@
   border-top-left-radius: 6px;
 }
 
+/* Salon photo with the conversation floating over its lower edge */
+.chatPhoto {
+  display: block;
+  aspect-ratio: 4 / 3;
+  border-radius: 28px;
+  overflow: hidden;
+  box-shadow: var(--shadow-float);
+  margin-bottom: -110px;
+}
+
+.chat .bubble {
+  position: relative;
+}
+
 .me {
   background: var(--lilac);
   justify-self: end;

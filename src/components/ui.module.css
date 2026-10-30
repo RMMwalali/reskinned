@@ -88,6 +88,73 @@
   transition: border-color var(--fast) var(--ease), background var(--fast) var(--ease);
 }
 
+.example {
+  position: absolute;
+  inset: 0;
+  opacity: 0.55;
+}
+
+.drop:hover .example {
+  opacity: 0.7;
+}
+
+.exampleTag {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--white);
+  background: rgb(23 21 27 / 0.55);
+  padding: 4px 8px;
+  border-radius: 999px;
+}
+
+.exampleArc {
+  position: absolute;
+  inset: 0;
+  width: 100% !important;
+  height: 100%;
+}
+
+.optionPhoto {
+  display: block;
+  aspect-ratio: 4 / 5;
+  border-radius: 12px;
+  overflow: hidden;
+  margin-bottom: 4px;
+}
+
+.saferCard {
+  display: grid;
+  grid-template-columns: 120px minmax(0, 1fr);
+  gap: var(--s-4);
+  padding: var(--s-3);
+  border-radius: 20px;
+  border: 1px solid var(--line);
+  background: var(--white);
+  align-items: start;
+}
+
+.saferCard[data-wanted="true"] {
+  background: var(--cream);
+}
+
+.saferPhoto {
+  display: block;
+  aspect-ratio: 4 / 5;
+  border-radius: 14px;
+  overflow: hidden;
+}
+
+@media (max-width: 520px) {
+  .saferCard {
+    grid-template-columns: 84px minmax(0, 1fr);
+  }
+}
+
 .option:hover {
   border-color: var(--ink-3);
 }

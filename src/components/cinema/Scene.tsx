@@ -14,6 +14,7 @@ import { mergeGeometries } from "three/examples/jsm/utils/BufferGeometryUtils.js
 import { cinema } from "./store";
 import { KEYS, blendWeight, lerp, lerp3, smoothstep, type Key, type Scroll, type V3 } from "./keyframes";
 import { gaugeTexture, glowTexture, labelTexture, photoCardTexture } from "./textures";
+import { SCENE_PHOTOS, local } from "@/lib/photos";
 
 // ---------------------------------------------------------------- helpers
 
@@ -204,9 +205,13 @@ function Hairline() {
 function Cards() {
   const group = useRef<THREE.Group>(null);
   const cards = useRef<(THREE.Mesh | null)[]>([]);
-  const geometry = useMemo(() => new RoundedBoxGeometry(1.3, 1.75, 0.05, 4, 0.09), []);
+  const geometry = useMemo(() => new RoundedBoxGeometry(1.35, 1.8, 0.05, 4, 0.09), []);
   const mats = useMemo(
-    () => [photoCardTexture("Take 1", 1), photoCardTexture("Take 2", 2)].map((map) => new THREE.MeshPhysicalMaterial({ map, roughness: 0.5, clearcoat: 0.4, transparent: true })),
+    () =>
+      [
+        photoCardTexture("Take 1", "density 2.33", local(SCENE_PHOTOS.takeA.id, 640), 0.2),
+        photoCardTexture("Take 2", "density 2.29", local(SCENE_PHOTOS.takeB.id, 640), 0.25),
+      ].map((map) => new THREE.MeshPhysicalMaterial({ map, roughness: 0.5, clearcoat: 0.4, transparent: true })),
     [],
   );
   const step = useReady();
