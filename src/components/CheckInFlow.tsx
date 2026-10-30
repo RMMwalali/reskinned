@@ -14,7 +14,7 @@ import styles from "./ui.module.css";
 
 type Slot = "tiltA" | "tiltB" | "front" | "right" | "left";
 const STEPS = ["About", "Style", "Feel", "Photos"] as const;
-const STAGES = ["Uploading photos", "Reading hairline density (take 1)", "Reading hairline density (take 2)", "Measuring length", "Comparing with your history"];
+const STAGES = ["Uploading photos", "Reading hairline density (take 1)", "Reading hairline density (take 2)", "Measuring hairline height and length", "Comparing with your history"];
 
 export function CheckInFlow() {
   const router = useRouter();
@@ -82,6 +82,8 @@ export function CheckInFlow() {
         length?: string;
         hairType?: string;
         skin?: CheckIn["skin"];
+        upperThird?: number;
+        frizz?: CheckIn["frizz"];
         error?: string;
       };
       if (!res.ok) throw new Error(j.error ?? "The check-in failed. Please try again.");
@@ -94,6 +96,8 @@ export function CheckInFlow() {
         length: j.length,
         hairType: j.hairType,
         skin: j.skin,
+        upperThird: j.upperThird,
+        frizz: j.frizz,
         style: { style, weeks, extensions, relaxed },
         symptoms,
         demo: j.mode === "demo",
@@ -112,7 +116,6 @@ export function CheckInFlow() {
     }
   }
 
-  const s = STYLES.find((x) => x.id === style)!;
   // Progress lines for what was actually sent. The two takes are read at the same time.
   const stages = STAGES.filter((x) => (x.includes("take 2") ? Boolean(photos.tiltB) : x.includes("length") ? Boolean(photos.front) : true));
   const slot = (key: Slot, title: string, tip: string, guide: "tilt" | "front" | "side", required = false) => {
@@ -201,7 +204,6 @@ export function CheckInFlow() {
               </span>
             </label>
           </div>
-          <p className={styles.small}>{s.why}</p>
           <div className={styles.row}>
             <button className="btn btn-ghost" onClick={() => setStep(0)}>Back</button>
             <button className="btn btn-primary" onClick={() => setStep(2)}>Next</button>
@@ -212,7 +214,6 @@ export function CheckInFlow() {
       {step === 2 && (
         <section className={styles.panel}>
           <h2>How does it feel?</h2>
-          <p className={styles.sub}>Tick anything you&rsquo;ve noticed since this style went in.</p>
           <label className={styles.toggle}>
             <input type="checkbox" checked={symptoms.tightSigns} onChange={(e) => setSymptoms({ ...symptoms, tightSigns: e.target.checked })} />
             <span>
@@ -245,27 +246,27 @@ export function CheckInFlow() {
         <section className={styles.panel}>
           <h2>Your hairline, twice.</h2>
           <p className={styles.sub}>
-            Hair untied and pushed back off your face. Face the camera, then lower your head about 45° so the whole hairline shows, with your face still in frame. Use daylight. Take the same photo twice. edge.wise uses both to check the reading is steady.
+            Hair back, daylight, the same photo twice.
           </p>
           <div className={styles.photos}>
-            {slot("tiltA", "Hairline, take 1", "Face the camera, then lower your head about 45°.", "tilt", true)}
-            {slot("tiltB", "Hairline, take 2", "Same again. A steady reading needs both.", "tilt")}
-            {slot("front", "Front", "Looking straight ahead, face filling most of the frame. Adds length and the skin check.", "front")}
+            {slot("tiltA", "Hairline, take 1", "Head down 45°.", "tilt", true)}
+            {slot("tiltB", "Hairline, take 2", "Same again.", "tilt")}
+            {slot("front", "Front", "Face fills the frame.", "front")}
           </div>
           {photos.front ? (
             <label className={styles.toggle}>
               <input type="checkbox" checked={skinCheck} onChange={(e) => setSkinCheck(e.target.checked)} />
               <span>
                 <strong>Also check my skin for irritation</strong>
-                <small>YouCam Skin AI scores redness, dryness, breakouts and texture. Some treatments irritate the skin along the hairline; edge.wise watches for it month to month.</small>
+                
               </span>
             </label>
           ) : null}
           <details>
-            <summary style={{ cursor: "pointer", fontWeight: 600 }}>Add side photos for your curl pattern</summary>
+            <summary style={{ cursor: "pointer", fontWeight: 600 }}>Add side photos: curl pattern and breakage</summary>
             <div className={styles.photos} style={{ marginTop: "var(--s-3)" }}>
-              {slot("right", "Turn right", "A quarter turn to your right.", "side")}
-              {slot("left", "Turn left", "A quarter turn to your left.", "side")}
+              {slot("right", "Turn right", "Quarter turn.", "side")}
+              {slot("left", "Turn left", "Quarter turn.", "side")}
             </div>
           </details>
           {error && !sending ? (

@@ -4,6 +4,7 @@ import { useMemo, useState, useSyncExternalStore } from "react";
 import Link from "next/link";
 import { useHistory, history } from "@/lib/history";
 import { planStore, thumbStore } from "@/lib/plan";
+import { hairlineHeight } from "@/lib/signals";
 import { TREATMENTS, progress, treatmentById, type Plan, type TreatmentId } from "@/lib/treatments";
 import { PoseGuide } from "../PoseGuide";
 import ui from "../ui.module.css";
@@ -47,7 +48,6 @@ export function PlanSetup({ initial, onDone }: { initial?: Plan | null; onDone?:
   return (
     <section className={ui.panel}>
       <h2>What are you using?</h2>
-      <p className={ui.sub}>Pick everything in your routine and when you started it. edge.wise uses this to know when results should show.</p>
       <div className={s.chips} role="group" aria-label="Treatments">
         {TREATMENTS.map((t) => (
           <button key={t.id} type="button" className={s.chip} aria-pressed={Boolean(picked[t.id])} onClick={() => toggle(t.id)}>
@@ -102,6 +102,7 @@ function Report() {
   const thumbs = thumbStore.use();
   const [editing, setEditing] = useState(false);
   const p = useMemo(() => progress(list, plan), [list, plan]);
+  const hl = useMemo(() => hairlineHeight(list), [list]);
 
   if (!plan || editing) return <PlanSetup initial={plan} onDone={() => setEditing(false)} />;
 
@@ -134,7 +135,18 @@ function Report() {
               <small>Change</small>
               <b className="data">{p.change >= 0 ? "+" : ""}{p.change.toFixed(2)}</b>
             </span>
+            {hl ? (
+              <span>
+                <small>Hairline height</small>
+                <b className="data">{hl.change > 0 ? "+" : ""}{hl.change.toFixed(1)} pts</b>
+              </span>
+            ) : null}
           </div>
+        ) : null}
+        {hl && hl.agreement !== "mixed" ? (
+          <span className={s.agree}>{hl.agreement === "steady" ? "Density and hairline height both steady" : "Density and hairline height agree"}</span>
+        ) : hl ? (
+          <span className={s.agree}>Density and hairline height disagree: retake next month</span>
         ) : null}
         {p.seeDoctor ? (
           <p className={ui.derm}>
@@ -152,9 +164,7 @@ function Report() {
       {p.quitZone && p.verdict !== "declining" ? (
         <section className={s.quit}>
           <b className="data">86%</b>
-          <p>
-            of patients in one clinic study stopped minoxidil, most within six months, before it usually shows results. You&rsquo;re in that stretch now. Your report is how you&rsquo;ll know if it&rsquo;s working.
-          </p>
+          <p>stop minoxidil before it shows results. You&rsquo;re in that stretch.</p>
         </section>
       ) : null}
 
@@ -191,7 +201,6 @@ function Report() {
                   Since {new Date(i.start).toLocaleDateString(undefined, { month: "short", year: "numeric" })} · results usually months {t.results[0]}
                   {t.results[1] !== t.results[0] ? `–${t.results[1]}` : ""}
                 </span>
-                <small>{t.note} Source: {t.source}.</small>
               </li>
             );
           })}
@@ -218,7 +227,6 @@ function Report() {
             </figure>
           ))}
         </div>
-        <p className={ui.small}>Photos from your check-ins appear here. They&rsquo;re kept only on this phone, never on edge.wise&rsquo;s servers.</p>
       </section>
     </div>
   );

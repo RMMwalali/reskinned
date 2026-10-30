@@ -44,7 +44,6 @@ export function GuaranteePanel() {
       <div className={s.timelineHead}>
         <div>
           <h2>Guarantee photos</h2>
-          <p className={ui.sub}>Some brands refund you if there&rsquo;s no growth after six months, but only with consistent photos taken at set times. Your monthly check-ins cover them.</p>
         </div>
         {ready ? <span className={s.sample}>Ready</span> : null}
       </div>

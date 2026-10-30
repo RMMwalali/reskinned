@@ -65,7 +65,7 @@ function Card({ token }: { token: string }) {
       <section className={styles.panel}>
         <h2>For stylists</h2>
         <p className={styles.sub}>
-          Dermatologists call stylists the front line for spotting hair loss. If you see broken hairs, recession or a shiny scalp at the hairline, suggest a looser style and a dermatologist. edge.wise is a cosmetic tracker and doesn&rsquo;t diagnose.
+          See broken hairs, recession or a shiny scalp at the hairline? Suggest a looser style and a dermatologist.
         </p>
         <Link href="/check" className="btn btn-primary" style={{ justifySelf: "start" }}>Run a check-in with your client</Link>
       </section>

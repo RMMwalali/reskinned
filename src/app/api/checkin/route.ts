@@ -3,13 +3,16 @@ import { YouCamError, friendlyError, getCredit, hasKey, runTask, uploadImage } f
 
 export const maxDuration = 120;
 
-// One check-in = two takes of the tilted hairline photo (Hair Density ×2, so we
-// can measure how repeatable the reading is), plus Hair Length on the front
-// photo and, if side photos are given, Hair Type. At most 7 units.
-const UNITS = 7;
-// Skin Analysis (SD, 4 concerns) on the front photo: 9 units, only when asked.
-const SKIN_UNITS = 9;
+// One check-in, in YouCam units:
+//   Hair Density on two takes of the tilted hairline photo  2  (repeatability)
+//   Front photo: Hair Length 2 + Face Analyzer (horizontal thirds) 10
+//     The top third of the face (hairline to brows) grows as a hairline recedes:
+//     a second, independent hairline measure.
+//   Front + both sides: Hair Type 2 + Hair Frizziness 2 (breakage looks like thinning)
+//   Optional Skin Analysis, 4 concerns  9
 const SKIN_ACTIONS = ["redness", "moisture", "acne", "texture"];
+const unitsFor = (o: { takeB: boolean; front: boolean; sides: boolean; skin: boolean }) =>
+  1 + (o.takeB ? 1 : 0) + (o.front ? 12 : 0) + (o.sides ? 4 : 0) + (o.skin ? 9 : 0);
 
 type Failure = { feature: string; code: string; message: string };
 
@@ -37,7 +40,8 @@ export async function POST(req: Request) {
   if (!hasKey()) demoReason = "No YouCam API key is configured on this deployment.";
   else {
     const units = await getCredit();
-    if (units !== null && units < UNITS + (wantSkin ? SKIN_UNITS : 0)) demoReason = `The API budget is below one check-in (${units} units left).`;
+    const need = unitsFor({ takeB: Boolean(tiltB), front: Boolean(front), sides: Boolean(front && right && left), skin: wantSkin });
+    if (units !== null && units < need) demoReason = `The API budget is below one check-in (${units} units left).`;
   }
 
   if (demoReason) {
@@ -52,6 +56,8 @@ export async function POST(req: Request) {
       length: front ? "above chest" : undefined,
       hairType: right && left ? "4a to 4b · Kinky Soft to Coily" : undefined,
       skin: wantSkin ? { redness: 74, moisture: 66, acne: 82, texture: 69 } : undefined,
+      upperThird: front ? 33.4 : undefined,
+      frizz: front && right && left ? { mapping: 1, term: "Slightly Frizzy" } : undefined,
       failures: [],
     });
   }
@@ -79,7 +85,7 @@ export async function POST(req: Request) {
       return { value: Number(r.hair_density.mapping), term: r.hair_density.term };
     });
 
-  const [d1, d2, len, type, skin] = await Promise.all([
+  const [d1, d2, len, type, skin, thirds, frizz] = await Promise.all([
     density(tiltA),
     tiltB ? density(tiltB) : Promise.resolve(null),
     front
@@ -108,6 +114,25 @@ export async function POST(req: Request) {
           return Object.fromEntries(r.output.filter((o) => SKIN_ACTIONS.includes(o.type)).map((o) => [o.type, Math.round(o.ui_score)]));
         })
       : Promise.resolve(null),
+    front
+      ? attempt("hairline-height", async () => {
+          const id = await uploadImage(front.bytes, front.type, "face-attr-analysis");
+          const r = await runTask<{ facialratio?: { horizontal_third?: number[] } }>("face-attr-analysis", {
+            src_file_id: id,
+            features: ["horizontalThird"],
+            face_angle_strictness_level: "medium",
+          });
+          const top = r.facialratio?.horizontal_third?.[0];
+          return typeof top === "number" ? Math.round(top * 10) / 10 : null;
+        })
+      : Promise.resolve(null),
+    front && right && left
+      ? attempt("hair-frizz", async () => {
+          const ids = await Promise.all([front, right, left].map((f) => uploadImage(f.bytes, f.type, "hair-frizziness-detection")));
+          const r = await runTask<{ hair_frizziness: { mapping: number; term: string } }>("hair-frizziness-detection", { src_file_ids: ids });
+          return { mapping: Number(r.hair_frizziness.mapping), term: r.hair_frizziness.term };
+        })
+      : Promise.resolve(null),
   ]);
 
   const readings = [d1, d2].filter((x): x is { value: number; term: DensityTerm } => !!x && Number.isFinite(x.value));
@@ -124,6 +149,8 @@ export async function POST(req: Request) {
     length: len ?? undefined,
     hairType: type ?? undefined,
     skin: skin ?? undefined,
+    upperThird: thirds ?? undefined,
+    frizz: frizz ?? undefined,
     failures,
   });
 }

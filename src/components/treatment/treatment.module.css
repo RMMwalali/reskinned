@@ -643,3 +643,122 @@
     grid-template-columns: 1fr;
   }
 }
+
+/* ---------------------------------------------------------------- picks */
+.picks {
+  display: grid;
+  gap: var(--s-4);
+}
+.pick {
+  display: grid;
+  gap: 10px;
+  padding: 16px;
+  border-radius: 22px;
+  background: var(--lilac);
+}
+.pick > p {
+  font: 800 1.2rem/1.15 var(--font-display);
+  font-stretch: 80%;
+  text-transform: uppercase;
+  color: var(--crimson);
+}
+.pickSource {
+  display: inline-block;
+  margin-right: 6px;
+  padding: 4px 9px;
+  border-radius: 999px;
+  background: var(--crimson);
+  color: var(--white);
+  font: 700 0.75rem/1 var(--font-cond);
+  letter-spacing: 0.06em;
+  vertical-align: 3px;
+}
+
+.agree {
+  justify-self: start;
+  padding: 6px 12px;
+  border-radius: 999px;
+  background: rgb(255 255 255 / 0.22);
+  font: 700 0.9rem/1.2 var(--font-cond);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+/* ---------------------------------------------------------------- look fuller */
+.look {
+  display: grid;
+  grid-template-columns: minmax(0, 340px) minmax(0, 1fr);
+  gap: var(--s-6);
+  align-items: start;
+}
+.lookSide {
+  display: grid;
+  gap: var(--s-4);
+}
+.illus {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  padding: 5px 10px;
+  border-radius: 999px;
+  background: var(--saffron);
+  color: var(--crimson-d);
+  font: 700 0.8rem/1 var(--font-cond);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+.tabs {
+  display: inline-flex;
+  justify-self: start;
+  gap: 4px;
+  padding: 4px;
+  border-radius: 999px;
+  background: var(--cream-2);
+}
+.tab {
+  border: 0;
+  padding: 10px 18px;
+  border-radius: 999px;
+  background: none;
+  font: 700 1rem/1 var(--font-cond);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--ink);
+  cursor: pointer;
+}
+.tab[aria-selected="true"] {
+  background: var(--crimson);
+  color: var(--white);
+}
+.tpls {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+  gap: 10px;
+}
+.tpl {
+  display: grid;
+  gap: 6px;
+  padding: 6px;
+  border-radius: 16px;
+  border: 2px solid var(--line);
+  background: var(--white);
+  font: 700 0.85rem/1.1 var(--font-cond);
+  text-transform: uppercase;
+  cursor: pointer;
+  text-align: left;
+}
+.tpl:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+.tpl img {
+  width: 100%;
+  aspect-ratio: 1;
+  object-fit: cover;
+  border-radius: 10px;
+}
+@media (max-width: 760px) {
+  .look {
+    grid-template-columns: 1fr;
+  }
+}

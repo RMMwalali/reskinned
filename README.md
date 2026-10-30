@@ -20,6 +20,10 @@ Built for the [YouCam API Skin AI & eCommerce Hackathon](https://youcam-api-skin
 | **Plan** (`/dashboard`) | Pick your treatments (minoxidil, finasteride, spironolactone, PRP, microneedling, laser, ketoconazole, gentler styles) and start dates. |
 | **Check in monthly** (`/check`) | Two hairline photos, head lowered 45°. YouCam **Hair Density Detection** runs on both takes; the gap between them flags unreliable readings. **Hair Length** and **Hair Type Detection** add context. |
 | **Progress report** | Baseline, change, month on treatment and the results window. Verdicts: *Started / On track / Early dip / Holding / Working / Talk to your prescriber*. A nudge through the months when most people quit. Side-by-side thumbnails kept only on the phone. |
+| **Two hairline measures** | YouCam **Hair Density** (tilted photo, two takes) and **Face Analyzer** horizontal thirds (front photo: the top third grows as a hairline recedes). The report says whether they agree. |
+| **Breakage** | YouCam **Hair Frizziness Detection** on front and side photos; breakage can look like thinning. |
+| **Look fuller now** (`/fuller`) | YouCam **Hair Volume**, **Bangs** and **Hair Color** try-ons on a front photo, each linked to fibers, a topper, a fringe cut or a colour booking. Labelled as illustrations. |
+| **Picked for you** | A signal → product engine: each reading (skin, breakage, density, hairline height) maps to a reason and a product in the routine shop. |
 | **Skin check** | Optional: YouCam **AI Skin Analysis** (redness, moisture, breakouts, texture) on the front photo each month. Irritation rising on minoxidil solution suggests the propylene-glycol-free foam and a fragrance-free moisturizer, one tap into the cart. |
 | **Guarantee photos** | Results guarantees need standardized photos in set windows (days 1–37, 97–127, 187–217), graded by hand today. The monthly check-in fills them and exports an evidence pack with the measured trend. |
 | **Routine shop** | Run-out reminders and a cart with the partner brand's products; prescription items route to the prescriber, clinic treatments to booking. Demo checkout, clearly labelled. |

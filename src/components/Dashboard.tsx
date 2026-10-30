@@ -144,10 +144,6 @@ function Hairline() {
                   }}
                 />
               </div>
-              <p className={styles.small}>
-                Each style&rsquo;s tension × weeks worn. Recent styles count
-                more. Extensions, relaxed hair and painful installs add to it.
-              </p>
             </>
           ) : null}
           <ol
@@ -308,11 +304,6 @@ function ShareCard() {
   return (
     <section className={styles.panel}>
       <h2>Stylist card</h2>
-      <p className={styles.sub}>
-        Dermatologists call your stylist the front line for spotting hair loss.
-        Send them this before your appointment: your hairline status, what to
-        avoid, and how to install gently. No photos are included.
-      </p>
       <label
         style={{
           display: "grid",

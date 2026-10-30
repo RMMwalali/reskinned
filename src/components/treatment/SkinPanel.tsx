@@ -3,7 +3,6 @@
 import { useMemo } from "react";
 import { useHistory } from "@/lib/history";
 import { planStore } from "@/lib/plan";
-import { cartStore, money, productById } from "@/lib/shop";
 import { SKIN_ACTIONS, SKIN_LABEL, skinTrend } from "@/lib/skin";
 import ui from "../ui.module.css";
 import s from "./treatment.module.css";
@@ -12,17 +11,13 @@ import s from "./treatment.module.css";
 export function SkinPanel() {
   const list = useHistory();
   const plan = planStore.use();
-  const cart = cartStore.use();
   const t = useMemo(() => skinTrend(list, plan), [list, plan]);
   if (!t) return null;
 
   return (
     <section className={ui.panel}>
       <div className={s.timelineHead}>
-        <div>
-          <h2>Skin check</h2>
-          <p className={ui.sub}>YouCam Skin AI scores your front photo each month. Higher is healthier. Some treatments irritate the skin along the hairline; this is where you&rsquo;d see it first.</p>
-        </div>
+        <h2>Skin check</h2>
         <span className={s.sample}>Skin AI</span>
       </div>
 
@@ -48,27 +43,7 @@ export function SkinPanel() {
           );
         })}
       </div>
-      <p className={ui.small}>The tick marks your first skin reading. A fall of 10 points or more is flagged.</p>
 
-      {t.advice.map((a) => (
-        <div key={a.title} className={s.advice}>
-          <b>{a.title}</b>
-          <p>{a.body}</p>
-          {a.products.length ? (
-            <div className={ui.row}>
-              {a.products.map((id) => {
-                const p = productById(id);
-                return (
-                  <button key={id} className="btn btn-primary" onClick={() => cartStore.update((c) => ({ ...c, [id]: (c[id] ?? 0) + 1 }))}>
-                    {cart[id] ? `${p.name} · in cart` : `Add ${p.name} · ${money(p.price)}`}
-                  </button>
-                );
-              })}
-            </div>
-          ) : null}
-        </div>
-      ))}
-      {!t.advice.length && t.worse.length === 0 ? <p className={ui.small}>No change worth flagging since your first skin reading.</p> : null}
     </section>
   );
 }

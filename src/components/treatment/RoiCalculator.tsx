@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import ui from "../ui.module.css";
 import s from "./brands.module.css";
 
 const fmt = (n: number) => (n < 0 ? "−" : "") + "$" + Math.round(Math.abs(n)).toLocaleString("en-US");
@@ -58,7 +57,6 @@ export function RoiCalculator() {
           <span>Net</span>
           <b className="data">{fmt(net)}</b>
         </p>
-        <p className={ui.small}>An illustration, not a forecast. Retention lift is the number to prove in a pilot.</p>
       </div>
     </section>
   );

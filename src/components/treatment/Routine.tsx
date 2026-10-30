@@ -1,14 +1,17 @@
 "use client";
 
 import { useState } from "react";
+import { useHistory } from "@/lib/history";
 import { planStore } from "@/lib/plan";
-import { cartStore, daysLeft, money, orderStore, productById, productsFor, type Order } from "@/lib/shop";
+import { cartStore, daysLeft, money, orderStore, productById, productsFor, type Order, type Product } from "@/lib/shop";
+import { picks } from "@/lib/signals";
 import ui from "../ui.module.css";
 import s from "./treatment.module.css";
 
 /** The routine shop: reorder what the plan uses, before it runs out. */
 export function Routine() {
   const plan = planStore.use();
+  const list = useHistory();
   const cart = cartStore.use();
   const orders = orderStore.use();
   const [open, setOpen] = useState(false);
@@ -16,7 +19,9 @@ export function Routine() {
   const [asked, setAsked] = useState<Record<string, string>>({});
 
   if (!plan?.items.length) return null;
-  const items = productsFor(plan.items);
+  const forYou = picks(list, plan);
+  const picked = new Set(forYou.flatMap((x) => x.products));
+  const items = productsFor(plan.items).filter((p) => !picked.has(p.id));
   const lines = Object.entries(cart).filter(([, q]) => q > 0);
   const total = lines.reduce((t, [id, q]) => t + productById(id).price * q, 0);
   const count = lines.reduce((t, [, q]) => t + q, 0);
@@ -36,44 +41,51 @@ export function Routine() {
     setPlaced(order);
   }
 
+  const row = (p: Product) => {
+    const left = daysLeft(p, plan.items, orders);
+    const low = left !== null && left <= 21;
+    return (
+      <li key={p.id} className={s.product} data-low={low}>
+        <span className={s.productName}>
+          <b>{p.name}</b>
+          <small>{p.detail}</small>
+        </span>
+        {left !== null ? <span className={s.runout}>{left <= 0 ? "Run out" : `${left} days left`}</span> : <span />}
+        <span className={`data ${s.price}`}>{money(p.price)}</span>
+        {p.buy === "cart" ? (
+          <button className="btn btn-primary" onClick={() => add(p.id)}>
+            {cart[p.id] ? `In cart · ${cart[p.id]}` : "Add"}
+          </button>
+        ) : (
+          <button className="btn btn-ghost" disabled={Boolean(asked[p.id])} onClick={() => setAsked((a) => ({ ...a, [p.id]: p.buy }))}>
+            {asked[p.id] ? "Requested" : p.buy === "refill" ? "Refill via prescriber" : "Book"}
+          </button>
+        )}
+      </li>
+    );
+  };
+
   return (
     <section className={ui.panel}>
       <div className={s.timelineHead}>
-        <div>
-          <h2>Your routine</h2>
-          <p className={ui.sub}>Reorder before you run out. A gap of a few weeks can undo months of progress.</p>
-        </div>
+        <h2>Your routine</h2>
         <span className={s.sample}>Sample shop</span>
       </div>
 
-      <ul className={s.products}>
-        {items.map((p) => {
-          const left = daysLeft(p, plan.items, orders);
-          const low = left !== null && left <= 21;
-          return (
-            <li key={p.id} className={s.product} data-low={low}>
-              <span className={s.productName}>
-                <b>{p.name}</b>
-                <small>{p.detail}</small>
-              </span>
-              {left !== null ? <span className={s.runout}>{left <= 0 ? "Run out" : `Runs out in ${left} days`}</span> : <span />}
-              <span className={`data ${s.price}`}>{money(p.price)}</span>
-              {p.buy === "cart" ? (
-                <button className="btn btn-primary" onClick={() => add(p.id)}>
-                  {cart[p.id] ? `In cart · ${cart[p.id]}` : "Add"}
-                </button>
-              ) : (
-                <button className="btn btn-ghost" disabled={Boolean(asked[p.id])} onClick={() => setAsked((a) => ({ ...a, [p.id]: p.buy }))}>
-                  {asked[p.id] ? (p.buy === "refill" ? "Refill requested" : "Request sent") : p.buy === "refill" ? "Ask prescriber to refill" : "Book a session"}
-                </button>
-              )}
-            </li>
-          );
-        })}
-      </ul>
-      <p className={ui.small}>
-        Sample listings to show how a partner brand&rsquo;s shop works inside edge.wise. Prescription items go through your prescriber, never the cart. No real orders or payments are made.
-      </p>
+      {forYou.length ? (
+        <div className={s.picks}>
+          {forYou.map((x) => (
+            <div key={x.reason} className={s.pick}>
+              <p>
+                <span className={s.pickSource}>{x.source}</span> {x.reason}
+              </p>
+              <ul className={s.products}>{x.products.map((id) => row(productById(id)))}</ul>
+            </div>
+          ))}
+        </div>
+      ) : null}
+
+      <ul className={s.products}>{items.map(row)}</ul>
 
       {count > 0 || placed ? (
         <button className={s.cartFab} onClick={() => setOpen(true)} aria-label={`Open cart, ${count} items`}>

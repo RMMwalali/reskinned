@@ -90,16 +90,11 @@ export default function PortalPage() {
 
       <section className={ui.panel}>
         <h2>The months that matter</h2>
-        <p className={ui.sub}>Share of patients still on topical minoxidil, by month, in a 400-patient clinic study. Most of the loss happens before results usually show. That&rsquo;s the window edge.wise is built for; the lift is what a pilot measures.</p>
         <RetentionChart />
-        <p className={ui.small}>Dermatology and Therapy, 2023. Points between the reported months are joined with straight lines.</p>
       </section>
 
       <section className={ui.panel}>
         <h2>Guarantee claims</h2>
-        <p className={ui.sub}>
-          If you offer a results guarantee, each claim needs standardized photos from set windows, usually graded by hand. edge.wise collects them during the monthly check-ins and hands you the evidence with a measured trend.
-        </p>
         <div className={s.kpis}>
           <div>
             <span>Past the last window</span>
@@ -115,7 +110,6 @@ export default function PortalPage() {
 
       <section className={ui.panel}>
         <h2>At risk now</h2>
-        <p className={ui.sub}>Ranked by risk: early in treatment, quiet for weeks, a worrying first reading, or about to run out. Send each one the progress message that fits.</p>
         <ol className={s.riskList}>
           {st.atRisk.slice(0, 8).map((p) => (
             <li key={p.id}>
@@ -139,7 +133,6 @@ export default function PortalPage() {
             </li>
           ))}
         </ol>
-        <p className={ui.small}>Showing 8 of {st.atRisk.length}. Subscribers see only their own report; the brand sees status and engagement, never photos.</p>
       </section>
     </div>
   );

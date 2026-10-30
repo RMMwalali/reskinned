@@ -39,6 +39,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
             </Link>
             <nav className={styles.nav} aria-label="Main">
               <Link href="/dashboard">My progress</Link>
+              <Link href="/fuller">Look fuller</Link>
               <Link href="/brands">For brands</Link>
               <Link href="/method">How it works</Link>
             </nav>
@@ -62,6 +63,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
               <p className={styles.footHead}>Product</p>
               <Link href="/check">Check in</Link>
               <Link href="/dashboard">My progress</Link>
+              <Link href="/fuller">Look fuller now</Link>
               <Link href="/plan">Plan a gentler style</Link>
               <Link href="/brands">For brands</Link>
             </nav>

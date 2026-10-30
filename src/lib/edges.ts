@@ -87,6 +87,10 @@ export type CheckIn = {
   hairType?: string;
   /** YouCam Skin Analysis scores (1–100, higher is healthier), when a front photo was checked. */
   skin?: Partial<Record<"redness" | "moisture" | "acne" | "texture", number>>;
+  /** YouCam Face Analyzer: top third of the face (hairline to brows), % of face height. */
+  upperThird?: number;
+  /** YouCam Hair Frizziness Detection, 0–3. */
+  frizz?: { mapping: number; term: string };
   style: StyleLog;
   symptoms: Symptoms;
   demo?: boolean;

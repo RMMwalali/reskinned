@@ -11,6 +11,9 @@ const PIPELINE = [
   ["YouCam Hair Density Detection ×2", "Two hairline photos, head tilted down", "Hairline density 0–3 per take. edge.wise averages them and uses the gap between them to judge reliability.", "1 unit each"],
   ["YouCam Hair Length Detection", "Front photo (optional)", "Length band. Longer, heavier installs pull harder on the root.", "2 units"],
   ["YouCam Hair Type Detection", "Front + both sides (optional)", "Curl pattern, 1 to 4c, recorded with each check-in.", "2 units"],
+  ["YouCam Face Analyzer (horizontal thirds)", "Front photo", "Top third of the face, hairline to brows. It grows as a hairline recedes: a second hairline measure, cross-checked with density.", "10 units"],
+  ["YouCam Hair Frizziness Detection", "Front + both sides", "Breakage, 0–3. Breakage can look like thinning.", "2 units"],
+  ["YouCam Hair Volume · Bangs · Hair Color", "Front photo, on request", "Try-ons for looking fuller while treatment works. Labelled as illustrations.", "2 units each"],
   ["YouCam AI Skin Analysis", "Front photo (optional)", "Redness, moisture, breakouts and texture, 1–100. Compared with your first skin reading to catch treatment irritation; a fall of 10+ points is flagged.", "9 units"],
   ["edge.wise trend engine", "Your check-in history", "Baseline (median of your first readings), change vs baseline, consecutive declines.", "on device"],
   ["edge.wise treatment model", "Your treatments and start dates", "Where you are against the usual results window: early, holding, working, or time to see your prescriber.", "on device"],
@@ -35,7 +38,7 @@ export default function MethodPage() {
     <div className={styles.page}>
       <header className={styles.head}>
         <h1>How it works</h1>
-        <p>Every status edge.wise shows comes from a measurement or a published rule. Here is exactly what runs, what decides what, and where it can be wrong.</p>
+        <p>What runs, what decides what, and where it can be wrong.</p>
       </header>
 
       <section className={styles.panel}>
@@ -52,7 +55,7 @@ export default function MethodPage() {
             </article>
           ))}
         </div>
-        <p className={styles.small}>A full check-in costs at most 7 YouCam units, or 16 with the skin check. The server checks the balance first and switches to a clearly labelled demo reading if it runs out.</p>
+        <p className={styles.small}>Up to 30 units per check-in. Below that balance, readings are labelled demo values.</p>
       </section>
 
       <section className={styles.panel}>
@@ -77,7 +80,6 @@ export default function MethodPage() {
 
       <section className={styles.panel}>
         <h2>Treatment timelines</h2>
-        <p className={styles.sub}>When results usually become visible, which decides whether a flat reading means &ldquo;too early&rdquo; or &ldquo;holding&rdquo;. A fall of 0.2 or more after month 3 sends you to your prescriber.</p>
         <div style={{ display: "grid", gap: 8 }}>
           {TREATMENTS.map((t) => (
             <div key={t.id} style={{ display: "grid", gridTemplateColumns: "minmax(0, 1fr) auto", gap: 4, paddingBottom: 8, borderBottom: "1px solid var(--line)" }}>
@@ -96,7 +98,6 @@ export default function MethodPage() {
 
       <section className={styles.panel}>
         <h2>Style tension</h2>
-        <p className={styles.sub}>Ranked from the American Academy of Dermatology&rsquo;s guidance and a Johns Hopkins review of hair-care practices. Extensions add weight; relaxed hair and painful installs multiply it.</p>
         <div style={{ display: "grid", gap: 8 }}>
           {STYLES.map((s) => (
             <div key={s.id} style={{ display: "grid", gridTemplateColumns: "minmax(0, 1fr) auto", gap: 4, paddingBottom: 8, borderBottom: "1px solid var(--line)" }}>

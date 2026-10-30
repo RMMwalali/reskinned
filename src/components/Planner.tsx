@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState, useSyncExternalStore } from "react";
-import { STYLES, assess, saferStyles, styleById, type StyleId } from "@/lib/edges";
+import { STYLES, assess, saferStyles, type StyleId } from "@/lib/edges";
 import { useHistory } from "@/lib/history";
 import { prepareImage, type Prepared } from "@/lib/image-client";
 import { STYLE_PHOTOS } from "@/lib/photos";
@@ -75,13 +75,6 @@ export function Planner() {
             </button>
           ))}
         </div>
-        {assessment ? (
-          <p className={styles.small}>
-            Tailored to your latest check-in: <strong>{assessment.status === "act" ? "act now" : assessment.status}</strong>, tension load {assessment.band}.
-          </p>
-        ) : (
-          <p className={styles.small}>Do a check-in first and these rules get stricter or looser to match your hairline.</p>
-        )}
       </section>
 
       <section className={styles.panel}>
@@ -103,7 +96,6 @@ export function Planner() {
                   {o.tensionDrop > 0 ? <span className={styles.tag} style={{ background: "var(--blend-bg)", color: "var(--blend)" }}>−{o.tensionDrop}% tension</span> : null}
                 </span>
               </div>
-              <p className={styles.small}>{o.style.why}</p>
               <ul className={styles.list}>
                 {o.rules.map((r) => (
                   <li key={r}>{r}</li>
@@ -117,7 +109,6 @@ export function Planner() {
 
       <section className={styles.panel}>
         <h2>Try a gentler style on you</h2>
-        <p className={styles.sub}>Add a front photo, hair down, and preview lower-tension looks with YouCam&rsquo;s hairstyle try-on. Seeing it on you makes the safer choice easier.</p>
         <div className={styles.photos}>
           <div className={styles.slot}>
             <label className={styles.drop} data-filled={Boolean(photo)}>
@@ -171,7 +162,6 @@ export function Planner() {
         ) : (
           <p className={styles.small}>No matching try-on styles are available on this account right now.</p>
         )}
-        <p className={styles.small}>Try-on shows the look, not the tension. Use the rules above when you book: {styleById(want).name.toLowerCase()} can be done gently or harshly.</p>
       </section>
     </div>
   );

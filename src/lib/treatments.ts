@@ -192,15 +192,15 @@ export function demoTreatment(now = new Date()): { plan: Plan; list: CheckIn[] }
   const ago = (months: number) => new Date(now.getTime() - months * MONTH).toISOString();
   const none = { tightSigns: false, brokenEdges: false, crownItch: false };
   const style = { style: "out" as const, weeks: 0, extensions: false, relaxed: false };
-  const row = (id: string, m: number, density: number, term: CheckIn["term"], skin?: CheckIn["skin"]): CheckIn => ({ id, date: ago(m), density, spread: 0.07, term, style, symptoms: none, demo: true, skin });
+  const row = (id: string, m: number, density: number, term: CheckIn["term"], skin?: CheckIn["skin"], upperThird?: number, frizz?: CheckIn["frizz"]): CheckIn => ({ id, date: ago(m), density, spread: 0.07, term, style, symptoms: none, demo: true, skin, upperThird, frizz });
   return {
     plan: { items: [{ id: "minoxidil-topical", start: ago(7) }, { id: "ketoconazole", start: ago(7) }] },
     list: [
-      row("t0", 7, 1.42, "Low Density", { redness: 81, moisture: 72, acne: 84, texture: 70 }),
-      row("t1", 6, 1.33, "Low Density"),
-      row("t2", 5, 1.4, "Low Density", { redness: 77, moisture: 68, acne: 83, texture: 69 }),
-      row("t3", 3, 1.51, "Medium Density"),
-      row("t4", 0.8, 1.66, "Medium Density", { redness: 64, moisture: 58, acne: 82, texture: 66 }),
+      row("t0", 7, 1.42, "Low Density", { redness: 81, moisture: 72, acne: 84, texture: 70 }, 34.6),
+      row("t1", 6, 1.33, "Low Density", undefined, 34.8),
+      row("t2", 5, 1.4, "Low Density", { redness: 77, moisture: 68, acne: 83, texture: 69 }, 34.5),
+      row("t3", 3, 1.51, "Medium Density", undefined, 34.0),
+      row("t4", 0.8, 1.66, "Medium Density", { redness: 64, moisture: 58, acne: 82, texture: 66 }, 33.4, { mapping: 2, term: "Frizzy" }),
     ],
   };
 }
