@@ -40,7 +40,15 @@ Engines: `src/lib/treatments.ts` (treatment timelines and progress verdicts) and
 - Every shop listing on the demo is a sample; no payment is taken.
 - Without an API key, or when the unit budget runs out, readings are clearly labelled demo values. A sample history is available and always marked.
 
-## Run it
+## Testing it (for judges)
+
+- **Live:** https://reskinned.vercel.app, free and open, no login.
+- **Fastest tour:** My progress → **See a sample** (seven months on minoxidil: report, two hairline measures, skin check, picked-for-you products, cart, guarantee photos) → **Look fuller** (add a front photo, try Volume, Fringe or Colour) → **For brands** → **Partner portal**.
+- **Real check-in:** Check in → two photos with the head lowered about 45°; add a front photo and both sides for hairline height, length, curl pattern, breakage and the skin check.
+- Readings run on the live YouCam API. If the API budget runs low, results are clearly labelled demo values so the app keeps working.
+- Shop listings are samples; checkout takes no payment.
+
+## Run it locally
 
 ```bash
 npm install
@@ -50,3 +58,7 @@ npm test
 ```
 
 Next.js 16, TypeScript, react-three-fiber (landing page), Vitest. YouCam S2S API v2.0/v2.1, notes in `docs/youcam-api-notes.md`. A full check-in costs at most 7 units.
+
+## License
+
+MIT. Stock photos are from Pexels under the Pexels License (credits at `/method#credits`).

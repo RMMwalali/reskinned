@@ -59,7 +59,7 @@ export default function BrandsPage() {
         </div>
         <div data-tone="teal">
           <b className="data">$84</b>
-          <span>monthly revenue per subscriber at Hims &amp; Hers</span>
+          <span>monthly revenue per subscriber at a leading US telehealth brand</span>
         </div>
       </section>
 
