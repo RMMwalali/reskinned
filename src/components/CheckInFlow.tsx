@@ -138,7 +138,7 @@ export function CheckInFlow() {
         <section className={styles.panel}>
           <h2>Two minutes, before your next install.</h2>
           <ul className={styles.list}>
-            <li>You&rsquo;ll answer three quick questions about your current style, then take two photos of your hairline with your head tilted down.</li>
+            <li>You&rsquo;ll answer three quick questions about your current style, then take two photos of your hairline with your head lowered about 45°.</li>
             <li>YouCam measures your hairline density from the photos. edge.wise compares it with your earlier check-ins and with the tension your styles put on your edges.</li>
             <li>Photos are sent to YouCam for this check-in only and never stored. Your history stays on this phone.</li>
             <li>edge.wise doesn&rsquo;t diagnose. If something looks wrong, it&rsquo;ll tell you to see a dermatologist.</li>
@@ -231,10 +231,10 @@ export function CheckInFlow() {
         <section className={styles.panel}>
           <h2>Your hairline, twice.</h2>
           <p className={styles.sub}>
-            Hair down and pushed back off your face, head tilted down a little, the whole hairline in frame, in daylight. Take the same photo twice. edge.wise uses both to check the reading is steady.
+            Hair untied and pushed back off your face. Face the camera, then lower your head about 45° so the whole hairline shows, with your face still in frame. Use daylight. Take the same photo twice. edge.wise uses both to check the reading is steady.
           </p>
           <div className={styles.photos}>
-            {slot("tiltA", "Hairline, take 1", "Tilt your head down slightly. Whole hairline visible.", "tilt", true)}
+            {slot("tiltA", "Hairline, take 1", "Face the camera, then lower your head about 45°.", "tilt", true)}
             {slot("tiltB", "Hairline, take 2", "Same again. A steady reading needs both.", "tilt")}
             {slot("front", "Front", "Looking straight ahead, hair down. Adds length.", "front")}
           </div>

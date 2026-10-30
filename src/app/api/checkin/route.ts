@@ -57,7 +57,12 @@ export async function POST(req: Request) {
       return await fn();
     } catch (e) {
       const code = e instanceof YouCamError ? e.code : "unknown_error";
-      failures.push({ feature, code, message: friendlyError(code) });
+      // The density model wants one specific pose, so say exactly which.
+      const message =
+        feature === "hair-density" && code === "error_face_angle_invalid"
+          ? "The hairline photo needs one pose: face the camera, then lower your head about 45° so your whole hairline shows, with your face still in frame."
+          : friendlyError(code);
+      failures.push({ feature, code, message });
       return null;
     }
   };
