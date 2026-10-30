@@ -69,8 +69,8 @@ export function CheckInFlow() {
     const fd = new FormData();
     (Object.keys(photos) as Slot[]).forEach((k) => fd.set(k, photos[k]!.blob, `${k}.jpg`));
     try {
-      const res = await fetch("/api/checkin", { method: "POST", body: fd });
-      const j = (await res.json()) as {
+      const res = await fetch("/api/checkin", { method: "POST", body: fd, signal: AbortSignal.timeout(150_000) });
+      const j = (await res.json().catch(() => ({ error: res.status === 504 ? "YouCam took too long to answer. Please try again." : `The check-in failed (error ${res.status}). Please try again.` }))) as {
         mode: "live" | "demo";
         density: number;
         spread: number;
@@ -95,12 +95,17 @@ export function CheckInFlow() {
       history.add(entry);
       router.push("/dashboard?new=1");
     } catch (e) {
-      setError(e instanceof Error ? e.message : "The check-in failed. Please try again.");
+      const timeout = e instanceof DOMException && (e.name === "TimeoutError" || e.name === "AbortError");
+      setError(timeout ? "YouCam took too long to answer. Please try again." : e instanceof Error ? e.message : "The check-in failed. Please try again.");
       setSending(false);
+      // Show the reason where the person is looking: next to the button.
+      requestAnimationFrame(() => document.getElementById("checkin-error")?.scrollIntoView({ behavior: "smooth", block: "center" }));
     }
   }
 
   const s = STYLES.find((x) => x.id === style)!;
+  // Progress lines for what was actually sent. The two takes are read at the same time.
+  const stages = STAGES.filter((x) => (x.includes("take 2") ? Boolean(photos.tiltB) : x.includes("length") ? Boolean(photos.front) : true));
   const slot = (key: Slot, title: string, tip: string, guide: "tilt" | "front" | "side", required = false) => {
     const p = photos[key];
     return (
@@ -132,7 +137,7 @@ export function CheckInFlow() {
           <li key={label} data-on={i <= step} />
         ))}
       </ol>
-      {error ? <p className={styles.error} role="alert">{error}</p> : null}
+      {error && step !== 3 ? <p className={styles.error} role="alert">{error}</p> : null}
 
       {step === 0 && (
         <section className={styles.panel}>
@@ -245,10 +250,15 @@ export function CheckInFlow() {
               {slot("left", "Turn left", "A quarter turn to your left.", "side")}
             </div>
           </details>
+          {error && !sending ? (
+            <p id="checkin-error" className={styles.error} role="alert">
+              <b>That didn&rsquo;t work.</b> {error}
+            </p>
+          ) : null}
           {sending ? (
             <div className={styles.stages} role="status">
-              {STAGES.map((x, i) => (
-                <p key={x} data-state={i < stage ? "done" : i === stage ? "now" : "todo"}>{x}</p>
+              {stages.map((x, i) => (
+                <p key={x} data-state={i < Math.min(stage, stages.length - 1) ? "done" : i === Math.min(stage, stages.length - 1) ? "now" : "todo"}>{x}</p>
               ))}
             </div>
           ) : (
