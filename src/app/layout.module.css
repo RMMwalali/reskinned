@@ -33,10 +33,9 @@
   width: 56px;
   height: 56px;
   border-radius: 50%;
-  background: var(--crimson);
-  color: var(--saffron);
-  border: 3px solid var(--white);
-  box-shadow: 0 0 0 2px var(--crimson);
+  background: #fffaf0;
+  border: 3px solid var(--crimson);
+  overflow: hidden;
   transform: rotate(-8deg);
   transition: transform 300ms var(--ease);
 }

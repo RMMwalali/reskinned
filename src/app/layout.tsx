@@ -12,30 +12,42 @@ export const metadata: Metadata = {
 export const viewport: Viewport = { themeColor: "#b21236" };
 
 function Mark() {
-  // A single hair growing from the skin, shown in cross-section: the shaft
-  // rises from its root (the bulb) through the skin surface.
+  // Line drawing of skin in cross-section: one hair growing from its root,
+  // the follicle wrapped around it, a gland beside it and fat below.
+  const ink = "#731b24";
+  const line = { fill: "none", stroke: ink, strokeWidth: 1.5, strokeLinecap: "round", strokeLinejoin: "round" } as const;
   return (
     <svg viewBox="0 0 48 48" width="50" height="50" aria-hidden="true">
       <defs>
         <clipPath id="mark-clip">
-          <circle cx="24" cy="24" r="22" />
+          <circle cx="24" cy="24" r="22.5" />
         </clipPath>
       </defs>
       <g clipPath="url(#mark-clip)">
-        <g transform="translate(0 -3)">
-        {/* skin, below the surface line */}
-        <path d="M0 27 C8 24 15 29 24 27 S40 24 48 27 V52 H0 Z" fill="#f6b3c2" />
-        <path d="M0 27 C8 24 15 29 24 27 S40 24 48 27" fill="none" stroke="#fffdf7" strokeWidth="1.6" />
-        <path d="M0 33 C10 31 16 35 24 33 S40 31 48 33" fill="none" stroke="#e98fa4" strokeWidth="1" />
-        {/* follicle sheath */}
-        <path d="M20.2 27.6 V36 M27.8 27.6 V36" stroke="#b21236" strokeWidth="1.3" strokeLinecap="round" />
-        {/* root: the bulb, with the papilla underneath */}
-        <path d="M18.6 38.6 C18.6 33.8 29.4 33.8 29.4 38.6 C29.4 43.6 18.6 43.6 18.6 38.6 Z" fill="#feb914" />
-        <ellipse cx="24" cy="42.4" rx="2.4" ry="1.7" fill="#b21236" />
-        {/* the shaft, growing up through the skin */}
-        <path d="M24 37 C24 30 23.2 22 24.6 15.5 C25.6 11 28.4 7.6 32.4 6" fill="none" stroke="#feb914" strokeWidth="2.8" strokeLinecap="round" />
-        {/* growth marks */}
-        <path d="M35.6 9.4 l3.2 -1.4 M35.2 13.4 l3.4 0.6" stroke="#fffdf7" strokeWidth="1.5" strokeLinecap="round" />
+        <rect width="48" height="48" fill="#fffaf0" />
+        <rect y="15" width="48" height="33" fill="#f9dfe2" />
+        {/* skin surface and the wavy lower edge of the top layer, dipping along the follicle */}
+        <path d="M0 15 H48" {...line} />
+        <path d="M0 21 C4 20 7 25 11 24 S16 19 19.4 20.5 M28.6 20.5 C32 19 34 25 38 24 S44 20 48 21" {...line} />
+        {/* follicle: a sheath around the lower shaft, ending in the bulb */}
+        <path d="M19.4 20.5 V34.5 C19.4 41.4 28.6 41.4 28.6 34.5 V20.5" {...line} />
+        {/* the hair, tapering from root to tip */}
+        <path d="M24.4 2.5 C23.6 13 22.6 25 22.2 34.6 C22 38.6 26 38.6 25.8 34.6 C25.4 25 24.9 13 24.4 2.5 Z" fill={ink} />
+        {/* papilla feeding the root */}
+        <path d="M22.6 39.6 C23.4 38.2 24.6 38.2 25.4 39.6 M24 39 V43.5" {...line} strokeWidth={1.2} />
+        {/* oil gland */}
+        <path d="M19.4 25.5 C16.6 25 15.4 27.6 16.8 29 C18 30.2 19.4 28.8 19.4 27.6" {...line} strokeWidth={1.3} />
+        {/* dermis */}
+        <circle cx="9" cy="31" r="1.6" {...line} strokeWidth={1.1} />
+        <circle cx="36.5" cy="30" r="2" {...line} strokeWidth={1.1} />
+        <circle cx="41" cy="34.5" r="1" {...line} strokeWidth={1.1} />
+        {/* fat layer */}
+        <path d="M0 38 C8 37 14 39 19 38.4 M29 38.4 C34 39 40 37 48 38" {...line} />
+        <g {...line} strokeWidth={1.1}>
+          <ellipse cx="7" cy="42" rx="3.2" ry="1.7" />
+          <ellipse cx="14.5" cy="43" rx="3" ry="1.6" />
+          <ellipse cx="33.5" cy="43" rx="3" ry="1.6" />
+          <ellipse cx="41" cy="42" rx="3.2" ry="1.7" />
         </g>
       </g>
     </svg>
