@@ -1031,16 +1031,4 @@
   letter-spacing: 0.06em;
   text-transform: uppercase;
 }
-.cardValue {
-  position: absolute;
-  z-index: 1;
-  right: 12px;
-  top: 46px;
-  padding: 6px 12px;
-  border-radius: 12px;
-  background: var(--saffron);
-  color: var(--crimson-d);
-  font-size: 1.3rem;
-  font-weight: 700;
-  rotate: 4deg;
-}
+

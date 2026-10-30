@@ -6,19 +6,19 @@ import { SCENE_PHOTOS, STYLE_PHOTOS, type Photo } from "@/lib/photos";
 import s from "@/components/topas/landing.module.css";
 
 
-type Reading = { name: string; api: string; value: string; photo: Photo; position?: string; href: string };
+type Reading = { name: string; api: string; photo: Photo; position?: string; href: string };
 
 const READINGS: Reading[] = [
-  { name: "Hairline density", api: "Hair Density", value: "1.66 / 3", photo: SCENE_PHOTOS.takeA, position: "50% 30%", href: "/check" },
-  { name: "Hairline height", api: "Face Analyzer", value: "−1.2 pts", photo: STYLE_PHOTOS.out, href: "/check" },
-  { name: "Skin irritation", api: "Skin Analysis", value: "Redness 64", photo: STYLE_PHOTOS.twists, href: "/check" },
-  { name: "Breakage", api: "Hair Frizziness", value: "Frizzy", photo: SCENE_PHOTOS.side, href: "/check" },
-  { name: "Curl pattern", api: "Hair Type", value: "4a–4b", photo: STYLE_PHOTOS["loose-updo"], href: "/check" },
-  { name: "Length", api: "Hair Length", value: "Shoulder", photo: STYLE_PHOTOS["sew-in"], href: "/check" },
-  { name: "Fuller look", api: "Hair Volume", value: "Try-on", photo: STYLE_PHOTOS["glueless-wig"], href: "/fuller" },
-  { name: "Fringe", api: "Bangs", value: "Try-on", photo: STYLE_PHOTOS.locs, href: "/fuller" },
-  { name: "Colour", api: "Hair Color", value: "Try-on", photo: STYLE_PHOTOS["box-braids"], href: "/fuller" },
-  { name: "Gentler styles", api: "Hairstyle Generator", value: "Try-on", photo: STYLE_PHOTOS.knotless, href: "/plan" },
+  { name: "Hairline density", api: "Hair Density", photo: SCENE_PHOTOS.takeA, position: "50% 30%", href: "/check" },
+  { name: "Hairline height", api: "Face Analyzer", photo: STYLE_PHOTOS.out, href: "/check" },
+  { name: "Skin irritation", api: "Skin Analysis", photo: STYLE_PHOTOS.twists, href: "/check" },
+  { name: "Breakage", api: "Hair Frizziness", photo: SCENE_PHOTOS.side, href: "/check" },
+  { name: "Curl pattern", api: "Hair Type", photo: STYLE_PHOTOS["loose-updo"], href: "/check" },
+  { name: "Length", api: "Hair Length", photo: STYLE_PHOTOS["sew-in"], href: "/check" },
+  { name: "Fuller look", api: "Hair Volume", photo: STYLE_PHOTOS["glueless-wig"], href: "/fuller" },
+  { name: "Fringe", api: "Bangs", photo: STYLE_PHOTOS.locs, href: "/fuller" },
+  { name: "Colour", api: "Hair Color", photo: STYLE_PHOTOS["box-braids"], href: "/fuller" },
+  { name: "Gentler styles", api: "Hairstyle Generator", photo: STYLE_PHOTOS.knotless, href: "/plan" },
 ];
 
 function Marquee({ words, tone, dir = 1, tilt }: { words: string[]; tone: "crimson" | "cream" | "sun"; dir?: 1 | -1; tilt: number }) {
@@ -219,7 +219,6 @@ export default function Home() {
                   <StylePhoto photo={r.photo} sizes="(max-width: 760px) 70vw, 380px" position={r.position} />
                 </span>
                 <span className={s.cardApi}>{r.api}</span>
-                <span className={`data ${s.cardValue}`}>{r.value}</span>
                 <span className={s.cardName}>{r.name}</span>
               </span>
             </Link>
